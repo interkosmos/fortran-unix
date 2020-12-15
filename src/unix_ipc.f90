@@ -4,9 +4,9 @@ module unix_ipc
     implicit none
     private
 
-    integer(kind=c_int), parameter, public :: IPC_CREAT  = 001000
-    integer(kind=c_int), parameter, public :: IPC_EXCL   = 002000
-    integer(kind=c_int), parameter, public :: IPC_NOWAIT = 004000
+    integer(kind=c_int), parameter, public :: IPC_CREAT  = int(o'001000')
+    integer(kind=c_int), parameter, public :: IPC_EXCL   = int(o'002000')
+    integer(kind=c_int), parameter, public :: IPC_NOWAIT = int(o'004000')
 
     integer(kind=c_int), parameter, public :: IPC_RMID   = 0
     integer(kind=c_int), parameter, public :: IPC_SET    = 1
