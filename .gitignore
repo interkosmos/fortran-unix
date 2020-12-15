@@ -1,0 +1,13 @@
+# Distribution / packaging
+.xmake/
+env/
+build/
+dist/
+var/
+
+# Other stuff
+*.swp
+*.mod
+*.o
+*.a
+*.so
