@@ -4,7 +4,7 @@ selected POSIX and SysV types, functions, and routines on 64-bit Unix-like
 operating systems:
 
 * standard input/output,
-* directory listing,
+* directory access,
 * clocks and timers,
 * signals,
 * processes,
@@ -16,8 +16,8 @@ operating systems:
 Similar libraries for modern Fortran:
 
 * [fortyxima](https://bitbucket.org/aradi/fortyxima/),
-* [M_system](https://github.com/urbanjost/M_system),
-* [M_process](https://github.com/urbanjost/M_process).
+* [M_process](https://github.com/urbanjost/M_process),
+* [M_system](https://github.com/urbanjost/M_system).
 
 Currently, only Linux and FreeBSD are supported. The library has been tested
 on:

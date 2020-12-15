@@ -30,17 +30,17 @@ contains
         !!
         !! The source code has been adapted from the example listed at:
         !!     https://man.openbsd.org/getaddrinfo.3
-        character(len=*), intent(in)    :: hostname
-        integer,          intent(in)    :: port
-        character(len=63),      target  :: hostname_str
-        character(len=7),       target  :: port_str
-        character(len=:), allocatable   :: err_str
-        integer                         :: rc
-        integer                         :: sock_fd
-        type(c_addrinfo),       target  :: hints
-        type(c_addrinfo),       target  :: res
-        type(c_addrinfo),       pointer :: next
-        type(c_ptr)                     :: ptr
+        character(len=*), intent(in)  :: hostname
+        integer,          intent(in)  :: port
+        character(len=63), target     :: hostname_str
+        character(len=7),  target     :: port_str
+        character(len=:), allocatable :: err_str
+        integer                       :: rc
+        integer                       :: sock_fd
+        type(c_addrinfo),  target     :: hints
+        type(c_addrinfo),  target     :: res
+        type(c_addrinfo),  pointer    :: next
+        type(c_ptr)                   :: ptr
 
         irc_connect = -1
 
@@ -121,11 +121,10 @@ contains
 
     integer(kind=8) function irc_send_message(socket, channel, str)
         !! Sends string as IRC message (PRIVMSG) to channel.
-        character(len=2), parameter           :: CR_LF = char(13) // char(10)
-        integer,          intent(in)          :: socket
-        character(len=*), intent(in)          :: channel
-        character(len=*), intent(in)          :: str
-        character(len=:), allocatable, target :: message
+        integer,          intent(in)  :: socket
+        character(len=*), intent(in)  :: channel
+        character(len=*), intent(in)  :: str
+        character(len=:), allocatable :: message
 
         message = 'PRIVMSG ' // trim(channel) // ' :' // trim(str)
         irc_send_message = irc_send(socket, message)

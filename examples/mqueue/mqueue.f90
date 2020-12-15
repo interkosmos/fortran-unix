@@ -27,9 +27,7 @@
 !   $ sysctl kern.mqueue.maxmsgsize
 !
 ! By default, new message queues are limited to 10 messages with a message size
-! of 1024 bytes. The buffer passed to `c_mq_receive()` must be greater than the
-! MQ message size given by `mq_getattr()`. We may set the max. message size with
-! `mq_setattr()` beforehand.
+! of 1024 bytes.
 !
 ! On Linux, mount the message queue file system with:
 !
@@ -39,6 +37,10 @@
 ! This example runs in a single process. For inter-process communication, each
 ! thread or process may connect individually to the message queue, but make sure
 ! only one of them creates the message queue.
+!
+! The size of the buffer passed to `c_mq_receive()` must be greater than the MQ
+! message size given by `mq_getattr()`. We may set the max. message size with
+! `mq_setattr()` beforehand.
 !
 ! Author:  Philipp Engel
 ! Licence: ISC
