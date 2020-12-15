@@ -28,7 +28,7 @@ module unix_dirent
         character(kind=c_char)  :: d_name(256)
     end type c_dirent
 
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+#elif defined (__FreeBSD__)
 
     type, bind(c), public :: c_dirent
         integer(kind=c_int64_t) :: d_fileno

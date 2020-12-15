@@ -4,6 +4,7 @@ module unix_errno
     implicit none
 
 #if defined (__linux__)
+
     integer(kind=c_int), parameter, public :: EPERM           = 1
     integer(kind=c_int), parameter, public :: ENOENT          = 2
     integer(kind=c_int), parameter, public :: ESRCH           = 3
@@ -137,7 +138,9 @@ module unix_errno
     integer(kind=c_int), parameter, public :: ENOTRECOVERABLE = 131
     integer(kind=c_int), parameter, public :: ERFKILL         = 132
     integer(kind=c_int), parameter, public :: EHWPOISON       = 133
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+
+#elif defined (__FreeBSD__)
+
     integer(kind=c_int), parameter, public :: EPERM           = 1
     integer(kind=c_int), parameter, public :: ENOENT          = 2
     integer(kind=c_int), parameter, public :: ESRCH           = 3
@@ -209,6 +212,7 @@ module unix_errno
     integer(kind=c_int), parameter, public :: EPROCLIM        = 67
     integer(kind=c_int), parameter, public :: EUSERS          = 68
     integer(kind=c_int), parameter, public :: EDQUOT          = 69
+
 #endif
 
     public :: c_errno

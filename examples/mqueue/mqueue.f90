@@ -1,7 +1,8 @@
 ! mqueue.f90
 !
-! Example that sends and receives a message with POSIX message queues. On
-! FreeBSD, make sure the kernel module `mqueuefs` is loaded and the message
+! Example that sends and receives a message with POSIX message queues.
+!
+! On FreeBSD, make sure the kernel module `mqueuefs` is loaded and the message
 ! queue file system is mounted:
 !
 !   # kldload mqueuefs
@@ -27,7 +28,13 @@
 !
 ! By default, new message queues are limited to 10 messages with a message size
 ! of 1024 bytes. The buffer passed to `c_mq_receive()` must be greater than the
-! MQ message size given by `mq_getattr()`.
+! MQ message size given by `mq_getattr()`. We may set the max. message size with
+! `mq_setattr()` beforehand.
+!
+! On Linux, mount the message queue file system with:
+!
+!   $ mkdir -p /dev/mqueue
+!   $ mount -t mqueue none /dev/mqueue
 !
 ! This example runs in a single process. For inter-process communication, each
 ! thread or process may connect individually to the message queue, but make sure

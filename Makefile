@@ -4,18 +4,16 @@
 # Parameters:
 #
 #       OS          -       Set to either `FreeBSD` or `linux`:
+#       PREFIX      -       Change to `/usr` on Linux.
 #       FC          -       Fortran compiler.
 #       CC          -       C compiler.
 #       AR          -       Archiver.
-#       LD          -       Linker.
-#       PREFIX      -       Change to `/usr` on Linux.
 #
 OS      = FreeBSD
+PREFIX  = /usr/local
 FC      = gfortran
 CC      = gcc
 AR      = ar
-LD      = ld
-PREFIX  = /usr/local
 
 # Flags:
 #
@@ -24,7 +22,6 @@ PREFIX  = /usr/local
 #       PPFLAGS     -       Pre-processor flags. Change to `-fpp` for Intel IFORT.
 #       ARFLAGS     -       Archiver flags.
 #       LDFLAGS     -       Linker flags.
-#       LDLIBS      -       Linker libraries.
 #       TARGET      -       Output library name.
 #
 FFLAGS  = -Wall -std=f2008 -fmax-errors=1 -fcheck=all
@@ -32,10 +29,9 @@ CFLAGS  = -Wall -fmax-errors=1
 PPFLAGS = -cpp -D__$(OS)__
 ARFLAGS = rcs
 LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
-LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean doc dirent examples fifo fork irc mqueue msg os pipe pthread signal socket time
+.PHONY: all clean dirent examples fifo fork irc mqueue msg os pipe pthread signal socket time
 
 all: $(TARGET)
 
@@ -120,4 +116,3 @@ clean:
 	if [ -e signal ]; then rm signal; fi
 	if [ -e socket ]; then rm socket; fi
 	if [ -e time ]; then rm time; fi
-	if [ -e doc ]; then rm -r doc; fi

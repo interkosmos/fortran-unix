@@ -1,7 +1,7 @@
 ! unix.f90
 !
-! A collection of Fortran 2008 ISO C binding interfaces to selected POSIX, SysV,
-! and libc routines on 64-bit Unix-like operating systems.
+! A collection of Fortran 2008 ISO C binding interfaces to selected POSIX and
+! SysV routines on 64-bit Unix-like operating systems.
 !
 ! Author:  Philipp Engel
 ! Licence: ISC

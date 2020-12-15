@@ -1,7 +1,7 @@
 ! socket.f90
 !
 ! Example program that connects to a TCP server using BSD sockets. On FreeBSD,
-! start a local TCP server on PORT 8888 with netcat:
+! start a local TCP server on port 8888 with netcat:
 !
 !   $ nc -l 8888
 !
@@ -62,10 +62,8 @@ program main
     end do
 
     ! Close connection.
-    if (c_close(sock_fd) /= 0) then
+    if (c_close(sock_fd) < 0) &
         call c_perror('close()' // c_null_char)
-        stop
-    end if
 contains
     integer function socket_connect(host, port)
         !! Creates a socket connection to `host`:`port`. The file descriptor

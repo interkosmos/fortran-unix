@@ -127,7 +127,7 @@ contains
         character(len=*), intent(in)          :: str
         character(len=:), allocatable, target :: message
 
-        message = 'PRIVMSG ' // trim(channel) // ' :' // trim(str)! // CR_LF
+        message = 'PRIVMSG ' // trim(channel) // ' :' // trim(str)
         irc_send_message = irc_send(socket, message)
     end function irc_send_message
 end module irc

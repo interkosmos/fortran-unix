@@ -15,7 +15,7 @@ module unix_netdb
 
 #if defined (__linux__)
     integer(kind=c_int), parameter, public :: AF_INET6 = 10
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+#elif defined (__FreeBSD__)
     integer(kind=c_int), parameter, public :: AF_INET6 = 28
 #endif
 
@@ -60,7 +60,7 @@ module unix_netdb
         type(c_in_addr)             :: sin_addr
     end type c_sockaddr_in
 
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+#elif defined (__FreeBSD__)
 
     type, bind(c), public :: c_sockaddr
         character(kind=c_char) :: sa_len

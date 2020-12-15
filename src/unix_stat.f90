@@ -24,7 +24,7 @@ module unix_stat
     integer(kind=c_int), parameter, public :: S_IWOTH = shiftr(S_IWGRP, 3)
     integer(kind=c_int), parameter, public :: S_IXOTH = shiftr(S_IXGRP, 3)
 
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+#elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: S_IRWXU = int(o'0000700')
     integer(kind=c_int), parameter, public :: S_IRUSR = int(o'0000400')

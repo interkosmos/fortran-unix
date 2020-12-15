@@ -1,6 +1,6 @@
 ! time.f90
 !
-! Example that calls time functions in libc.
+! Example that calls POSIX time functions.
 !
 ! Author:  Philipp Engel
 ! Licence: ISC

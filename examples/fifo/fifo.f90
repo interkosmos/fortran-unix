@@ -23,7 +23,7 @@ program main
     ! Create named pipe.
     rc = c_mkfifo(PATH // c_null_char, PERM)
 
-    if (rc /= 0) then
+    if (rc < 0) then
         call c_perror('Error' // c_null_char)
         stop
     end if

@@ -9,9 +9,8 @@ program main
     use :: unix
     integer, parameter :: NTHREADS = 3
     integer            :: i, rc
-
-    type(c_pthread_t) :: threads(NTHREADS)
-    integer, target   :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
+    type(c_pthread_t)  :: threads(NTHREADS)
+    integer, target    :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
 
     print '(a)', 'Starting threads ...'
 

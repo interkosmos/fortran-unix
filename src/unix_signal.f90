@@ -9,6 +9,7 @@ module unix_signal
     public :: c_signal
 
 #if defined (__linux__)
+
     integer(kind=c_int), parameter, public :: SIGHUP    = 1
     integer(kind=c_int), parameter, public :: SIGINT    = 2
     integer(kind=c_int), parameter, public :: SIGQUIT   = 3
@@ -43,7 +44,9 @@ module unix_signal
     integer(kind=c_int), parameter, public :: SIGPWR    = 30
     integer(kind=c_int), parameter, public :: SIGSYS    = 31
     integer(kind=c_int), parameter, public :: SIGUNUSED = 31
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+
+#elif defined (__FreeBSD__)
+
     integer(kind=c_int), parameter, public :: SIGHUP    = 1
     integer(kind=c_int), parameter, public :: SIGINT    = 2
     integer(kind=c_int), parameter, public :: SIGQUIT   = 3
@@ -76,6 +79,7 @@ module unix_signal
     integer(kind=c_int), parameter, public :: SIGINFO   = 29
     integer(kind=c_int), parameter, public :: SIGUSR1   = 30
     integer(kind=c_int), parameter, public :: SIGUSR2   = 31
+
 #endif
 
     interface

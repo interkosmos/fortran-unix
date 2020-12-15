@@ -7,6 +7,7 @@
 !   $ gfortran -cpp -D__linux__   -o os os.f90
 !   $ gfortran -cpp -D__FreeBSD__ -o os os.f90
 !   $ gfortran -cpp -D__APPLE__   -o os os.f90
+!   $ ifort -fpp -o os os.f90
 !
 ! Author:  Philipp Engel
 ! Licence: ISC
@@ -25,13 +26,13 @@ contains
     function os_type()
         integer :: os_type
 
-#if defined(WIN32) || defined (_WIN32) || defined (__WIN32__) || defined (__NT__)
+#if defined (WIN32) || defined (_WIN32) || defined (__WIN32__) || defined (__NT__)
         os_type = OS_WINDOWS
 #elif defined (__APPLE__)
         os_type = OS_MACOS
 #elif defined (__linux__)
         os_type = OS_LINUX
-#elif defined (__FreeBSD__) || defined (__freebsd__)
+#elif defined (__FreeBSD__)
         os_type = OS_FREEBSD
 #else
         os_type = OS_UNKNOWN

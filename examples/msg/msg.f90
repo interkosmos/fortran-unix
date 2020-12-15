@@ -16,6 +16,7 @@ module ipc
     integer(kind=c_size_t), parameter, public :: MESSAGE_LEN  = 512 ! Message length.
     integer(kind=8),        parameter, public :: MESSAGE_TYPE = 1   ! Message type id.
 
+    ! Our message type implementation.
     type, bind(c), public :: c_message_type
         integer(kind=c_long)   :: type
         character(kind=c_char) :: text(MESSAGE_LEN)
@@ -97,12 +98,11 @@ program main
 
     ! Wait for user input.
     print '(/, a)', 'Press Enter to quit.'
-    read (*, '(a)')
+    read (*, *)
 
     ! Remove message queue.
     print '(a)', 'Closing message queue ...'
 
-    if (c_msgctl(msqid, IPC_RMID, c_null_ptr) < 0) then
+    if (c_msgctl(msqid, IPC_RMID, c_null_ptr) < 0) &
         call c_perror('msgctl()' // c_null_char)
-    end if
 end program main

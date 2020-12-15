@@ -29,7 +29,9 @@ program main
     ! Fork process.
     pid = c_fork()
 
-    if (pid == 0) then
+    if (pid < 0) then
+        call c_perror('fork()' // c_null_char)
+    else if (pid == 0) then
         ! Child process.
         print '(a)', '>>> child process running ...'
         rc = c_close(pfds(WRITE_END))
@@ -43,9 +45,6 @@ program main
 
         rc = c_close(pfds(READ_END))
         print '(/, a)', '>>> child process done'
-    else if (pid < 0) then
-        ! Error.
-        print '(a)', 'Forking failed'
     else
         ! Parent process.
         rc = c_close(pfds(READ_END))
