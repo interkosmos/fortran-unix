@@ -16,6 +16,7 @@ module unix_stdio
     public :: c_perror
     public :: c_popen
     public :: c_putchar
+    public :: c_scanf
     public :: c_setbuf
     public :: c_setvbuf
 
@@ -112,6 +113,14 @@ module unix_stdio
             character(kind=c_char), intent(in) :: type
             type(c_ptr)                        :: c_popen
         end function c_popen
+
+        ! int scanf(const char *format, ...)
+        function c_scanf(format, str) bind(c, name='scanf')
+            import :: c_char, c_int
+            character(kind=c_char), intent(in) :: format
+            character(kind=c_char), intent(in) :: str
+            integer(kind=c_int)                :: c_scanf
+        end function c_scanf
 
         ! void setbuf(FILE *stream, char *buf)
         subroutine c_setbuf(stream, buf) bind(c, name='setbuf')

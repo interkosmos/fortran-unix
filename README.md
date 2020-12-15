@@ -9,6 +9,7 @@ operating systems:
 * signals,
 * processes,
 * POSIX threads,
+* POSIX regular expressions,
 * BSD sockets,
 * UNIX System V message queues,
 * POSIX message queues.
@@ -19,8 +20,8 @@ Similar libraries for modern Fortran:
 * [M_process](https://github.com/urbanjost/M_process),
 * [M_system](https://github.com/urbanjost/M_system).
 
-Currently, only Linux and FreeBSD are supported. The library has been tested
-on:
+Currently, only Linux (glibc) and FreeBSD are supported. The library has been
+tested on:
 
 * FreeBSD 12 (GNU Fortran 10),
 * CentOS 8 (GNU Fortran 8, Intel Fortran Compiler 19).
@@ -57,6 +58,7 @@ Examples are provided in directory `examples/`:
 * **msg** shows message passing with UNIX System V message queues.
 * **os** returns the name of the operating system (Linux, macOS, FreeBSD, ...).
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
+* **regex** runs POSIX regex functions.
 * **signal** catches SIGINT (`Ctrl` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server.
 * **time** prints out the results of time functions.

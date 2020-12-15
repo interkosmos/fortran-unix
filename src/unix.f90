@@ -15,6 +15,7 @@ module unix
     use :: unix_msg
     use :: unix_netdb
     use :: unix_pthread
+    use :: unix_regex
     use :: unix_signal
     use :: unix_socket
     use :: unix_stat
