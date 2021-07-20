@@ -4,6 +4,7 @@ module unix_types
     implicit none
     private
 
+    integer, parameter, public :: c_key_t     = c_long
     integer, parameter, public :: c_mode_t    = c_int32_t
     integer, parameter, public :: c_pid_t     = c_int32_t
 

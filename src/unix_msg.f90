@@ -1,6 +1,7 @@
 ! unix_msg.f90
 module unix_msg
     use, intrinsic :: iso_c_binding
+    use :: unix_types
     implicit none
     private
 
@@ -21,10 +22,10 @@ module unix_msg
 
         ! int msgget(key_t key, int msgflg)
         function c_msgget(key, msgflg) bind(c, name='msgget')
-            import :: c_int, c_long
-            integer(kind=c_long), intent(in), value :: key
-            integer(kind=c_int),  intent(in), value :: msgflg
-            integer(kind=c_int)                     :: c_msgget
+            import :: c_int, c_key_t
+            integer(kind=c_key_t), intent(in), value :: key
+            integer(kind=c_int),   intent(in), value :: msgflg
+            integer(kind=c_int)                      :: c_msgget
         end function c_msgget
 
         ! ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg)

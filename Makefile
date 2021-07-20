@@ -33,7 +33,7 @@ LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean dirent examples fifo fork irc mqueue msg os pipe pthread regex signal socket time
+.PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pipe pthread regex signal socket time
 
 all: $(TARGET)
 
@@ -86,6 +86,9 @@ mqueue: $(TARGET)
 msg: $(TARGET)
 	$(FC) $(FFLAGS) $(LDFLAGS) -o msg examples/msg/msg.f90 $(TARGET) $(LDLIBS)
 
+mutex: $(TARGET)
+	$(FC) $(FFLAGS) $(LDFLAGS) -o mutex examples/mutex/mutex.f90 $(TARGET) $(LDLIBS) -lpthread
+
 os: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o os examples/os/os.f90 $(TARGET) $(LDLIBS)
 
@@ -116,6 +119,7 @@ clean:
 	if [ -e irc ]; then rm irc; fi
 	if [ -e mqueue ]; then rm mqueue; fi
 	if [ -e msg ]; then rm msg; fi
+	if [ -e mutex ]; then rm mutex; fi
 	if [ -e os ]; then rm os; fi
 	if [ -e pipe ]; then rm pipe; fi
 	if [ -e pthread ]; then rm pthread; fi

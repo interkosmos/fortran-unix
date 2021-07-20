@@ -43,7 +43,6 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: O_NOCTTY   = int(z'8000') ! Don't assign controlling terminal.
 #endif
 
-
     interface
         ! int open(const char *pathname, int flags, mode_t mode)
         function c_open(pathname, flags, mode) bind(c, name='open')

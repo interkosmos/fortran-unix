@@ -5,6 +5,7 @@ module unix_stat
     implicit none
     private
 
+    public :: c_mkdir
     public :: c_mkfifo
 
 #if defined (__linux__)
@@ -44,6 +45,14 @@ module unix_stat
 #endif
 
     interface
+        ! int mkdir(const char *path, mode_t mode)
+        function c_mkdir(path, mode) bind(c, name='mkdir')
+            import :: c_char, c_int, c_mode_t
+            character(kind=c_char), intent(in)        :: path
+            integer(kind=c_mode_t), intent(in), value :: mode
+            integer(kind=c_int)                       :: c_mkdir
+        end function c_mkdir
+
         ! int mkfifo(const char *path, mode_t mode)
         function c_mkfifo(path, mode) bind(c, name='mkfifo')
             import :: c_char, c_int, c_mode_t

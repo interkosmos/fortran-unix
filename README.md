@@ -41,7 +41,7 @@ If you use GNU Fortran, set the parameter `OS` to either `linux` or `FreeBSD`,
 for instance:
 
 ```
-$ make OS=linux PREFIX=/usr
+$ make FC=gfortran OS=linux PREFIX=/usr
 ```
 
 Link your Fortran application with `libfortran-unix.a`, and optionally with
@@ -56,9 +56,10 @@ Examples are provided in directory `examples/`:
 * **irc** implements a basic IRC bot, based on BSD sockets.
 * **mqueue** creates a POSIX message queue.
 * **msg** shows message passing with UNIX System V message queues.
+* **mutex** demonstrates threaded access to variable using a mutex.
 * **os** returns the name of the operating system (Linux, macOS, FreeBSD, ...).
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
-* **regex** runs POSIX regex functions.
+* **regex** calls POSIX regex functions.
 * **signal** catches SIGINT (`Ctrl` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server.
 * **time** prints out the results of time functions.
@@ -66,7 +67,7 @@ Examples are provided in directory `examples/`:
 Build the examples with:
 
 ```
-$ make OS=linux examples
+$ make OS=linux PREFIX=/usr examples
 ```
 
 Or, call `make` with the name of a particular example.

@@ -6,13 +6,33 @@ module unix_pthread
 
     public :: c_pthread_create
     public :: c_pthread_join
+    public :: c_pthread_mutex_destroy
+    public :: c_pthread_mutex_init
+    public :: c_pthread_mutex_lock
+    public :: c_pthread_mutex_trylock
+    public :: c_pthread_mutex_unlock
 
-    integer, parameter :: SIZE_OF_TYPE = 2
+    integer, parameter :: PTHREAD_SIZE       = 2    ! 8 Bytes.
+
+#if defined (__linux__)
+
+    integer, parameter :: PTHREAD_MUTEX_SIZE = 40   ! 40 Bytes.
+
+#elif defined (__FreeBSD__)
+
+    integer, parameter :: PTHREAD_MUTEX_SIZE = 8    ! 8 Bytes.
+
+#endif
 
     type, bind(c), public :: c_pthread_t
         private
-        integer(kind=c_int) :: hidden(SIZE_OF_TYPE)
+        integer(kind=c_int) :: hidden(PTHREAD_SIZE)
     end type c_pthread_t
+
+    type, bind(c), public :: c_pthread_mutex_t
+        private
+        character(kind=c_char) :: hidden(PTHREAD_MUTEX_SIZE)
+    end type c_pthread_mutex_t
 
     interface
         ! int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg)
@@ -32,5 +52,41 @@ module unix_pthread
             type(c_ptr),       intent(in)        :: value_ptr
             integer(kind=c_int)                  :: c_pthread_join
         end function c_pthread_join
+
+        ! int pthread_mutex_destroy(pthread_mutex_t *mutex)
+        function c_pthread_mutex_destroy(mutex) bind(c, name='pthread_mutex_destroy')
+            import :: c_int, c_pthread_mutex_t
+            type(c_pthread_mutex_t), intent(in) :: mutex
+            integer(kind=c_int)                 :: c_pthread_mutex_destroy
+        end function c_pthread_mutex_destroy
+
+        ! int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr)
+        function c_pthread_mutex_init(mutex, attr) bind(c, name='pthread_mutex_init')
+            import :: c_int, c_ptr, c_pthread_mutex_t
+            type(c_pthread_mutex_t), intent(in)        :: mutex
+            type(c_ptr),             intent(in), value :: attr
+            integer(kind=c_int)                        :: c_pthread_mutex_init
+        end function c_pthread_mutex_init
+
+        ! int pthread_mutex_lock(pthread_mutex_t *mutex)
+        function c_pthread_mutex_lock(mutex) bind(c, name='pthread_mutex_lock')
+            import :: c_int, c_pthread_mutex_t
+            type(c_pthread_mutex_t), intent(in) :: mutex
+            integer(kind=c_int)                 :: c_pthread_mutex_lock
+        end function c_pthread_mutex_lock
+
+        ! int pthread_mutex_trylock(pthread_mutex_t *mutex)
+        function c_pthread_mutex_trylock(mutex) bind(c, name='pthread_mutex_trylock')
+            import :: c_int, c_pthread_mutex_t
+            type(c_pthread_mutex_t), intent(in) :: mutex
+            integer(kind=c_int)                 :: c_pthread_mutex_trylock
+        end function c_pthread_mutex_trylock
+
+        ! int pthread_mutex_unlock(pthread_mutex_t *mutex)
+        function c_pthread_mutex_unlock(mutex) bind(c, name='pthread_mutex_unlock')
+            import :: c_int, c_pthread_mutex_t
+            type(c_pthread_mutex_t), intent(in) :: mutex
+            integer(kind=c_int)                 :: c_pthread_mutex_unlock
+        end function c_pthread_mutex_unlock
     end interface
 end module unix_pthread

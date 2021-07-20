@@ -1,6 +1,7 @@
 ! unix_ipc.f90
 module unix_ipc
     use, intrinsic :: iso_c_binding
+    use :: unix_types
     implicit none
     private
 
@@ -12,5 +13,5 @@ module unix_ipc
     integer(kind=c_int), parameter, public :: IPC_SET    = 1
     integer(kind=c_int), parameter, public :: IPC_STAT   = 2
 
-    integer(kind=c_long), parameter, public :: IPC_PRIVATE = 0
+    integer(kind=c_key_t), parameter, public :: IPC_PRIVATE = 0
 end module unix_ipc

@@ -72,10 +72,6 @@ module unix_regex
         type(c_ptr)            :: re_g
     end type c_regex_t
 
-!    type, bind(c), public :: c_regex_t
-!        integer(kind=c_size_t) :: re_nsub
-!    end type c_regex_t
-
     ! regcomp() flags
     integer(kind=c_int), parameter, public :: REG_BASIC    = int(o'0000')
     integer(kind=c_int), parameter, public :: REG_EXTENDED = int(o'0001')
