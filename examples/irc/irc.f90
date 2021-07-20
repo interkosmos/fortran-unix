@@ -5,11 +5,11 @@
 !
 ! You may want to change the following parameters to your liking:
 !
+!   IRC_MSG
 !   IRC_USERNAME
 !   IRC_HOSTNAME
 !   IRC_CHANNEL
 !   IRC_PORT
-!   MESSAGE
 !
 ! Author:  Philipp Engel
 ! Licence: ISC
@@ -32,7 +32,7 @@ contains
         !!     https://man.openbsd.org/getaddrinfo.3
         character(len=*), intent(in)  :: hostname
         integer,          intent(in)  :: port
-        character(len=63), target     :: hostname_str
+        character(len=63), target     :: host_str
         character(len=7),  target     :: port_str
         character(len=:), allocatable :: err_str
         integer                       :: rc
@@ -44,7 +44,7 @@ contains
 
         irc_connect = -1
 
-        write (hostname_str, '(a, a)') trim(hostname), c_null_char
+        write (host_str, '(a, a)') trim(hostname), c_null_char
         write (port_str, '(i0, a)') port, c_null_char
 
         ! Initialise derived type manually.
@@ -58,7 +58,7 @@ contains
         hints%ai_next      = c_null_ptr
 
         ptr = c_loc(res)
-        rc  = c_getaddrinfo(node    = c_loc(hostname_str), &
+        rc  = c_getaddrinfo(node    = c_loc(host_str), &
                             service = c_loc(port_str), &
                             hints   = c_loc(hints), &
                             res     = ptr)
@@ -116,7 +116,7 @@ contains
         str_esc  = trim(str) // CR_LF
         irc_send = c_write(socket, c_loc(str_esc), int(len(str_esc), kind=8))
 
-        write (stdout, '("*** ", a, " (", i0, " Bytes)")') trim(str), irc_send
+        write (*, '("*** ", a, " (", i0, " Bytes)")') trim(str), irc_send
     end function irc_send
 
     integer(kind=8) function irc_send_message(socket, channel, str)
@@ -133,32 +133,30 @@ end module irc
 
 program main
     use, intrinsic :: iso_c_binding
-    use, intrinsic :: iso_fortran_env, only: stderr => error_unit, stdout => output_unit
+    use, intrinsic :: iso_fortran_env, only: stderr => error_unit
     use :: irc
     use :: unix
     implicit none
-    character(len=*), parameter :: IRC_USERNAME   = 'forbot'
-    character(len=*), parameter :: IRC_HOSTNAME   = 'kornbluth.freenode.net'
-    character(len=*), parameter :: IRC_CHANNEL    = '#bot-test'
-    integer,          parameter :: IRC_PORT       = 6667
-    character(len=*), parameter :: MESSAGE        = 'FORTRAN: The Greatest of the Programming Languages!'
+    character(len=*), parameter :: IRC_MSG      = 'FORTRAN: The Greatest of the Programming Languages!'
+    character(len=*), parameter :: IRC_USERNAME = 'forbot'
+    character(len=*), parameter :: IRC_HOSTNAME = 'irc.libera.chat'
+    character(len=*), parameter :: IRC_CHANNEL  = '#bot-test'
+    integer,          parameter :: IRC_PORT     = 6667
 
-    character(len=512), target :: buffer                    ! Received messages.
-    integer(kind=8)            :: n                         ! Bytes read/wrote.
-    integer(kind=8)            :: rc                        ! Return code.
-    integer                    :: sock_fd                   ! Socket file descriptor.
-    logical                    :: is_logged_in = .false.    ! Send credentials.
+    character(len=512), target :: buffer                 ! Received message.
+    integer(kind=8)            :: n                      ! Bytes read/written.
+    integer(kind=8)            :: rc                     ! Return code.
+    integer                    :: sock_fd                ! Socket file descriptor.
+    logical                    :: is_logged_in = .false. ! Send credentials.
 
     print '(a)', '<<< FORTRAN IRC BOT >>>'
-    print '("User:     ",  a)', trim(IRC_USERNAME)
-    print '("Hostname: ",  a)', trim(IRC_HOSTNAME)
-    print '("Port:     ", i0)', IRC_PORT
-    print '("Channel:  ",  a)', trim(IRC_CHANNEL)
-    print *
+    print '("User:     ", a)',    trim(IRC_USERNAME)
+    print '("Hostname: ", a)',    trim(IRC_HOSTNAME)
+    print '("Port:     ", i0)',   IRC_PORT
+    print '("Channel:  ", a, /)', trim(IRC_CHANNEL)
 
     ! Connect to IRC server.
-    write (stdout, '(3a, i0, a)') '*** Connecting to ', &
-                                  trim(IRC_HOSTNAME), ':', IRC_PORT, ' ...'
+    print '(3a, i0, a)', '*** Connecting to ', trim(IRC_HOSTNAME), ':', IRC_PORT, ' ...'
 
     sock_fd = irc_connect(IRC_HOSTNAME, IRC_PORT)
 
@@ -175,7 +173,7 @@ program main
         if (n <= 0) exit
 
         ! Write buffer to standard output.
-        write (stdout, '(a)', advance='no') buffer(1:n)
+        write (*, '(a)', advance='no') buffer(1:n)
 
         ! Check for IRC server `PING` and answer with `PONG` + payload.
         if (index(buffer(1:n), 'PING') == 1) &
@@ -193,9 +191,10 @@ program main
         if (index(buffer(1:n), 'PRIVMSG ' // trim(IRC_CHANNEL) // ' :') > 0) then
             ! Check for 'FORTRAN', 'fortran', and 'Fortran' substring in received
             ! message and respond with sample message if found.
-            if (index(buffer(1:n), 'FORTRAN') > 0 .or. index(buffer(1:n), 'fortran') > 0 .or. &
-                    index(buffer(1:n), 'Fortran') > 0) then
-                rc = irc_send_message(sock_fd, IRC_CHANNEL, MESSAGE)
+            if (index(buffer(1:n), 'FORTRAN') > 0 .or. &
+                index(buffer(1:n), 'fortran') > 0 .or. &
+                index(buffer(1:n), 'Fortran') > 0) then
+                rc = irc_send_message(sock_fd, IRC_CHANNEL, IRC_MSG)
             end if
         end if
 

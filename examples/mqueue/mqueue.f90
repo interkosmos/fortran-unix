@@ -48,15 +48,15 @@ program main
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
-    character(len=*), parameter :: MQ_NAME   = '/fortran'   ! New MQ in, e.g., `/mnt/mqueue/<name>`.
-    integer,          parameter :: PERM      = int(o'0644') ! MQ permissions (octal).
+    character(len=*), parameter :: MQ_NAME = '/fortran'   ! New MQ in, e.g., `/mnt/mqueue/<name>`.
+    integer,          parameter :: MQ_PERM = int(o'0644') ! MQ permissions (octal).
 
-    character(len=32)     :: msg                            ! Sample message.
-    character(len=16384)  :: buf                            ! Input buffer (must be greater than the MQ max. message size).
-    integer(kind=c_mqd_t) :: mqds                           ! MQ file descriptor.
-    integer               :: rc                             ! Return code.
-    integer(kind=8)       :: sz                             ! Bytes received.
-    type(c_mq_attr)       :: attr                           ! MQ attributes.
+    character(len=32)     :: msg    ! Sample message.
+    character(len=16384)  :: buf    ! Input buffer (must be greater than the MQ max. message size).
+    integer(kind=c_mqd_t) :: mqds   ! MQ file descriptor.
+    integer               :: rc     ! Return code.
+    integer(kind=8)       :: sz     ! Bytes received.
+    type(c_mq_attr)       :: attr   ! MQ attributes.
 
     ! Unlink, if MQ already exists.
     rc = c_mq_unlink(MQ_NAME // c_null_char)
@@ -64,7 +64,7 @@ program main
     ! Create new message queue `/fortran`.
     mqds = c_mq_open(name  = MQ_NAME // c_null_char, &
                      oflag = ior(O_CREAT, O_RDWR), &
-                     mode  = PERM, &
+                     mode  = MQ_PERM, &
                      attr  = c_null_ptr)
 
     if (mqds < 0) then

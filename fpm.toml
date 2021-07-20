@@ -1,0 +1,10 @@
+name = "fortran-unix"
+version = "0.1.0"
+license = "ISC"
+author = "Philipp Engel"
+maintainer = "https://github.com/interkosmos/"
+copyright = "2020 Philipp Engel"
+
+[library]
+source-dir = "src"
+build-script = "Makefile"
