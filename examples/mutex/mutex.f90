@@ -1,6 +1,6 @@
 ! mutex.f90
 !
-! Example that shows how to run a routine inside several POSIX threads.
+! Example that shows threaded access to a global variable, using a mutex.
 !
 ! Author:  Philipp Engel
 ! Licence: ISC
