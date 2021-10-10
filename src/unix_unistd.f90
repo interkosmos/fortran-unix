@@ -9,6 +9,7 @@ module unix_unistd
     public :: c_fork
     public :: c_pipe
     public :: c_read
+    public :: c_setsid
     public :: c_unlink
     public :: c_usleep
     public :: c_write
@@ -42,6 +43,12 @@ module unix_unistd
             integer(kind=c_size_t), intent(in), value :: nbyte
             integer(kind=c_size_t)                    :: c_read
         end function c_read
+
+        ! pid_t setsid(void)
+        function c_setsid() bind(c, name='setsid')
+            import :: c_pid_t
+            integer(kind=c_pid_t) :: c_setsid
+        end function c_setsid
 
         ! int unlink(const char *path)
         function c_unlink(path) bind(c, name='unlink')

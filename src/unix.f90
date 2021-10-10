@@ -34,7 +34,19 @@ module unix
     public :: c_f_str_chars
     public :: c_f_str_ptr
     public :: f_c_str_chars
+
+    private :: copy
 contains
+    pure function copy(a)
+        character, intent(in)  :: a(:)
+        character(len=size(a)) :: copy
+        integer(kind=8)        :: i
+
+        do i = 1, size(a)
+            copy(i:i) = a(i)
+        end do
+    end function copy
+
     function f_readdir(dirp)
         !! Wrapper function that calls `c_readdir()` and converts the returned
         !! C pointer to Fortran pointer.
@@ -65,9 +77,9 @@ contains
 
     subroutine c_f_str_chars(c_str, f_str)
         !! Copies a C string, passed as a C char array, to a Fortran string.
-        character(len=1, kind=c_char), intent(in)  :: c_str(*)
-        character(len=*),              intent(out) :: f_str
-        integer                                    :: i
+        character(kind=c_char), intent(in)  :: c_str(*)
+        character(len=*),       intent(out) :: f_str
+        integer                             :: i
 
         i = 1
 
@@ -80,27 +92,17 @@ contains
     end subroutine c_f_str_chars
 
     subroutine c_f_str_ptr(c_str, f_str)
-        !! Copies a C string, passed as a C pointer, to a Fortran string.
-        type(c_ptr),      intent(in)    :: c_str
-        character(len=*), intent(out)   :: f_str
-        character(kind=c_char), pointer :: ptrs(:)
-        integer                         :: i
+        type(c_ptr),                   intent(in)  :: c_str
+        character(len=:), allocatable, intent(out) :: f_str
+        character(kind=c_char), pointer            :: ptrs(:)
+        integer(kind=8)                            :: sz
 
-        if (c_associated(c_str)) then
-            call c_f_pointer(c_str, ptrs, [ huge(0) ])
-
-            i = 1
-
-            do while (ptrs(i) /= c_null_char .and. i <= len(f_str))
-                f_str(i:i) = ptrs(i)
-                i = i + 1
-            end do
-
-            if (i < len(f_str)) f_str(i:) = ' '
-            return
-        end if
-
-        f_str = ' '
+        if (.not. c_associated(c_str)) return
+        sz = c_strlen(c_str)
+        if (sz <= 0) return
+        call c_f_pointer(c_str, ptrs, [ sz ])
+        allocate (character(len=sz) :: f_str)
+        f_str = copy(ptrs)
     end subroutine c_f_str_ptr
 
     subroutine f_c_str_chars(f_str, c_str)
