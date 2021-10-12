@@ -110,9 +110,8 @@ contains
         ! Print error message of `c_getaddrinfo()`.
         if (rc /= 0) then
             ptr = c_gai_strerror(rc)
-            allocate (character(len=c_strlen(ptr)) :: err_str)
-            if (allocated(err_str)) &
-                write (stderr, '(2a)') 'getaddrinfo() failed: ', err_str
+            call c_f_str_ptr(ptr, err_str)
+            if (allocated(err_str)) write (stderr, '(2a)') 'getaddrinfo() failed: ', err_str
             return
         end if
 
