@@ -114,7 +114,7 @@ contains
         character(len=:), allocatable, target :: str_esc
 
         str_esc  = trim(str) // CR_LF
-        irc_send = c_write(socket, c_loc(str_esc), int(len(str_esc), kind=8))
+        irc_send = c_write(socket, c_loc(str_esc), len(str_esc, kind=8))
 
         write (*, '("*** ", a, " (", i0, " Bytes)")') trim(str), irc_send
     end function irc_send
@@ -169,7 +169,7 @@ program main
     ! Event loop.
     do
         ! Read from socket.
-        n = c_read(sock_fd, c_loc(buffer), int(len(buffer), kind=8))
+        n = c_read(sock_fd, c_loc(buffer), len(buffer, kind=8))
         if (n <= 0) exit
 
         ! Write buffer to standard output.
