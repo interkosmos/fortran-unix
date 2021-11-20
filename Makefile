@@ -33,7 +33,8 @@ LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pipe pthread regex signal socket time
+.PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pipe \
+        pthread regex serial signal socket time
 
 all: $(TARGET)
 
@@ -55,6 +56,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdio.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdlib.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_string.f90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_termios.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.f90
@@ -64,8 +66,8 @@ $(TARGET):
                                unix_ipc.o unix_mqueue.o unix_msg.o unix_netdb.o \
                                unix_pthread.o unix_regex.o unix_signal.o unix_socket.o \
                                unix_stat.o unix_stdio.o unix_stdlib.o \
-                               unix_string.o unix_time.o unix_types.o unix_unistd.o \
-                               unix_wait.o errno.o
+                               unix_string.o unix_termios.o unix_time.o unix_types.o \
+                               unix_unistd.o unix_wait.o errno.o
 
 # Examples
 dirent: $(TARGET)
@@ -98,6 +100,9 @@ pthread: $(TARGET)
 regex: $(TARGET)
 	$(FC) $(FFLAGS) $(LDFLAGS) -o regex examples/regex/regex.f90 $(TARGET) $(LDLIBS)
 
+serial: $(TARGET)
+	$(FC) $(FFLAGS) $(LDFLAGS) -o serial examples/serial/serial.f90 $(TARGET) $(LDLIBS)
+
 signal: $(TARGET)
 	$(FC) $(FFLAGS) $(LDFLAGS) -o signal examples/signal/signal.f90 $(TARGET) $(LDLIBS)
 
@@ -124,6 +129,7 @@ clean:
 	if [ -e pipe ]; then rm pipe; fi
 	if [ -e pthread ]; then rm pthread; fi
 	if [ -e regex ]; then rm regex; fi
+	if [ -e serial ]; then rm serial; fi
 	if [ -e signal ]; then rm signal; fi
 	if [ -e socket ]; then rm socket; fi
 	if [ -e time ]; then rm time; fi

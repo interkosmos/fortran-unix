@@ -22,6 +22,7 @@ module unix
     use :: unix_stdio
     use :: unix_stdlib
     use :: unix_string
+    use :: unix_termios
     use :: unix_time
     use :: unix_types
     use :: unix_unistd

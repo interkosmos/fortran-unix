@@ -8,6 +8,7 @@ operating systems:
 * clocks and timers,
 * signals,
 * processes,
+* serial port input/output,
 * POSIX threads,
 * POSIX regular expressions,
 * BSD sockets,
@@ -60,6 +61,7 @@ Examples are provided in directory `examples/`:
 * **os** returns the name of the operating system (Linux, macOS, FreeBSD, ...).
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
 * **regex** calls POSIX regex functions.
+* **serial** shows some basic serial port input reading.
 * **signal** catches SIGINT (`Ctrl` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server.
 * **time** prints out the results of time functions.
