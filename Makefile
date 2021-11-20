@@ -112,7 +112,7 @@ socket: $(TARGET)
 time: $(TARGET)
 	$(FC) $(FFLAGS) $(LDFLAGS) -o time examples/time/time.f90 $(TARGET) $(LDLIBS)
 
-examples: dirent fifo fork irc mqueue msg os pthread regex signal socket time
+examples: dirent fifo fork irc mqueue msg os pthread regex serial signal socket time
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi

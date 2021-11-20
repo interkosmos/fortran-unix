@@ -9,6 +9,7 @@ operating systems:
 * signals,
 * processes,
 * serial port input/output,
+* terminal control,
 * POSIX threads,
 * POSIX regular expressions,
 * BSD sockets,
@@ -24,7 +25,7 @@ Similar libraries for modern Fortran:
 Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
 
-* FreeBSD 12 (GNU Fortran 10),
+* FreeBSD 13 (GNU Fortran 11),
 * CentOS 8 (GNU Fortran 8, Intel Fortran Compiler 19).
 
 Preprocessor macros are used to achieve platform-independent interoperability.
@@ -62,7 +63,7 @@ Examples are provided in directory `examples/`:
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
 * **regex** calls POSIX regex functions.
 * **serial** shows some basic serial port input reading.
-* **signal** catches SIGINT (`Ctrl` + `C`).
+* **signal** catches SIGINT (`CTRL` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server.
 * **time** prints out the results of time functions.
 

@@ -103,7 +103,7 @@ contains
         tty%c_iflag = iand(tty%c_iflag, ICRNL)
 
         ! No signaling chars, no echo, no canonical processing.
-        tty%c_lflag = iand(tty%c_lflag, not(ior(ECHO, ECHOE)))
+        tty%c_lflag = 0
 
         ! No remapping, no delays.
         tty%c_oflag = 0
