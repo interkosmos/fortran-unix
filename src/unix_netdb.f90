@@ -14,9 +14,13 @@ module unix_netdb
     integer(kind=c_int), parameter, public :: AF_INET  = 2
 
 #if defined (__linux__)
+
     integer(kind=c_int), parameter, public :: AF_INET6 = 10
+
 #elif defined (__FreeBSD__)
+
     integer(kind=c_int), parameter, public :: AF_INET6 = 28
+
 #endif
 
     integer(kind=c_int), parameter, public :: SOCK_STREAM    = 1

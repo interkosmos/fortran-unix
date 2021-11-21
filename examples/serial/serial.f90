@@ -2,7 +2,7 @@
 !
 ! Reads from a serial port, and prints received characters to screen.
 !
-! Create a pseudo-terminal with socat(1):
+! Create a two pseudo-terminals with socat(1):
 !
 !   $ socat -d -d pty,raw,echo=0 pty,raw,echo=0
 !   2021/11/20 21:37:31 socat[40743] N PTY is /dev/pts/5
@@ -125,11 +125,11 @@ contains
     end function serial_set_attributes
 
     integer function serial_set_blocking(fd, is_blocking, timeout) result(rc)
-        !! Set terminal to blocking/non-blocking.
-        integer, intent(in) :: fd
-        logical, intent(in) :: is_blocking
-        integer, intent(in) :: timeout
-        type(c_termios)     :: tty
+        !! Set terminal read mode to blocking/non-blocking.
+        integer, intent(in)           :: fd
+        logical, intent(in)           :: is_blocking
+        integer, intent(in), optional :: timeout
+        type(c_termios)               :: tty
 
         rc = c_tcgetattr(fd, tty)
         if (rc /= 0) return
@@ -140,8 +140,7 @@ contains
             tty%c_cc(VMIN) = 0
         end if
 
-        ! Timeout in 1/10 seconds.
-        tty%c_cc(VTIME) = timeout
+        if (present(timeout)) tty%c_cc(VTIME) = timeout
 
         rc = c_tcsetattr(fd, TCSANOW, tty)
     end function serial_set_blocking

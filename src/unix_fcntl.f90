@@ -41,6 +41,7 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: O_APPEND   = int(z'0008') ! Set append mode.
 
     integer(kind=c_int), parameter, public :: O_NOCTTY   = int(z'8000') ! Don't assign controlling terminal.
+
 #endif
 
     interface
