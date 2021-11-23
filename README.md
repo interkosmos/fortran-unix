@@ -33,7 +33,7 @@ Therefore, your Fortran compiler has to support at least GNU preprocessor
 conditionals (`#ifdef` …).
 
 ## Build Instructions
-Run GNU/BSD make to build the static library `libfortran-unix.a`:
+Run either GNU/BSD make or fpm to build the static library `libfortran-unix.a`:
 
 ```
 $ make
@@ -44,6 +44,24 @@ for instance:
 
 ```
 $ make FC=gfortran OS=linux PREFIX=/usr
+```
+
+Pre-compiler flags have to be passed to fpm as well. In case of GNU Fortran:
+
+```
+$ fpm build --profile release --flags="-cpp -D__linux__"
+```
+
+Or:
+
+```
+$ fpm build --profile release --flags="-cpp -D__FreeBSD__"
+```
+
+Or, for Intel Fortran Compiler:
+
+```
+$ fpm build --profile release --flags="-fpp"
 ```
 
 Link your Fortran application with `libfortran-unix.a`, and optionally with

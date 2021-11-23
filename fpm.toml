@@ -1,10 +1,84 @@
 name = "fortran-unix"
-version = "0.1.0"
+version = "0.1.2"
 license = "ISC"
 author = "Philipp Engel"
-maintainer = "https://github.com/interkosmos/"
-copyright = "2020 Philipp Engel"
+maintainer = "@interkosmos"
+copyright = "Copyright (c) 2021, Philipp Engel"
+description = "Fortran 2018 ISO C binding interfaces to SysV/POSIX"
+keywords = [ "posix", "sysv", "system", "unix", "linux", "freebsd" ]
 
 [library]
 source-dir = "src"
-build-script = "Makefile"
+
+[[ executable ]]
+name = "dirent"
+source-dir = "examples/dirent"
+main = "dirent.f90"
+
+[[ executable ]]
+name = "fifo"
+source-dir = "examples/fifo"
+main = "fifo.f90"
+
+[[ executable ]]
+name = "fork"
+source-dir = "examples/fork"
+main = "fork.f90"
+
+[[ executable ]]
+name = "irc"
+source-dir = "examples/irc"
+main = "irc.f90"
+
+[[ executable ]]
+name = "mqueue"
+source-dir = "examples/mqueue"
+main = "mqueue.f90"
+link = "rt"
+
+[[ executable ]]
+name = "msg"
+source-dir = "examples/msg"
+main = "msg.f90"
+
+[[ executable ]]
+name = "mutex"
+source-dir = "examples/mutex"
+main = "mutex.f90"
+link = "pthread"
+
+[[ executable ]]
+name = "os"
+source-dir = "examples/os"
+main = "os.f90"
+
+[[ executable ]]
+name = "pthread"
+source-dir = "examples/pthread"
+main = "pthread.f90"
+link = "pthread"
+
+[[ executable ]]
+name = "regex"
+source-dir = "examples/regex"
+main = "regex.f90"
+
+[[ executable ]]
+name = "serial"
+source-dir = "examples/serial"
+main = "serial.f90"
+
+[[ executable ]]
+name = "signal"
+source-dir = "examples/signal"
+main = "signal.f90"
+
+[[ executable ]]
+name = "socket"
+source-dir = "examples/socket"
+main = "socket.f90"
+
+[[ executable ]]
+name = "time"
+source-dir = "examples/time"
+main = "time.f90"
