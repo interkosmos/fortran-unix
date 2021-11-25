@@ -46,6 +46,7 @@ module unix_dirent
         ! int closedir(DIR *dirp)
         function c_closedir(dirp) bind(c, name='closedir')
             import :: c_int, c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: dirp
             integer(kind=c_int)            :: c_closedir
         end function c_closedir
@@ -53,6 +54,7 @@ module unix_dirent
         ! DIR *opendir(const char *filename)
         function c_opendir(filename) bind(c, name='opendir')
             import :: c_char, c_ptr
+            implicit none
             character(kind=c_char), intent(in) :: filename
             type(c_ptr)                        :: c_opendir
         end function c_opendir
@@ -60,6 +62,7 @@ module unix_dirent
         ! struct dirent *readdir(DIR *dirp)
         function c_readdir(dirp) bind(c, name='readdir')
             import :: c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: dirp
             type(c_ptr)                    :: c_readdir
         end function c_readdir

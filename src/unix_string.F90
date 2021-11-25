@@ -12,6 +12,7 @@ module unix_string
         ! void *memset(void *s, int c, size_t n)
         function c_memset(s, c, n) bind(c, name='memset')
             import :: c_int, c_ptr, c_size_t
+            implicit none
             type(c_ptr),            intent(in), value :: s
             integer(kind=c_int),    intent(in), value :: c
             integer(kind=c_size_t), intent(in), value :: n
@@ -21,6 +22,7 @@ module unix_string
         ! char *strerror(int errnum)
         function c_strerror(errnum) bind(c, name='strerror')
             import :: c_int, c_ptr
+            implicit none
             integer(kind=c_int), intent(in), value :: errnum
             type(c_ptr)                            :: c_strerror
         end function c_strerror
@@ -28,6 +30,7 @@ module unix_string
         ! size_t strlen(const char *str)
         function c_strlen(str) bind(c, name='strlen')
             import :: c_ptr, c_size_t
+            implicit none
             type(c_ptr), intent(in), value :: str
             integer(kind=c_size_t)         :: c_strlen
         end function c_strlen

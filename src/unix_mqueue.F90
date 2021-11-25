@@ -25,6 +25,7 @@ module unix_mqueue
         ! int mq_close(mqd_t mqdes)
         function c_mq_close(mqdes) bind(c, name='mq_close')
             import :: c_int, c_mqd_t
+            implicit none
             integer(kind=c_mqd_t), intent(in), value :: mqdes
             integer(kind=c_int)                      :: c_mq_close
         end function c_mq_close
@@ -32,6 +33,7 @@ module unix_mqueue
         ! int mq_getattr(mqd_t mqdes, struct mq_attr *attr)
         function c_mq_getattr(mqdes, attr) bind(c, name='mq_getattr')
             import :: c_int, c_mq_attr, c_mqd_t
+            implicit none
             integer(kind=c_mqd_t), intent(in), value :: mqdes
             type(c_mq_attr),       intent(in)        :: attr
             integer(kind=c_int)                      :: c_mq_getattr
@@ -40,6 +42,7 @@ module unix_mqueue
         ! mqd_t c_mq_open(const char *name, int oflag, mode_t mode, struct mq_attr *attr)
         function c_mq_open(name, oflag, mode, attr) bind(c, name='mq_open')
             import :: c_char, c_int, c_mode_t, c_mqd_t, c_ptr
+            implicit none
             character(kind=c_char), intent(in)        :: name
             integer(kind=c_int),    intent(in), value :: oflag
             integer(kind=c_mode_t), intent(in), value :: mode
@@ -50,6 +53,7 @@ module unix_mqueue
         ! ssize_t mq_receive(mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned int *msg_prio)
         function c_mq_receive(mqdes, msg_ptr, msg_len, msg_prio) bind(c, name='mq_receive')
             import :: c_char, c_int, c_mqd_t, c_size_t
+            implicit none
             integer(kind=c_mqd_t),  intent(in), value :: mqdes
             character(kind=c_char), intent(in)        :: msg_ptr
             integer(kind=c_size_t), intent(in), value :: msg_len
@@ -60,6 +64,7 @@ module unix_mqueue
         ! int mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_len, unsigned int msg_prio)
         function c_mq_send(mqdes, msg_ptr, msg_len, msg_prio) bind(c, name='mq_send')
             import :: c_char, c_int, c_mqd_t, c_size_t
+            implicit none
             integer(kind=c_mqd_t),  intent(in), value :: mqdes
             character(kind=c_char), intent(in)        :: msg_ptr
             integer(kind=c_size_t), intent(in), value :: msg_len
@@ -70,6 +75,7 @@ module unix_mqueue
         ! int mq_setattr(mqd_t mqdes, const struct mq_attr *newattr, struct mq_attr *oldattr)
         function c_mq_setattr(mqdes, attr, oldattr) bind(c, name='mq_setattr')
             import :: c_int, c_mq_attr, c_mqd_t, c_ptr
+            implicit none
             integer(kind=c_mqd_t), intent(in), value :: mqdes
             type(c_mq_attr),       intent(in)        :: attr
             type(c_mq_attr),       intent(in)        :: oldattr
@@ -79,6 +85,7 @@ module unix_mqueue
         ! int mq_unlink(const char *name)
         function c_mq_unlink(name) bind(c, name='mq_unlink')
             import :: c_char, c_int
+            implicit none
             character(kind=c_char), intent(in) :: name
             integer(kind=c_int)                :: c_mq_unlink
         end function c_mq_unlink

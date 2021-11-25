@@ -97,6 +97,7 @@ module unix_netdb
         ! const char *gai_strerror(int ecode)
         function c_gai_strerror(ecode) bind(c, name='gai_strerror')
             import :: c_int, c_ptr
+            implicit none
             integer(kind=c_int), intent(in), value :: ecode
             type(c_ptr)                            :: c_gai_strerror
         end function c_gai_strerror
@@ -104,6 +105,7 @@ module unix_netdb
         ! int getaddrinfo(const char *node, const char *service, const struct addrinfo *hints, struct addrinfo **res)
         function c_getaddrinfo(node, service, hints, res) bind(c, name='getaddrinfo')
             import :: c_int, c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: node
             type(c_ptr), intent(in), value :: service
             type(c_ptr), intent(in), value :: hints
@@ -114,6 +116,7 @@ module unix_netdb
         ! void freeaddrinfo(struct addrinfo *res)
         subroutine c_freeaddrinfo(res) bind(c, name='freeaddrinfo')
             import :: c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: res
         end subroutine c_freeaddrinfo
     end interface

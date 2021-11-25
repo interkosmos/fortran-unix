@@ -287,6 +287,7 @@ module unix_termios
         ! int cfsetispeed(struct termios *termios_p, speed_t speed)
         function c_cfsetispeed(termios_p, speed) bind(c, name='cfsetispeed')
             import :: c_int, c_speed_t, c_termios
+            implicit none
             type(c_termios),         intent(in)        :: termios_p
             integer(kind=c_speed_t), intent(in), value :: speed
             integer(kind=c_int)                        :: c_cfsetispeed
@@ -295,6 +296,7 @@ module unix_termios
         ! int cfsetospeed(struct termios *termios_p, speed_t speed)
         function c_cfsetospeed(termios_p, speed) bind(c, name='cfsetospeed')
             import :: c_int, c_speed_t, c_termios
+            implicit none
             type(c_termios),         intent(in)        :: termios_p
             integer(kind=c_speed_t), intent(in), value :: speed
             integer(kind=c_int)                        :: c_cfsetospeed
@@ -303,6 +305,7 @@ module unix_termios
         ! int cfsetspeed(struct termios *termios_p, speed_t speed)
         function c_cfsetspeed(termios_p, speed) bind(c, name='cfsetspeed')
             import :: c_int, c_speed_t, c_termios
+            implicit none
             type(c_termios),         intent(in)        :: termios_p
             integer(kind=c_speed_t), intent(in), value :: speed
             integer(kind=c_int)                        :: c_cfsetspeed
@@ -311,6 +314,7 @@ module unix_termios
         ! int tcdrain(int fd)
         function c_tcdrain(fd) bind(c, name='tcdrain')
             import :: c_int
+            implicit none
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int)                    :: c_tcdrain
         end function c_tcdrain
@@ -318,6 +322,7 @@ module unix_termios
         ! int tcflow(int fd, int action)
         function c_tcflow(fd, action) bind(c, name='tcflow')
             import :: c_int
+            implicit none
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int), intent(in), value :: action
             integer(kind=c_int)                    :: c_tcflow
@@ -326,6 +331,7 @@ module unix_termios
         ! int tcflush(int fd, int queue_selector)
         function c_tcflush(fd, queue_selector) bind(c, name='tcflush')
             import :: c_int
+            implicit none
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int), intent(in), value :: queue_selector
             integer(kind=c_int)                    :: c_tcflush
@@ -334,6 +340,7 @@ module unix_termios
         ! int tcgetattr(int fd, struct termios *termios_p)
         function c_tcgetattr(fd, termios_p) bind(c, name='tcgetattr')
             import :: c_int, c_termios
+            implicit none
             integer(kind=c_int), intent(in), value :: fd
             type(c_termios),     intent(in)        :: termios_p
             integer(kind=c_int)                    :: c_tcgetattr
@@ -342,6 +349,7 @@ module unix_termios
         ! int tcsendbreak(int fd, int duration)
         function c_tcsendbreak(fd, duration) bind(c, name='tcsendbreak')
             import :: c_int
+            implicit none
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int), intent(in), value :: duration
             integer(kind=c_int)                    :: c_tcsendbreak
@@ -350,6 +358,7 @@ module unix_termios
         ! int tcsetattr(int fd, int optional_actions, const struct termios *termios_p)
         function c_tcsetattr(fd, optional_actions, termios_p) bind(c, name='tcsetattr')
             import :: c_int, c_termios
+            implicit none
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int), intent(in), value :: optional_actions
             type(c_termios),     intent(in)        :: termios_p
@@ -359,6 +368,7 @@ module unix_termios
         ! speed_t cfgetispeed(const struct termios *termios_p)
         function c_cfgetispeed(termios_p) bind(c, name='cfgetispeed')
             import :: c_speed_t, c_termios
+            implicit none
             type(c_termios), intent(in) :: termios_p
             integer(kind=c_speed_t)     :: c_cfgetispeed
         end function c_cfgetispeed
@@ -366,6 +376,7 @@ module unix_termios
         ! speed_t cfgetospeed(const struct termios *termios_p)
         function c_cfgetospeed(termios_p) bind(c, name='cfgetospeed')
             import :: c_speed_t, c_termios
+            implicit none
             type(c_termios), intent(in) :: termios_p
             integer(kind=c_speed_t)     :: c_cfgetospeed
         end function c_cfgetospeed
@@ -373,6 +384,7 @@ module unix_termios
         ! void cfmakeraw(struct termios *termios_p)
         subroutine c_cfmakeraw(termios_p) bind(c, name='cfmakeraw')
             import :: c_termios
+            implicit none
             type(c_termios), intent(in) :: termios_p
         end subroutine c_cfmakeraw
     end interface

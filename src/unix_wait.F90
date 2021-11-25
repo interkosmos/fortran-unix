@@ -11,6 +11,7 @@ module unix_wait
         ! pid_t wait(int *stat_loc)
         function c_wait(stat_loc) bind(c, name='wait')
             import :: c_int, c_pid_t
+            implicit none
             integer(kind=c_int), intent(out) :: stat_loc
             integer(kind=c_pid_t)            :: c_wait
         end function c_wait

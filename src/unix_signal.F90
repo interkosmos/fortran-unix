@@ -86,6 +86,7 @@ module unix_signal
         ! int kill(pid_t pid, int sig)
         function c_kill(pid, sig) bind(c, name='kill')
             import :: c_int, c_pid_t
+            implicit none
             integer(kind=c_pid_t), intent(in), value :: pid
             integer(kind=c_int),   intent(in), value :: sig
             integer(kind=c_int)                      :: c_kill
@@ -94,6 +95,7 @@ module unix_signal
         ! sig_t signal(int sig, sig_t func)
         function c_signal(sig, func) bind(c, name='signal')
             import :: c_funptr, c_int
+            implicit none
             integer(kind=c_int), intent(in), value :: sig
             type(c_funptr),      intent(in), value :: func
             type(c_funptr)                         :: c_signal

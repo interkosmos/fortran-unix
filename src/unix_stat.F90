@@ -48,6 +48,7 @@ module unix_stat
         ! int mkdir(const char *path, mode_t mode)
         function c_mkdir(path, mode) bind(c, name='mkdir')
             import :: c_char, c_int, c_mode_t
+            implicit none
             character(kind=c_char), intent(in)        :: path
             integer(kind=c_mode_t), intent(in), value :: mode
             integer(kind=c_int)                       :: c_mkdir
@@ -56,6 +57,7 @@ module unix_stat
         ! int mkfifo(const char *path, mode_t mode)
         function c_mkfifo(path, mode) bind(c, name='mkfifo')
             import :: c_char, c_int, c_mode_t
+            implicit none
             character(kind=c_char), intent(in)        :: path
             integer(kind=c_mode_t), intent(in), value :: mode
             integer(kind=c_int)                       :: c_mkfifo

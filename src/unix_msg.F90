@@ -14,6 +14,7 @@ module unix_msg
         ! int msgctl(int msqid, int cmd, struct msqid_ds *buf)
         function c_msgctl(msqid, cmd, buf) bind(c, name='msgctl')
             import :: c_int, c_ptr
+            implicit none
             integer(kind=c_int), intent(in), value :: msqid
             integer(kind=c_int), intent(in), value :: cmd
             type(c_ptr),         intent(in), value :: buf
@@ -23,6 +24,7 @@ module unix_msg
         ! int msgget(key_t key, int msgflg)
         function c_msgget(key, msgflg) bind(c, name='msgget')
             import :: c_int, c_key_t
+            implicit none
             integer(kind=c_key_t), intent(in), value :: key
             integer(kind=c_int),   intent(in), value :: msgflg
             integer(kind=c_int)                      :: c_msgget
@@ -31,6 +33,7 @@ module unix_msg
         ! ssize_t msgrcv(int msqid, void *msgp, size_t msgsz, long msgtyp, int msgflg)
         function c_msgrcv(msqid, msgp, msgsz, msgtyp, msgflg) bind(c, name='msgrcv')
             import :: c_int, c_long, c_ptr, c_size_t
+            implicit none
             integer(kind=c_int),    intent(in), value :: msqid
             type(c_ptr),            intent(in), value :: msgp
             integer(kind=c_size_t), intent(in), value :: msgsz
@@ -42,6 +45,7 @@ module unix_msg
         ! int msgsnd(int msqid, const void *msgp, size_t msgsz, int msgflg)
         function c_msgsnd(msqid, msgp, msgsz, msgflg) bind(c, name='msgsnd')
             import :: c_int, c_ptr, c_size_t
+            implicit none
             integer(kind=c_int),    intent(in), value :: msqid
             type(c_ptr),            intent(in), value :: msgp
             integer(kind=c_size_t), intent(in), value :: msgsz

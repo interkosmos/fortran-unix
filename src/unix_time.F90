@@ -23,6 +23,7 @@ module unix_time
         ! char *asctime(const struct tm *timeptr)
         function c_asctime(timeptr) bind(c, name='asctime')
             import :: c_ptr, c_tm
+            implicit none
             type(c_tm), intent(in) :: timeptr
             type(c_ptr)            :: c_asctime
         end function c_asctime
@@ -30,6 +31,7 @@ module unix_time
         ! time_t time(time_t *tloc)
         function c_time(tloc) bind(c, name='time')
             import :: c_long
+            implicit none
             integer(kind=c_long), intent(in), value :: tloc
             integer(kind=c_long)                    :: c_time
         end function c_time

@@ -222,6 +222,7 @@ module unix_errno
         ! int error_number()
         function c_errno() bind(c, name='error_number')
             import :: c_int
+            implicit none
             integer(c_int) :: c_errno
         end function c_errno
     end interface

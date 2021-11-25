@@ -10,6 +10,7 @@ module unix_stdlib
         ! void free(void *ptr)
         subroutine c_free(ptr) bind(c, name='free')
             import :: c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: ptr
         end subroutine c_free
     end interface

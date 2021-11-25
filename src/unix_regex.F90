@@ -128,6 +128,7 @@ module unix_regex
         ! int regcomp(regex_t *preg, const char *regex, int cflags);
         function c_regcomp(preg, regex, cflags) bind(c, name='regcomp')
             import :: c_char, c_int, c_regex_t
+            implicit none
             type(c_regex_t),        intent(in)        :: preg
             character(kind=c_char), intent(in)        :: regex
             integer(kind=c_int),    intent(in), value :: cflags
@@ -137,6 +138,7 @@ module unix_regex
         ! size_t regerror(int errcode, const regex_t *preg, char *errbuf, size_t errbuf_size);
         function c_regerror(errcode, preg, errbuf, errbuf_size) bind(c, name='regerror')
             import :: c_int, c_ptr, c_regex_t, c_size_t
+            implicit none
             integer(kind=c_int),    intent(in), value :: errcode
             type(c_regex_t),        intent(in)        :: preg
             type(c_ptr),            intent(in), value :: errbuf
@@ -147,6 +149,7 @@ module unix_regex
         ! int regexec(const regex_t *preg, const char *string, size_t nmatch, regmatch_t pmatch[], int eflags);
         function c_regexec(preg, string, nmatch, pmatch, eflags) bind(c, name='regexec')
             import :: c_char, c_int, c_ptr, c_regex_t, c_size_t
+            implicit none
             type(c_regex_t),        intent(in)        :: preg
             character(kind=c_char), intent(in)        :: string
             integer(kind=c_size_t), intent(in), value :: nmatch
@@ -158,6 +161,7 @@ module unix_regex
         ! void regfree(regex_t *preg)
         subroutine c_regfree(preg) bind(c, name='regfree')
             import :: c_regex_t
+            implicit none
             type(c_regex_t), intent(in) :: preg
         end subroutine c_regfree
     end interface

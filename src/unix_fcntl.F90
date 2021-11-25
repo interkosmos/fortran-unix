@@ -48,6 +48,7 @@ module unix_fcntl
         ! int open(const char *pathname, int flags, mode_t mode)
         function c_open(pathname, flags, mode) bind(c, name='open')
             import :: c_char, c_int, c_mode_t
+            implicit none
             character(kind=c_char), intent(in)        :: pathname
             integer(kind=c_int),    intent(in), value :: flags
             integer(kind=c_mode_t), intent(in), value :: mode

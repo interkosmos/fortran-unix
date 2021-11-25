@@ -26,6 +26,7 @@ module unix_stdio
         ! ssize_t getline(char **lineptr, size_t *n, FILE *stream)
         function c_getline(lineptr, n, stream) bind(c, name='getline')
             import :: c_char, c_ptr, c_size_t
+            implicit none
             character(kind=c_char), intent(in)        :: lineptr(*)
             integer(kind=c_size_t), intent(in)        :: n
             type(c_ptr),            intent(in), value :: stream
@@ -35,6 +36,7 @@ module unix_stdio
         ! int fclose(FILE *stream)
         function c_fclose(stream) bind(c, name='fclose')
             import :: c_int, c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: stream
             integer(kind=c_int)            :: c_fclose
         end function c_fclose
@@ -42,6 +44,7 @@ module unix_stdio
         ! FILE *fopen(int fd, const char *mode)
         function c_fdopen(fd, mode) bind(c, name='fdopen')
             import :: c_char, c_int, c_ptr
+            implicit none
             integer(kind=c_int),    intent(in), value :: fd
             character(kind=c_char), intent(in)        :: mode
             type(c_ptr)                               :: c_fdopen
@@ -50,6 +53,7 @@ module unix_stdio
         ! int fflush(FILE *stream)
         function c_fflush(stream) bind(c, name='fflush')
            import :: c_int, c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: stream
             integer(kind=c_int)            :: c_fflush
         end function c_fflush
@@ -57,6 +61,7 @@ module unix_stdio
         ! int fgetc(FILE *stream)
         function c_fgetc(stream) bind(c, name='fgetc')
             import :: c_int, c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: stream
             integer(kind=c_int)            :: c_fgetc
         end function c_fgetc
@@ -64,6 +69,7 @@ module unix_stdio
         ! char *fgets(char *str, int size, FILE *stream)
         function c_fgets(str, size, stream) bind(c, name='fgets')
             import :: c_char, c_int, c_ptr
+            implicit none
             character(kind=c_char), intent(in)        :: str
             integer(kind=c_int),    intent(in), value :: size
             type(c_ptr),            intent(in), value :: stream
@@ -73,6 +79,7 @@ module unix_stdio
         ! FILE *fopen(const char *path, const char *mode)
         function c_fopen(path, mode) bind(c, name='fopen')
             import :: c_char, c_ptr
+            implicit none
             character(kind=c_char), intent(in) :: path
             character(kind=c_char), intent(in) :: mode
             type(c_ptr)                        :: c_fopen
@@ -81,6 +88,7 @@ module unix_stdio
         ! int putchar(int char)
         function c_putchar(char) bind(c, name='putchar')
             import :: c_int
+            implicit none
             integer(kind=c_int), intent(in), value :: char
             integer(kind=c_int)                    :: c_putchar
         end function c_putchar
@@ -88,6 +96,7 @@ module unix_stdio
         ! int fputs(const char *str, FILE *stream)
         function c_fputs(str, stream) bind(c, name='fputs')
             import :: c_char, c_int, c_ptr
+            implicit none
             character(kind=c_char), intent(in)        :: str
             type(c_ptr),            intent(in), value :: stream
             integer(kind=c_int)                       :: c_fputs
@@ -96,6 +105,7 @@ module unix_stdio
         ! int pclose(FILE *stream)
         function c_pclose(stream) bind(c, name='pclose')
             import :: c_int, c_ptr
+            implicit none
             type(c_ptr), intent(in), value :: stream
             integer(kind=c_int)            :: c_pclose
         end function c_pclose
@@ -103,12 +113,14 @@ module unix_stdio
         ! void perror(const char *s)
         subroutine c_perror(s) bind(c, name='perror')
             import :: c_char
+            implicit none
             character(kind=c_char), intent(in) :: s
         end subroutine c_perror
 
         ! FILE *popen(const char *command, const char *type)
         function c_popen(command, type) bind(c, name='popen')
             import :: c_char, c_ptr
+            implicit none
             character(kind=c_char), intent(in) :: command
             character(kind=c_char), intent(in) :: type
             type(c_ptr)                        :: c_popen
@@ -117,6 +129,7 @@ module unix_stdio
         ! int scanf(const char *format, ...)
         function c_scanf(format, str) bind(c, name='scanf')
             import :: c_char, c_int
+            implicit none
             character(kind=c_char), intent(in) :: format
             character(kind=c_char), intent(in) :: str
             integer(kind=c_int)                :: c_scanf
@@ -125,6 +138,7 @@ module unix_stdio
         ! void setbuf(FILE *stream, char *buf)
         subroutine c_setbuf(stream, buf) bind(c, name='setbuf')
             import :: c_int, c_ptr
+            implicit none
             integer(kind=c_int), intent(in)        :: stream
             type(c_ptr),         intent(in), value :: buf
         end subroutine c_setbuf
@@ -132,6 +146,7 @@ module unix_stdio
         ! int setvbuf(FILE *stream, char *buf, int mode, size_t size)
         function c_setvbuf(stream, buf, mode, size) bind(c, name='setvbuf')
             import :: c_int, c_ptr, c_size_t
+            implicit none
             integer(kind=c_int),    intent(in)        :: stream
             type(c_ptr),            intent(in), value :: buf
             integer(kind=c_int),    intent(in), value :: mode
