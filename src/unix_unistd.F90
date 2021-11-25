@@ -7,6 +7,7 @@ module unix_unistd
 
     public :: c_close
     public :: c_fork
+    public :: c_getpid
     public :: c_pipe
     public :: c_read
     public :: c_setsid
@@ -29,6 +30,13 @@ module unix_unistd
             implicit none
             integer(kind=c_pid_t) :: c_fork
         end function c_fork
+
+        ! pid_t fork(void)
+        function c_getpid() bind(c, name='getpid')
+            import :: c_pid_t
+            implicit none
+            integer(kind=c_pid_t) :: c_getpid
+        end function c_getpid
 
         ! int pipe(int fd[2])
         function c_pipe(fd) bind(c, name='pipe')

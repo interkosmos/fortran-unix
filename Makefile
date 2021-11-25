@@ -33,7 +33,7 @@ LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pipe \
+.PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pid \
         pthread regex serial signal socket time
 
 all: $(TARGET)
@@ -60,7 +60,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
-	$(FC) $(FFLAGS) -c src/unix.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90
 	$(CC) $(CFLAGS) -c src/errno.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
                                unix_ipc.o unix_mqueue.o unix_msg.o unix_netdb.o \
@@ -71,48 +71,52 @@ $(TARGET):
 
 # Examples
 dirent: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o dirent examples/dirent/dirent.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o dirent examples/dirent/dirent.f90 $(TARGET) $(LDLIBS)
 
 fifo: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o fifo examples/fifo/fifo.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o fifo examples/fifo/fifo.f90 $(TARGET) $(LDLIBS)
 
 fork: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o fork examples/fork/fork.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o fork examples/fork/fork.f90 $(TARGET) $(LDLIBS)
 
 irc: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o irc examples/irc/irc.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o irc examples/irc/irc.f90 $(TARGET) $(LDLIBS)
 
 mqueue: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o mqueue examples/mqueue/mqueue.f90 $(TARGET) $(LDLIBS) -lrt
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o mqueue examples/mqueue/mqueue.f90 $(TARGET) $(LDLIBS) -lrt
 
 msg: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o msg examples/msg/msg.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o msg examples/msg/msg.f90 $(TARGET) $(LDLIBS)
 
 mutex: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o mutex examples/mutex/mutex.f90 $(TARGET) $(LDLIBS) -lpthread
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o mutex examples/mutex/mutex.f90 $(TARGET) $(LDLIBS) -lpthread
 
 os: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o os examples/os/os.F90 $(TARGET) $(LDLIBS)
 
+pid: $(TARGET)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pid examples/pid/pid.f90 $(TARGET) $(LDLIBS)
+
 pthread: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o pthread examples/pthread/pthread.f90 $(TARGET) $(LDLIBS) -lpthread
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pthread examples/pthread/pthread.f90 $(TARGET) $(LDLIBS) -lpthread
 
 regex: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o regex examples/regex/regex.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o regex examples/regex/regex.f90 $(TARGET) $(LDLIBS)
 
 serial: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o serial examples/serial/serial.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o serial examples/serial/serial.f90 $(TARGET) $(LDLIBS)
 
 signal: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o signal examples/signal/signal.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o signal examples/signal/signal.f90 $(TARGET) $(LDLIBS)
 
 socket: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o socket examples/socket/socket.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o socket examples/socket/socket.f90 $(TARGET) $(LDLIBS)
 
 time: $(TARGET)
-	$(FC) $(FFLAGS) $(LDFLAGS) -o time examples/time/time.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o time examples/time/time.f90 $(TARGET) $(LDLIBS)
 
-examples: dirent fifo fork irc mqueue mutex msg os pthread regex serial signal socket time
+examples: dirent fifo fork irc mqueue mutex msg os pid pthread regex \
+          serial signal socket time
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
@@ -126,7 +130,7 @@ clean:
 	if [ -e msg ]; then rm msg; fi
 	if [ -e mutex ]; then rm mutex; fi
 	if [ -e os ]; then rm os; fi
-	if [ -e pipe ]; then rm pipe; fi
+	if [ -e pid ]; then rm pid; fi
 	if [ -e pthread ]; then rm pthread; fi
 	if [ -e regex ]; then rm regex; fi
 	if [ -e serial ]; then rm serial; fi

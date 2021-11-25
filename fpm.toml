@@ -53,6 +53,11 @@ source-dir = "examples/os"
 main = "os.F90"
 
 [[ executable ]]
+name = "pid"
+source-dir = "examples/pid"
+main = "pid.F90"
+
+[[ executable ]]
 name = "pthread"
 source-dir = "examples/pthread"
 main = "pthread.f90"

@@ -46,7 +46,7 @@ for instance:
 $ make FC=gfortran OS=linux PREFIX=/usr
 ```
 
-Pre-compiler flags have to be passed to fpm as well. In case of GNU Fortran:
+Using fpm, preprocessor flags have to be passed to GNU Fortran:
 
 ```
 $ fpm build --profile release --flag="-D__linux__"
@@ -56,12 +56,6 @@ Or:
 
 ```
 $ fpm build --profile release --flag="-D__FreeBSD__"
-```
-
-Or, for Intel Fortran Compiler:
-
-```
-$ fpm build --profile
 ```
 
 Link your Fortran application with `libfortran-unix.a`, and optionally with
@@ -78,11 +72,12 @@ Examples are provided in directory `examples/`:
 * **msg** shows message passing with UNIX System V message queues.
 * **mutex** demonstrates threaded access to variable using a mutex.
 * **os** returns the name of the operating system (Linux, macOS, FreeBSD, ...).
+* **pid** outputs the process id.
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
 * **regex** calls POSIX regex functions.
-* **serial** shows some basic serial port input reading.
+* **serial** shows some basic serial port input reading (requires *socat(1)* and *minicom(1)*).
 * **signal** catches SIGINT (`CTRL` + `C`).
-* **socket** creates a TCP/IP connection to a local netcat server.
+* **socket** creates a TCP/IP connection to a local netcat server (requires *nc(1)*).
 * **time** prints out the results of time functions.
 
 Build the examples with:
