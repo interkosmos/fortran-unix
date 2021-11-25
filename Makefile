@@ -40,27 +40,27 @@ all: $(TARGET)
 
 # Library
 $(TARGET):
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_types.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_dirent.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_fcntl.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ipc.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_mqueue.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_msg.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_netdb.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_pthread.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_regex.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_signal.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_socket.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stat.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdio.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdlib.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_string.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_termios.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.f90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.f90
-	$(FC) $(FFLAGS) -c src/unix.f90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_types.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_dirent.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_fcntl.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ipc.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_mqueue.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_msg.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_netdb.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_pthread.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_regex.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_signal.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_socket.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stat.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdio.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdlib.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_string.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_termios.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
+	$(FC) $(FFLAGS) -c src/unix.F90
 	$(CC) $(CFLAGS) -c src/errno.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
                                unix_ipc.o unix_mqueue.o unix_msg.o unix_netdb.o \
@@ -92,7 +92,7 @@ mutex: $(TARGET)
 	$(FC) $(FFLAGS) $(LDFLAGS) -o mutex examples/mutex/mutex.f90 $(TARGET) $(LDLIBS) -lpthread
 
 os: $(TARGET)
-	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o os examples/os/os.f90 $(TARGET) $(LDLIBS)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o os examples/os/os.F90 $(TARGET) $(LDLIBS)
 
 pthread: $(TARGET)
 	$(FC) $(FFLAGS) $(LDFLAGS) -o pthread examples/pthread/pthread.f90 $(TARGET) $(LDLIBS) -lpthread

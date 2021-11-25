@@ -49,19 +49,19 @@ $ make FC=gfortran OS=linux PREFIX=/usr
 Pre-compiler flags have to be passed to fpm as well. In case of GNU Fortran:
 
 ```
-$ fpm build --profile release --flags="-cpp -D__linux__"
+$ fpm build --profile release --flag="-D__linux__"
 ```
 
 Or:
 
 ```
-$ fpm build --profile release --flags="-cpp -D__FreeBSD__"
+$ fpm build --profile release --flag="-D__FreeBSD__"
 ```
 
 Or, for Intel Fortran Compiler:
 
 ```
-$ fpm build --profile release --flags="-fpp"
+$ fpm build --profile
 ```
 
 Link your Fortran application with `libfortran-unix.a`, and optionally with

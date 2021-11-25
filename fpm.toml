@@ -50,7 +50,7 @@ link = "pthread"
 [[ executable ]]
 name = "os"
 source-dir = "examples/os"
-main = "os.f90"
+main = "os.F90"
 
 [[ executable ]]
 name = "pthread"
