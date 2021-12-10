@@ -14,11 +14,11 @@ module unix_mqueue
     public :: c_mq_unlink
 
     type, bind(c), public :: c_mq_attr
-        integer(kind=c_long) :: mq_flags    ! Flags (ignored for mq_open()).
-        integer(kind=c_long) :: mq_maxmsg   ! Max. # of messages on queue.
-        integer(kind=c_long) :: mq_msgsize  ! Max. message size (bytes).
-        integer(kind=c_long) :: mq_curmsgs  ! # of messages currently in queue.
-        integer(kind=c_long) :: reserved(4)
+        integer(kind=c_long) :: mq_flags    = 0 ! Flags (ignored for mq_open()).
+        integer(kind=c_long) :: mq_maxmsg   = 0 ! Max. # of messages on queue.
+        integer(kind=c_long) :: mq_msgsize  = 0 ! Max. message size (bytes).
+        integer(kind=c_long) :: mq_curmsgs  = 0 ! # of messages currently in queue.
+        integer(kind=c_long) :: reserved(4) = 0
     end type c_mq_attr
 
     interface

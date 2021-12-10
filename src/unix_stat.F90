@@ -25,6 +25,19 @@ module unix_stat
     integer(kind=c_int), parameter, public :: S_IWOTH = shiftr(S_IWGRP, 3)
     integer(kind=c_int), parameter, public :: S_IXOTH = shiftr(S_IXGRP, 3)
 
+    integer(kind=c_int), parameter, public :: S_IFMT   = int(o'0170000')
+    integer(kind=c_int), parameter, public :: S_IFSOCK = int(o'0140000')
+    integer(kind=c_int), parameter, public :: S_IFLNK  = int(o'0120000')
+    integer(kind=c_int), parameter, public :: S_IFREG  = int(o'0100000')
+    integer(kind=c_int), parameter, public :: S_IFBLK  = int(o'0060000')
+    integer(kind=c_int), parameter, public :: S_IFDIR  = int(o'0040000')
+    integer(kind=c_int), parameter, public :: S_IFCHR  = int(o'0020000')
+    integer(kind=c_int), parameter, public :: S_IFIFO  = int(o'0010000')
+    integer(kind=c_int), parameter, public :: S_ISUID  = int(o'0004000')
+    integer(kind=c_int), parameter, public :: S_ISGID  = int(o'0002000')
+    integer(kind=c_int), parameter, public :: S_ISVTX  = int(o'0001000')
+
+
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: S_IRWXU = int(o'0000700')
@@ -41,6 +54,17 @@ module unix_stat
     integer(kind=c_int), parameter, public :: S_IROTH = int(o'0000004')
     integer(kind=c_int), parameter, public :: S_IWOTH = int(o'0000002')
     integer(kind=c_int), parameter, public :: S_IXOTH = int(o'0000001')
+
+    integer(kind=c_int), parameter, public :: S_IFMT   = int(o'0170000') ! type of file mask
+    integer(kind=c_int), parameter, public :: S_IFIFO  = int(o'0010000') ! named pipe (fifo)
+    integer(kind=c_int), parameter, public :: S_IFCHR  = int(o'0020000') ! character special
+    integer(kind=c_int), parameter, public :: S_IFDIR  = int(o'0040000') ! directory
+    integer(kind=c_int), parameter, public :: S_IFBLK  = int(o'0060000') ! block special
+    integer(kind=c_int), parameter, public :: S_IFREG  = int(o'0100000') ! regular
+    integer(kind=c_int), parameter, public :: S_IFLNK  = int(o'0120000') ! symbolic link
+    integer(kind=c_int), parameter, public :: S_IFSOCK = int(o'0140000') ! socket
+    integer(kind=c_int), parameter, public :: S_ISVTX  = int(o'0001000') ! save swapped text even after use
+    integer(kind=c_int), parameter, public :: S_IFWHT  = int(o'0160000') ! whiteout
 
 #endif
 

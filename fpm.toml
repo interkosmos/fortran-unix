@@ -10,80 +10,80 @@ keywords = [ "posix", "sysv", "system", "unix", "linux", "freebsd" ]
 [library]
 source-dir = "src"
 
-[[ executable ]]
+[[example]]
 name = "dirent"
 source-dir = "examples/dirent"
 main = "dirent.f90"
 
-[[ executable ]]
+[[example]]
 name = "fifo"
 source-dir = "examples/fifo"
 main = "fifo.f90"
 
-[[ executable ]]
+[[example]]
 name = "fork"
 source-dir = "examples/fork"
 main = "fork.f90"
 
-[[ executable ]]
+[[example]]
 name = "irc"
 source-dir = "examples/irc"
 main = "irc.f90"
 
-[[ executable ]]
+[[example]]
 name = "mqueue"
 source-dir = "examples/mqueue"
 main = "mqueue.f90"
 link = "rt"
 
-[[ executable ]]
+[[example]]
 name = "msg"
 source-dir = "examples/msg"
 main = "msg.f90"
 
-[[ executable ]]
+[[example]]
 name = "mutex"
 source-dir = "examples/mutex"
 main = "mutex.f90"
 link = "pthread"
 
-[[ executable ]]
+[[example]]
 name = "os"
 source-dir = "examples/os"
 main = "os.F90"
 
-[[ executable ]]
+[[example]]
 name = "pid"
 source-dir = "examples/pid"
 main = "pid.F90"
 
-[[ executable ]]
+[[example]]
 name = "pthread"
 source-dir = "examples/pthread"
 main = "pthread.f90"
 link = "pthread"
 
-[[ executable ]]
+[[example]]
 name = "regex"
 source-dir = "examples/regex"
 main = "regex.f90"
 
-[[ executable ]]
+[[example]]
 name = "serial"
 source-dir = "examples/serial"
 main = "serial.f90"
 
-[[ executable ]]
+[[example]]
 name = "signal"
 source-dir = "examples/signal"
 main = "signal.f90"
 
-[[ executable ]]
+[[example]]
 name = "socket"
 source-dir = "examples/socket"
 main = "socket.f90"
 
-[[ executable ]]
+[[example]]
 name = "time"
 source-dir = "examples/time"
 main = "time.f90"
