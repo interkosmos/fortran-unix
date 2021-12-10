@@ -35,7 +35,7 @@ module unix_mqueue
             import :: c_int, c_mq_attr, c_mqd_t
             implicit none
             integer(kind=c_mqd_t), intent(in), value :: mqdes
-            type(c_mq_attr),       intent(in)        :: attr
+            type(c_mq_attr),       intent(out)       :: attr
             integer(kind=c_int)                      :: c_mq_getattr
         end function c_mq_getattr
 
@@ -57,7 +57,7 @@ module unix_mqueue
             integer(kind=c_mqd_t),  intent(in), value :: mqdes
             character(kind=c_char), intent(in)        :: msg_ptr
             integer(kind=c_size_t), intent(in), value :: msg_len
-            integer(kind=c_int),    intent(in), value :: msg_prio
+            integer(kind=c_int),    intent(inout)     :: msg_prio
             integer(kind=c_size_t)                    :: c_mq_receive
         end function c_mq_receive
 
@@ -72,13 +72,13 @@ module unix_mqueue
             integer(kind=c_int)                       :: c_mq_send
         end function c_mq_send
 
-        ! int mq_setattr(mqd_t mqdes, const struct mq_attr *newattr, struct mq_attr *oldattr)
+        ! int mq_setattr(mqd_t mqdes, const struct mq_attr *attr, struct mq_attr *oldattr)
         function c_mq_setattr(mqdes, attr, oldattr) bind(c, name='mq_setattr')
             import :: c_int, c_mq_attr, c_mqd_t, c_ptr
             implicit none
             integer(kind=c_mqd_t), intent(in), value :: mqdes
             type(c_mq_attr),       intent(in)        :: attr
-            type(c_mq_attr),       intent(in)        :: oldattr
+            type(c_mq_attr),       intent(out)       :: oldattr
             integer(kind=c_int)                      :: c_mq_setattr
         end function c_mq_setattr
 
