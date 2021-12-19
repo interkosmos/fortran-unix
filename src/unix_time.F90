@@ -1,6 +1,7 @@
 ! unix_time.f90
 module unix_time
     use, intrinsic :: iso_c_binding
+    use :: unix_types
     implicit none
     private
 
@@ -18,6 +19,11 @@ module unix_time
         integer(kind=c_int) :: tm_yday  ! Day of year (0 - 365).
         integer(kind=c_int) :: tm_isdst ! Positive if daylight saving time is in effect.
     end type c_tm
+
+    type, bind(c), public :: c_timespec
+        integer(kind=c_time_t) :: tv_sec
+        integer(kind=c_long)   :: tv_nsec
+    end type c_timespec
 
     interface
         ! char *asctime(const struct tm *timeptr)

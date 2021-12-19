@@ -15,11 +15,13 @@ module unix_types
 
     integer, parameter, public :: c_mqd_t     = c_int
     integer, parameter, public :: c_socklen_t = c_int64_t
+    integer, parameter, public :: c_time_t    = c_long
 
 #elif defined (__FreeBSD__)
 
     integer, parameter, public :: c_mqd_t     = c_long
     integer, parameter, public :: c_socklen_t = c_size_t
+    integer, parameter, public :: c_time_t    = c_int64_t
 
 #endif
 end module unix_types

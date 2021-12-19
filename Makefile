@@ -45,6 +45,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_fcntl.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ipc.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_mqueue.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_msg.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_netdb.F90
@@ -57,7 +58,6 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdlib.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_string.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_termios.F90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90

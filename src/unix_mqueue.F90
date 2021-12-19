@@ -1,6 +1,7 @@
 ! unix_mqueues.f90
 module unix_mqueue
     use, intrinsic :: iso_c_binding
+    use :: unix_time
     use :: unix_types
     implicit none
     private
@@ -11,6 +12,7 @@ module unix_mqueue
     public :: c_mq_receive
     public :: c_mq_send
     public :: c_mq_setattr
+    public :: c_mq_timedreceive
     public :: c_mq_unlink
 
     type, bind(c), public :: c_mq_attr
@@ -81,6 +83,18 @@ module unix_mqueue
             type(c_mq_attr),       intent(out)       :: oldattr
             integer(kind=c_int)                      :: c_mq_setattr
         end function c_mq_setattr
+
+        ! ssize_t mq_timedreceive(mqd_t mqdes, char *restrict msg_ptr, size_t msg_len, unsigned int *restrict msg_prio, const struct timespec *restrict abs_timeout)
+        function c_mq_timedreceive(mqdes, msg_ptr, msg_len, msg_prio, abs_timeout) bind(c, name='mq_timedreceive')
+            import :: c_char, c_int, c_mqd_t, c_size_t, c_timespec
+            implicit none
+            integer(kind=c_mqd_t),  intent(in), value :: mqdes
+            character(kind=c_char), intent(in)        :: msg_ptr
+            integer(kind=c_size_t), intent(in), value :: msg_len
+            integer(kind=c_int),    intent(inout)     :: msg_prio
+            type(c_timespec),       intent(in)        :: abs_timeout
+            integer(kind=c_size_t)                    :: c_mq_timedreceive
+        end function c_mq_timedreceive
 
         ! int mq_unlink(const char *name)
         function c_mq_unlink(name) bind(c, name='mq_unlink')
