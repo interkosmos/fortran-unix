@@ -1,4 +1,4 @@
-! unix_pthread.f90
+! unix_pthread.F90
 module unix_pthread
     use, intrinsic :: iso_c_binding
     implicit none

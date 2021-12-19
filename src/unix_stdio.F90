@@ -1,4 +1,4 @@
-! unix_stdio.f90
+! unix_stdio.F90
 module unix_stdio
     use, intrinsic :: iso_c_binding
     implicit none

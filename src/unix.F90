@@ -1,4 +1,4 @@
-! unix.f90
+! unix.F90
 !
 ! A collection of Fortran 2008 ISO C binding interfaces to selected POSIX and
 ! SysV routines on 64-bit Unix-like operating systems.

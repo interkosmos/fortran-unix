@@ -1,4 +1,4 @@
-! unix_errno.f90
+! unix_errno.F90
 module unix_errno
     use, intrinsic :: iso_c_binding
     implicit none

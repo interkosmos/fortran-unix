@@ -1,4 +1,4 @@
-! unix_time.f90
+! unix_time.F90
 module unix_time
     use, intrinsic :: iso_c_binding
     use :: unix_types

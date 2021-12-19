@@ -1,4 +1,4 @@
-! unix_inet.f90
+! unix_inet.F90
 module unix_inet
     use, intrinsic :: iso_c_binding
     implicit none

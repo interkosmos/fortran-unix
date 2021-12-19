@@ -1,4 +1,4 @@
-! unix_msg.f90
+! unix_msg.F90
 module unix_msg
     use, intrinsic :: iso_c_binding
     use :: unix_types

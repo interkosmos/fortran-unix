@@ -1,4 +1,4 @@
-! unix_types.f90
+! unix_types.F90
 module unix_types
     use, intrinsic :: iso_c_binding
     implicit none

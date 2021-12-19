@@ -1,4 +1,4 @@
-! unix_signal.f90
+! unix_signal.F90
 module unix_signal
     use, intrinsic :: iso_c_binding
     use :: unix_types

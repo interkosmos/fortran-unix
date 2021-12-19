@@ -1,4 +1,4 @@
-! unix_stat.f90
+! unix_stat.F90
 module unix_stat
     use, intrinsic :: iso_c_binding
     use :: unix_types

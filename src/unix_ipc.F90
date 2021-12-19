@@ -1,4 +1,4 @@
-! unix_ipc.f90
+! unix_ipc.F90
 module unix_ipc
     use, intrinsic :: iso_c_binding
     use :: unix_types

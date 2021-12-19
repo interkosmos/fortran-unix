@@ -1,4 +1,4 @@
-! unix_dirent.f90
+! unix_dirent.F90
 module unix_dirent
     use, intrinsic :: iso_c_binding
     implicit none

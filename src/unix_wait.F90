@@ -1,4 +1,4 @@
-! unix_wait.f90
+! unix_wait.F90
 module unix_wait
     use, intrinsic :: iso_c_binding
     use :: unix_types

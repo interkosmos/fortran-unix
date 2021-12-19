@@ -1,4 +1,4 @@
-! unix_string.f90
+! unix_string.F90
 module unix_string
     use, intrinsic :: iso_c_binding
     implicit none

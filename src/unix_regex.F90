@@ -1,4 +1,4 @@
-! unix_regex.f90
+! unix_regex.F90
 module unix_regex
     use, intrinsic :: iso_c_binding
     use :: unix_types

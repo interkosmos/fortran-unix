@@ -1,4 +1,4 @@
-! unix_termios.f90
+! unix_termios.F90
 module unix_termios
     use, intrinsic :: iso_c_binding
     use :: unix_types

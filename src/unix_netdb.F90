@@ -1,4 +1,4 @@
-! unix_netdb.f90
+! unix_netdb.F90
 module unix_netdb
     use, intrinsic :: iso_c_binding
     use :: unix_types

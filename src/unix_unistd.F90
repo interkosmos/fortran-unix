@@ -1,4 +1,4 @@
-! unix_unistd.f90
+! unix_unistd.F90
 module unix_unistd
     use, intrinsic :: iso_c_binding
     use :: unix_types

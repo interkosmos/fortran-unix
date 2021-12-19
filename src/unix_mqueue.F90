@@ -1,4 +1,4 @@
-! unix_mqueues.f90
+! unix_mqueues.F90
 module unix_mqueue
     use, intrinsic :: iso_c_binding
     use :: unix_time
