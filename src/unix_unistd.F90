@@ -5,6 +5,7 @@ module unix_unistd
     implicit none
     private
 
+    public :: c_chdir
     public :: c_close
     public :: c_fork
     public :: c_getpid
@@ -16,6 +17,14 @@ module unix_unistd
     public :: c_write
 
     interface
+        ! int chdir(const char *path)
+        function c_chdir(path) bind(c, name='chdir')
+            import :: c_int, c_char
+            implicit none
+            character(kind=c_char), intent(in) :: path
+            integer(kind=c_int)                :: c_chdir
+        end function c_chdir
+
         ! int close(int fd)
         function c_close(fd) bind(c, name='close')
             import :: c_int

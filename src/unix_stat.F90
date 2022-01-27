@@ -7,6 +7,7 @@ module unix_stat
 
     public :: c_mkdir
     public :: c_mkfifo
+    public :: c_umask
 
 #if defined (__linux__)
 
@@ -86,5 +87,13 @@ module unix_stat
             integer(kind=c_mode_t), intent(in), value :: mode
             integer(kind=c_int)                       :: c_mkfifo
         end function c_mkfifo
+
+        ! mode_t umask(mode_t numask)
+        function c_umask(numask) bind(c, name='umask')
+            import :: c_mode_t
+            implicit none
+            integer(kind=c_mode_t), intent(in), value :: numask
+            integer(kind=c_mode_t)                    :: c_umask
+        end function c_umask
     end interface
 end module unix_stat

@@ -11,6 +11,7 @@ module unix
     use :: unix_errno
     use :: unix_fcntl
     use :: unix_ipc
+    use :: unix_ioctl
     use :: unix_mqueue
     use :: unix_msg
     use :: unix_netdb
@@ -22,6 +23,7 @@ module unix
     use :: unix_stdio
     use :: unix_stdlib
     use :: unix_string
+    use :: unix_syslog
     use :: unix_termios
     use :: unix_time
     use :: unix_types

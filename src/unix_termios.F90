@@ -136,6 +136,21 @@ module unix_termios
     integer(kind=c_int), parameter, public :: B3500000 = int(o'010016')
     integer(kind=c_int), parameter, public :: B4000000 = int(o'010017')
 
+    integer(kind=c_int), parameter, public :: TIOCM_LE   = int(z'001')
+    integer(kind=c_int), parameter, public :: TIOCM_DTR  = int(z'002')
+    integer(kind=c_int), parameter, public :: TIOCM_RTS  = int(z'004')
+    integer(kind=c_int), parameter, public :: TIOCM_ST   = int(z'008')
+    integer(kind=c_int), parameter, public :: TIOCM_SR   = int(z'010')
+    integer(kind=c_int), parameter, public :: TIOCM_CTS  = int(z'020')
+    integer(kind=c_int), parameter, public :: TIOCM_CAR  = int(z'040')
+    integer(kind=c_int), parameter, public :: TIOCM_RNG  = int(z'080')
+    integer(kind=c_int), parameter, public :: TIOCM_DSR  = int(z'100')
+    integer(kind=c_int), parameter, public :: TIOCM_CD   = TIOCM_CAR
+    integer(kind=c_int), parameter, public :: TIOCM_RI   = TIOCM_RNG
+    integer(kind=c_int), parameter, public :: TIOCM_OUT1 = int(z'2000')
+    integer(kind=c_int), parameter, public :: TIOCM_OUT2 = int(z'4000')
+    integer(kind=c_int), parameter, public :: TIOCM_LOOP = int(z'8000')
+
 #elif defined (__FreeBSD__)
 
     integer, parameter, public :: c_cc_t     = c_unsigned_int
@@ -267,6 +282,26 @@ module unix_termios
     integer(kind=c_int), parameter, public :: B230400 = 230400
     integer(kind=c_int), parameter, public :: B460800 = 460800
     integer(kind=c_int), parameter, public :: B921600 = 921600
+
+    integer(kind=c_int), parameter, public :: TIOCM_LE  = int(o'0001') ! line enable
+    integer(kind=c_int), parameter, public :: TIOCM_DTR = int(o'0002') ! data terminal ready
+    integer(kind=c_int), parameter, public :: TIOCM_RTS = int(o'0004') ! request to send
+    integer(kind=c_int), parameter, public :: TIOCM_ST  = int(o'0010') ! secondary transmit
+    integer(kind=c_int), parameter, public :: TIOCM_SR  = int(o'0020') ! secondary receive
+    integer(kind=c_int), parameter, public :: TIOCM_CTS = int(o'0040') ! clear to send
+    integer(kind=c_int), parameter, public :: TIOCM_DCD = int(o'0100') ! data carrier detect
+    integer(kind=c_int), parameter, public :: TIOCM_RI  = int(o'0200') ! ring indicate
+    integer(kind=c_int), parameter, public :: TIOCM_DSR = int(o'0400') ! data set ready
+    integer(kind=c_int), parameter, public :: TIOCM_CD  = TIOCM_DCD
+    integer(kind=c_int), parameter, public :: TIOCM_CAR = TIOCM_DCD
+    integer(kind=c_int), parameter, public :: TIOCM_RNG = TIOCM_RI
+
+    integer(kind=c_int), parameter, public :: TIOCMGET  = int(z'4004746a')
+    integer(kind=c_int), parameter, public :: TIOCMBIC  = int(z'8004746b')
+    integer(kind=c_int), parameter, public :: TIOCMBIS  = int(z'8004746c')
+    integer(kind=c_int), parameter, public :: TIOCMSET  = int(z'8004746d')
+    integer(kind=c_int), parameter, public :: TIOCSTART = int(z'2000746e')
+    integer(kind=c_int), parameter, public :: TIOCSTOP  = int(z'2000746f')
 
 #endif
 

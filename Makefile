@@ -44,6 +44,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_dirent.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_fcntl.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ioctl.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ipc.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_mqueue.F90
@@ -57,17 +58,18 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdio.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdlib.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_string.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_syslog.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_termios.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90
 	$(CC) $(CFLAGS) -c src/errno.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
-                               unix_ipc.o unix_mqueue.o unix_msg.o unix_netdb.o \
-                               unix_pthread.o unix_regex.o unix_signal.o unix_socket.o \
-                               unix_stat.o unix_stdio.o unix_stdlib.o \
-                               unix_string.o unix_termios.o unix_time.o unix_types.o \
-                               unix_unistd.o unix_wait.o errno.o
+                               unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
+                               unix_netdb.o unix_pthread.o unix_regex.o unix_signal.o \
+                               unix_socket.o unix_stat.o unix_stdio.o unix_stdlib.o \
+                               unix_string.o unix_syslog.o unix_termios.o unix_time.o \
+                               unix_types.o unix_unistd.o unix_wait.o errno.o
 
 # Examples
 dirent: $(TARGET)
