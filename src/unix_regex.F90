@@ -10,7 +10,7 @@ module unix_regex
     integer, parameter, public :: c_regoff_t = c_size_t
 
     type, bind(c), public :: c_regex_t
-        integer(kind=c_size_t) :: re_nsub
+        character(kind=c_char) :: hidden(64)
     end type c_regex_t
 
     integer(kind=c_int), parameter, public :: REG_EXTENDED = 1
@@ -162,7 +162,7 @@ module unix_regex
         subroutine c_regfree(preg) bind(c, name='regfree')
             import :: c_regex_t
             implicit none
-            type(c_regex_t), intent(in) :: preg
+            type(c_regex_t), intent(inout) :: preg
         end subroutine c_regfree
     end interface
 end module unix_regex

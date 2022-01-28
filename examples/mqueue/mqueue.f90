@@ -54,6 +54,7 @@ program main
     character(len=32)     :: msg    ! Sample message.
     character(len=16384)  :: buf    ! Input buffer (must be greater than the MQ max. message size).
     integer(kind=c_mqd_t) :: mqds   ! MQ file descriptor.
+    integer               :: prio   ! Priority.
     integer               :: rc     ! Return code.
     integer(kind=8)       :: sz     ! Bytes received.
     type(c_mq_attr)       :: attr   ! MQ attributes.
@@ -94,7 +95,7 @@ program main
     print '(a)', 'Waiting for message ...'
 
     buf = ' ' ! Make sure to clear buffer!
-    sz  = c_mq_receive(mqds, buf, len(buf, 8), 0)
+    sz  = c_mq_receive(mqds, buf, len(buf, 8), prio)
 
     if (sz < 0) then
         call c_perror('mq_receive()' // c_null_char)
