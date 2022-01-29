@@ -195,14 +195,6 @@ module unix_termios
     integer(kind=c_int), parameter, public :: TCSAFLUSH = 2          ! drain output, flush input
     integer(kind=c_int), parameter, public :: TCSASOFT  = int(z'10') ! flag - don't alter h.w. state
 
-    integer(kind=c_int), parameter, public :: TCIFLUSH  = 1
-    integer(kind=c_int), parameter, public :: TCOFLUSH  = 2
-    integer(kind=c_int), parameter, public :: TCIOFLUSH = 3
-    integer(kind=c_int), parameter, public :: TCOOFF    = 1
-    integer(kind=c_int), parameter, public :: TCOON     = 2
-    integer(kind=c_int), parameter, public :: TCIOFF    = 3
-    integer(kind=c_int), parameter, public :: TCION     = 4
-
     ! Input flags (software input processing).
     integer(kind=c_int), parameter, public :: IGNBRK  = int(z'000001') ! ignore BREAK condition
     integer(kind=c_int), parameter, public :: BRKINT  = int(z'000002') ! map BREAK to SIGINTR
@@ -217,6 +209,10 @@ module unix_termios
     integer(kind=c_int), parameter, public :: IXOFF   = int(z'000400') ! enable input flow control
     integer(kind=c_int), parameter, public :: IXANY   = int(z'000800') ! any char will restart after stop
     integer(kind=c_int), parameter, public :: IMAXBEL = int(z'002000') ! ring bell on input queue full
+
+    ! Output flags.
+    integer(kind=c_int), parameter, public :: OPOST = int(o'000001')
+    integer(kind=c_int), parameter, public :: ONLCR = int(o'000002')
 
     ! Control flags (hardware control of terminal).
     integer(kind=c_int), parameter, public :: CIGNORE    = int(z'000001') ! ignore control flags
@@ -256,6 +252,14 @@ module unix_termios
     integer(kind=c_int), parameter, public :: NOKERNINFO = int(z'02000000') ! no kernel output from VSTATUS
     integer(kind=c_int), parameter, public :: PENDIN     = int(z'20000000') ! XXX retype pending input (state)
     integer(kind=c_int), parameter, public :: NOFLSH     = int(z'80000000') ! don't flush after interrupt
+
+    integer(kind=c_int), parameter, public :: TCIFLUSH  = 1
+    integer(kind=c_int), parameter, public :: TCOFLUSH  = 2
+    integer(kind=c_int), parameter, public :: TCIOFLUSH = 3
+    integer(kind=c_int), parameter, public :: TCOOFF    = 1
+    integer(kind=c_int), parameter, public :: TCOON     = 2
+    integer(kind=c_int), parameter, public :: TCIOFF    = 3
+    integer(kind=c_int), parameter, public :: TCION     = 4
 
     integer(kind=c_int), parameter, public :: B0      = 0
     integer(kind=c_int), parameter, public :: B50     = 50
