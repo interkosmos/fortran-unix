@@ -88,11 +88,11 @@ module unix_stdio
 
         ! int fprintf(FILE *stream, const char *format, ...)
         function c_fprintf(stream, format) bind(c, name='fprintf')
-            import :: c_char, c_int
+            import :: c_char, c_int, c_ptr
             implicit none
-            integer(kind=c_int),    intent(in) :: stream
-            character(kind=c_char), intent(in) :: format
-            integer(kind=c_int)                :: c_fprintf
+            type(c_ptr),            intent(in), value :: stream
+            character(kind=c_char), intent(in)        :: format
+            integer(kind=c_int)                       :: c_fprintf
         end function c_fprintf
 
         ! int fputs(const char *str, FILE *stream)
