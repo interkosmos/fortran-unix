@@ -12,7 +12,7 @@ module unix_pthread
     public :: c_pthread_mutex_trylock
     public :: c_pthread_mutex_unlock
 
-    integer, parameter :: PTHREAD_SIZE       = 2    ! 8 Bytes.
+    integer, parameter :: PTHREAD_SIZE       = 8    ! 8 Bytes.
 
 #if defined (__linux__)
 
@@ -26,7 +26,7 @@ module unix_pthread
 
     type, bind(c), public :: c_pthread_t
         private
-        integer(kind=c_int) :: hidden(PTHREAD_SIZE)
+        character(kind=c_char) :: hidden(PTHREAD_SIZE)
     end type c_pthread_t
 
     type, bind(c), public :: c_pthread_mutex_t

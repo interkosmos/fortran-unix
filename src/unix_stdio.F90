@@ -11,6 +11,7 @@ module unix_stdio
     public :: c_fgetc
     public :: c_fgets
     public :: c_fopen
+    public :: c_fprintf
     public :: c_fputs
     public :: c_pclose
     public :: c_perror
@@ -85,13 +86,14 @@ module unix_stdio
             type(c_ptr)                        :: c_fopen
         end function c_fopen
 
-        ! int putchar(int char)
-        function c_putchar(char) bind(c, name='putchar')
-            import :: c_int
+        ! int fprintf(FILE *stream, const char *format, ...)
+        function c_fprintf(stream, format) bind(c, name='fprintf')
+            import :: c_char, c_int
             implicit none
-            integer(kind=c_int), intent(in), value :: char
-            integer(kind=c_int)                    :: c_putchar
-        end function c_putchar
+            integer(kind=c_int),    intent(in) :: stream
+            character(kind=c_char), intent(in) :: format
+            integer(kind=c_int)                :: c_fprintf
+        end function c_fprintf
 
         ! int fputs(const char *str, FILE *stream)
         function c_fputs(str, stream) bind(c, name='fputs')
@@ -125,6 +127,14 @@ module unix_stdio
             character(kind=c_char), intent(in) :: type
             type(c_ptr)                        :: c_popen
         end function c_popen
+
+        ! int putchar(int char)
+        function c_putchar(char) bind(c, name='putchar')
+            import :: c_int
+            implicit none
+            integer(kind=c_int), intent(in), value :: char
+            integer(kind=c_int)                    :: c_putchar
+        end function c_putchar
 
         ! int scanf(const char *format, ...)
         function c_scanf(format, str) bind(c, name='scanf')
