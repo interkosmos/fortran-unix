@@ -6,6 +6,8 @@ module unix_time
     private
 
     public :: c_asctime
+    public :: c_localtime_r
+    public :: c_strftime
     public :: c_time
 
     type, bind(c), public :: c_tm
@@ -34,12 +36,31 @@ module unix_time
             type(c_ptr)            :: c_asctime
         end function c_asctime
 
+        ! struct tm *localtime_r(const time_t *restrict timer, struct tm *restrict result)
+        function c_localtime_r(timer, result) bind(c, name='localtime_r')
+            import :: c_ptr, c_time_t, c_tm
+            integer(kind=c_time_t), intent(in)    :: timer
+            type(c_tm),             intent(inout) :: result
+            type(c_ptr)                           :: c_localtime_r
+        end function c_localtime_r
+
+        ! size_t strftime(char *restrict s, size_t max, const char *restrict format, const struct tm *restrict tm)
+        function c_strftime(s, max, format, tm) bind(c, name='strftime')
+            import :: c_char, c_size_t, c_tm
+            implicit none
+            character(kind=c_char), intent(in)        :: s
+            integer(kind=c_size_t), intent(in), value :: max
+            character(kind=c_char), intent(in)        :: format
+            type(c_tm),             intent(in)        :: tm
+            integer(kind=c_size_t)                    :: c_strftime
+        end function c_strftime
+
         ! time_t time(time_t *tloc)
         function c_time(tloc) bind(c, name='time')
-            import :: c_long
+            import :: c_time_t
             implicit none
-            integer(kind=c_long), intent(in), value :: tloc
-            integer(kind=c_long)                    :: c_time
+            integer(kind=c_time_t), intent(in), value :: tloc
+            integer(kind=c_time_t)                    :: c_time
         end function c_time
     end interface
 end module unix_time

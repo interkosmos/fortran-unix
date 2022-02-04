@@ -66,7 +66,7 @@ contains
     function f_strerror(errnum)
         !! Wrapper function for `c_strerr()` that converts the returned C char
         !! array pointer to Fortran string.
-        integer,           intent(in) :: errnum
+        integer, intent(in)           :: errnum
         character(len=:), allocatable :: f_strerror
         type(c_ptr)                   :: ptr
         integer(kind=8)               :: size
