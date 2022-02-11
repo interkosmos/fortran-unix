@@ -16,7 +16,7 @@ program main
     type(c_utsname)    :: utsname
 
     rc = c_uname(utsname)
-    if (rc /= 0) stop 'Error: c_uname() failed'
+    if (rc /= 0) stop 'Error: uname() failed'
 
     call c_f_str_chars(utsname%sysname, sys_name)
     call c_f_str_chars(utsname%nodename, node_name)

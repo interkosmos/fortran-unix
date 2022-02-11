@@ -10,17 +10,37 @@ module unix_time
     public :: c_strftime
     public :: c_time
 
+#if defined (__linux__)
+
     type, bind(c), public :: c_tm
-        integer(kind=c_int) :: tm_sec   ! Seconds after minute (0 - 59).
-        integer(kind=c_int) :: tm_min   ! Minutes after hour (0 - 59).
-        integer(kind=c_int) :: tm_hour  ! Hours since midnight (0 - 23).
-        integer(kind=c_int) :: tm_mday  ! Day of month (1 - 31).
-        integer(kind=c_int) :: tm_mon   ! Month (0 - 11).
-        integer(kind=c_int) :: tm_year  ! Year (current year minus 1900).
-        integer(kind=c_int) :: tm_wday  ! Day of week (0 - 6; Sunday = 0).
-        integer(kind=c_int) :: tm_yday  ! Day of year (0 - 365).
-        integer(kind=c_int) :: tm_isdst ! Positive if daylight saving time is in effect.
+        integer(kind=c_int)  :: tm_sec     = 0
+        integer(kind=c_int)  :: tm_min     = 0
+        integer(kind=c_int)  :: tm_hour    = 0
+        integer(kind=c_int)  :: tm_mday    = 0
+        integer(kind=c_int)  :: tm_mon     = 0
+        integer(kind=c_int)  :: tm_year    = 0
+        integer(kind=c_int)  :: tm_wday    = 0
+        integer(kind=c_int)  :: tm_yday    = 0
+        integer(kind=c_int)  :: tm_isdst   = 0
+        integer(kind=c_long) :: tm_gmtoff  = 0_8
+        type(c_ptr)          :: tm_zone    = c_null_ptr
     end type c_tm
+
+#elif defined (__FreeBSD__)
+
+    type, bind(c), public :: c_tm
+        integer(kind=c_int) :: tm_sec    = 0 ! Seconds after minute (0 - 59).
+        integer(kind=c_int) :: tm_min    = 0 ! Minutes after hour (0 - 59).
+        integer(kind=c_int) :: tm_hour   = 0 ! Hours since midnight (0 - 23).
+        integer(kind=c_int) :: tm_mday   = 0 ! Day of month (1 - 31).
+        integer(kind=c_int) :: tm_mon    = 0 ! Month (0 - 11).
+        integer(kind=c_int) :: tm_year   = 0 ! Year (current year minus 1900).
+        integer(kind=c_int) :: tm_wday   = 0 ! Day of week (0 - 6; Sunday = 0).
+        integer(kind=c_int) :: tm_yday   = 0 ! Day of year (0 - 365).
+        integer(kind=c_int) :: tm_isdst  = 0 ! Positive if daylight saving time is in effect.
+    end type c_tm
+
+#endif
 
     type, bind(c), public :: c_timespec
         integer(kind=c_time_t) :: tv_sec
