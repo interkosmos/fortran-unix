@@ -8,7 +8,7 @@ program main
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
-    character(len=19)             :: iso
+    character(len=32)             :: iso
     character(len=:), allocatable :: str
     integer(kind=8)               :: rc
     integer(kind=c_time_t)        :: ts
