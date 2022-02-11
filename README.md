@@ -79,6 +79,7 @@ Examples are provided in directory `examples/`:
 * **signal** catches SIGINT (`CTRL` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server (requires *nc(1)*).
 * **time** prints out the results of time functions.
+* **uname** prints OS information from `uname()`.
 
 Build the examples with:
 
