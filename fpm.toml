@@ -92,3 +92,8 @@ main = "time.f90"
 name = "uname"
 source-dir = "examples/uname"
 main = "uname.f90"
+
+[[example]]
+name = "uptime"
+source-dir = "examples/uptime"
+main = "uptime.f90"

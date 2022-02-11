@@ -121,8 +121,11 @@ time: $(TARGET)
 uname: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uname examples/uname/uname.f90 $(TARGET) $(LDLIBS)
 
+uptime: $(TARGET)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
+
 examples: dirent fifo fork irc mqueue mutex msg os pid pthread regex \
-          serial signal socket time uname
+          serial signal socket time uname uptime
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
@@ -144,3 +147,4 @@ clean:
 	if [ -e socket ]; then rm socket; fi
 	if [ -e time ]; then rm time; fi
 	if [ -e uname ]; then rm uname; fi
+	if [ -e uptime ]; then rm uptime; fi

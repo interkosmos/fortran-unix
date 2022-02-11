@@ -6,11 +6,26 @@ module unix_time
     private
 
     public :: c_asctime
+    public :: c_clock_gettime
     public :: c_localtime_r
     public :: c_strftime
     public :: c_time
 
 #if defined (__linux__)
+
+    integer(kind=c_int), parameter, public :: CLOCK_REALTIME           = 0
+    integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC          = 1
+    integer(kind=c_int), parameter, public :: CLOCK_PROCESS_CPUTIME_ID = 2
+    integer(kind=c_int), parameter, public :: CLOCK_THREAD_CPUTIME_ID  = 3
+    integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC_RAW      = 4
+    integer(kind=c_int), parameter, public :: CLOCK_REALTIME_COARSE    = 5
+    integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC_COARSE   = 6
+    integer(kind=c_int), parameter, public :: CLOCK_BOOTTIME           = 7
+    integer(kind=c_int), parameter, public :: CLOCK_REALTIME_ALARM     = 8
+    integer(kind=c_int), parameter, public :: CLOCK_BOOTTIME_ALARM     = 9
+    integer(kind=c_int), parameter, public :: CLOCK_TAI                = 11
+
+    integer(kind=c_int), parameter, public :: TIMER_ABSTIME = 1
 
     type, bind(c), public :: c_tm
         integer(kind=c_int)  :: tm_sec     = 0
@@ -27,6 +42,21 @@ module unix_time
     end type c_tm
 
 #elif defined (__FreeBSD__)
+
+    integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC          = 4
+    integer(kind=c_int), parameter, public :: CLOCK_UPTIME             = 5
+    integer(kind=c_int), parameter, public :: CLOCK_UPTIME_PRECISE     = 7
+    integer(kind=c_int), parameter, public :: CLOCK_UPTIME_FAST        = 8
+    integer(kind=c_int), parameter, public :: CLOCK_REALTIME_PRECISE   = 9
+    integer(kind=c_int), parameter, public :: CLOCK_REALTIME_FAST      = 10
+    integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC_PRECISE  = 11
+    integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC_FAST     = 12
+    integer(kind=c_int), parameter, public :: CLOCK_SECOND             = 13
+    integer(kind=c_int), parameter, public :: CLOCK_THREAD_CPUTIME_ID  = 14
+    integer(kind=c_int), parameter, public :: CLOCK_PROCESS_CPUTIME_ID = 15
+
+    integer(kind=c_int), parameter, public :: TIMER_RELTIME = 0
+    integer(kind=c_int), parameter, public :: TIMER_ABSTIME = 1
 
     type, bind(c), public :: c_tm
         integer(kind=c_int) :: tm_sec    = 0 ! Seconds after minute (0 - 59).
@@ -55,6 +85,15 @@ module unix_time
             type(c_tm), intent(in) :: timeptr
             type(c_ptr)            :: c_asctime
         end function c_asctime
+
+        ! int clock_gettime(clockid_t clk_id, struct timespec *tp)
+        function c_clock_gettime(clk_id, tp) bind(c, name='clock_gettime')
+            import :: c_clockid_t, c_int, c_timespec
+            implicit none
+            integer(kind=c_clockid_t), intent(in), value :: clk_id
+            type(c_timespec),          intent(out)       :: tp
+            integer(kind=c_int)                          :: c_clock_gettime
+        end function c_clock_gettime
 
         ! struct tm *localtime_r(const time_t *restrict timer, struct tm *restrict result)
         function c_localtime_r(timer, result) bind(c, name='localtime_r')
