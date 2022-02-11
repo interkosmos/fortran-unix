@@ -87,3 +87,8 @@ main = "socket.f90"
 name = "time"
 source-dir = "examples/time"
 main = "time.f90"
+
+[[example]]
+name = "uname"
+source-dir = "examples/uname"
+main = "uname.f90"

@@ -61,6 +61,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_syslog.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_termios.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_utsname.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90
 	$(CC) $(CFLAGS) -c src/errno.c
@@ -69,7 +70,7 @@ $(TARGET):
                                unix_netdb.o unix_pthread.o unix_regex.o unix_signal.o \
                                unix_socket.o unix_stat.o unix_stdio.o unix_stdlib.o \
                                unix_string.o unix_syslog.o unix_termios.o unix_time.o \
-                               unix_types.o unix_unistd.o unix_wait.o errno.o
+                               unix_types.o unix_unistd.o unix_utsname.o unix_wait.o errno.o
 
 # Examples
 dirent: $(TARGET)
@@ -117,8 +118,11 @@ socket: $(TARGET)
 time: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o time examples/time/time.f90 $(TARGET) $(LDLIBS)
 
+uname: $(TARGET)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uname examples/uname/uname.f90 $(TARGET) $(LDLIBS)
+
 examples: dirent fifo fork irc mqueue mutex msg os pid pthread regex \
-          serial signal socket time
+          serial signal socket time uname
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
@@ -139,3 +143,4 @@ clean:
 	if [ -e signal ]; then rm signal; fi
 	if [ -e socket ]; then rm socket; fi
 	if [ -e time ]; then rm time; fi
+	if [ -e uname ]; then rm uname; fi

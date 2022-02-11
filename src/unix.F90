@@ -28,6 +28,7 @@ module unix
     use :: unix_time
     use :: unix_types
     use :: unix_unistd
+    use :: unix_utsname
     use :: unix_wait
     implicit none
 
