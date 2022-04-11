@@ -55,13 +55,13 @@ contains
         fd = c_open(trim(port_name) // c_null_char, flags, 0)
     end function serial_open
 
-    integer(kind=8) function serial_read(fd, a) result(n)
+    integer(kind=i8) function serial_read(fd, a) result(n)
         !! Reads a single byte from file descriptor to `a`. Returns number of
         !! bytes read.
         integer,           intent(in)  :: fd
         character, target, intent(out) :: a
 
-        n = c_read(fd, c_loc(a), int(1, kind=8))
+        n = c_read(fd, c_loc(a), int(1, kind=i8))
     end function serial_read
 
     integer function serial_set_attributes(fd, speed, byte_size, stop_bits, parity, timeout) result(rc)
@@ -145,12 +145,12 @@ contains
         rc = c_tcsetattr(fd, TCSANOW, tty)
     end function serial_set_blocking
 
-    integer(kind=8) function serial_write(fd, a) result(n)
+    integer(kind=i8) function serial_write(fd, a) result(n)
         !! Writes single byte to terminal, returns number of bytes written.
         integer,           intent(in) :: fd
         character, target, intent(in) :: a
 
-        n = c_write(fd, c_loc(a), int(1, kind=8))
+        n = c_write(fd, c_loc(a), int(1, kind=i8))
     end function serial_write
 end module serial
 
@@ -160,7 +160,7 @@ program main
     implicit none
     character         :: a
     integer           :: fd, rc
-    integer(kind=8)   :: n
+    integer(kind=i8)  :: n
     character(len=72) :: path
 
     ! Get path to pseudo-terminal.

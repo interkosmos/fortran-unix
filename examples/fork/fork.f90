@@ -53,7 +53,7 @@ program main
         print '(a)', '<<< parent process is sending message ...'
         msg = 'Hi, there!'
 
-        if (c_write(pfds(WRITE_END), c_loc(msg), len(msg, kind=8)) < 0) &
+        if (c_write(pfds(WRITE_END), c_loc(msg), len(msg, kind=i8)) < 0) &
             print '(a)', 'writing to pipe failed'
 
         rc = c_close(pfds(WRITE_END))

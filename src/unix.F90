@@ -7,6 +7,7 @@
 ! Licence: ISC
 module unix
     use, intrinsic :: iso_c_binding
+    use, intrinsic :: iso_fortran_env, only: i8 => int64
     use :: unix_dirent
     use :: unix_errno
     use :: unix_fcntl
@@ -44,7 +45,7 @@ contains
     pure function copy(a)
         character, intent(in)  :: a(:)
         character(len=size(a)) :: copy
-        integer(kind=8)        :: i
+        integer(kind=i8)       :: i
 
         do i = 1, size(a)
             copy(i:i) = a(i)
@@ -70,7 +71,7 @@ contains
         integer, intent(in)           :: errnum
         character(len=:), allocatable :: f_strerror
         type(c_ptr)                   :: ptr
-        integer(kind=8)               :: size
+        integer(kind=i8)              :: size
 
         ptr = c_strerror(errnum)
         if (.not. c_associated(ptr)) return
@@ -99,7 +100,7 @@ contains
         type(c_ptr),                   intent(in)  :: c_str
         character(len=:), allocatable, intent(out) :: f_str
         character(kind=c_char), pointer            :: ptrs(:)
-        integer(kind=8)                            :: sz
+        integer(kind=i8)                           :: sz
 
         if (.not. c_associated(c_str)) return
         sz = c_strlen(c_str)
@@ -113,7 +114,7 @@ contains
         !! Copies a Fortran string to a C char array.
         character(len=*),       intent(in)    :: f_str
         character(kind=c_char), intent(inout) :: c_str(:)
-        integer(kind=8)                       :: i
+        integer(kind=i8)                      :: i
 
         i = 1
 

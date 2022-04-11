@@ -14,7 +14,7 @@ module ipc
     public :: ipc_send
 
     integer(kind=c_size_t), parameter, public :: MESSAGE_LEN  = 512 ! Message length.
-    integer(kind=8),        parameter, public :: MESSAGE_TYPE = 1   ! Message type id.
+    integer(kind=i8),       parameter, public :: MESSAGE_TYPE = 1   ! Message type id.
 
     ! Our message type implementation.
     type, bind(c), public :: c_message_type
@@ -26,10 +26,10 @@ contains
         !! Waits for message of given type and returns message text. Calling the
         !! function is blocking, unless `flag` is set to `IPC_NOWAIT`.
         integer,          intent(in)  :: msqid
-        integer(kind=8),  intent(in)  :: type
+        integer(kind=i8), intent(in)  :: type
         character(len=*), intent(out) :: text
         integer,          intent(in)  :: flag
-        integer(kind=8)               :: ipc_receive
+        integer(kind=i8)              :: ipc_receive
         type(c_message_type), target  :: message
 
         ipc_receive = c_msgrcv(msqid, c_loc(message), c_sizeof(message%text), type, flag)
@@ -43,7 +43,7 @@ contains
         !! Converts Fortran string to C char array, and then sends message of
         !! given type by calling `c_msgsnd()`.
         integer,          intent(in) :: msqid
-        integer(kind=8),  intent(in) :: type
+        integer(kind=i8), intent(in) :: type
         character(len=*), intent(in) :: text
         integer,          intent(in) :: flag
         integer                      :: ipc_send

@@ -27,7 +27,7 @@ program main
 
     character(len=512), target :: buffer                ! Input buffer.
     integer                    :: sock_fd               ! Socket file descriptor.
-    integer(kind=8)            :: n, rc
+    integer(kind=i8)           :: n, rc
 
     ! Connect to TCP server.
     write (stdout, '(3a, i0, a)') 'Connecting to ', trim(HOST), ':', PORT, ' ...'
@@ -46,7 +46,7 @@ program main
 
     do
         ! Read from socket.
-        n = c_read(sock_fd, c_loc(buffer), len(buffer, kind=8))
+        n = c_read(sock_fd, c_loc(buffer), len(buffer, kind=i8))
 
         ! Exit on error.
         if (n <= 0) exit
@@ -146,7 +146,7 @@ contains
         socket_connect = sock_fd
     end function socket_connect
 
-    integer(kind=8) function socket_send(socket, str)
+    integer(kind=i8) function socket_send(socket, str)
         !! Writes given string to socket.
         character(len=2), parameter           :: CR_LF = char(13) // char(10)
         integer,          intent(in)          :: socket
@@ -154,7 +154,7 @@ contains
         character(len=:), allocatable, target :: str_esc
 
         str_esc     = trim(str) // CR_LF
-        socket_send = c_write(socket, c_loc(str_esc), len(str_esc, kind=8))
+        socket_send = c_write(socket, c_loc(str_esc), len(str_esc, kind=i8))
 
         write (stdout, '(">>> ", a, " (", i0, " Byte)")') trim(str), socket_send
     end function socket_send

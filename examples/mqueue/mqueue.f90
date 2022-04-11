@@ -56,7 +56,7 @@ program main
     integer(kind=c_mqd_t) :: mqds   ! MQ file descriptor.
     integer               :: prio   ! Priority.
     integer               :: rc     ! Return code.
-    integer(kind=8)       :: sz     ! Bytes received.
+    integer(kind=i8)      :: sz     ! Bytes received.
     type(c_mq_attr)       :: attr   ! MQ attributes.
 
     ! Unlink, if MQ already exists.

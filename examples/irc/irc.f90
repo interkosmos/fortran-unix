@@ -106,7 +106,7 @@ contains
         irc_connect = sock_fd
     end function irc_connect
 
-    integer(kind=8) function irc_send(socket, str)
+    integer(kind=i8) function irc_send(socket, str)
         !! Sends string to socket (raw).
         character(len=2), parameter           :: CR_LF = char(13) // char(10)
         integer,          intent(in)          :: socket
@@ -114,12 +114,12 @@ contains
         character(len=:), allocatable, target :: str_esc
 
         str_esc  = trim(str) // CR_LF
-        irc_send = c_write(socket, c_loc(str_esc), len(str_esc, kind=8))
+        irc_send = c_write(socket, c_loc(str_esc), len(str_esc, kind=i8))
 
         write (*, '("*** ", a, " (", i0, " Bytes)")') trim(str), irc_send
     end function irc_send
 
-    integer(kind=8) function irc_send_message(socket, channel, str)
+    integer(kind=i8) function irc_send_message(socket, channel, str)
         !! Sends string as IRC message (PRIVMSG) to channel.
         integer,          intent(in)  :: socket
         character(len=*), intent(in)  :: channel
@@ -144,8 +144,8 @@ program main
     integer,          parameter :: IRC_PORT     = 6667
 
     character(len=512), target :: buffer                 ! Received message.
-    integer(kind=8)            :: n                      ! Bytes read/written.
-    integer(kind=8)            :: rc                     ! Return code.
+    integer(kind=i8)           :: n                      ! Bytes read/written.
+    integer(kind=i8)           :: rc                     ! Return code.
     integer                    :: sock_fd                ! Socket file descriptor.
     logical                    :: is_logged_in = .false. ! Send credentials.
 
@@ -169,7 +169,7 @@ program main
     ! Event loop.
     do
         ! Read from socket.
-        n = c_read(sock_fd, c_loc(buffer), len(buffer, kind=8))
+        n = c_read(sock_fd, c_loc(buffer), len(buffer, kind=i8))
         if (n <= 0) exit
 
         ! Write buffer to standard output.

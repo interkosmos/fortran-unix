@@ -80,6 +80,7 @@ Examples are provided in directory `examples/`:
 * **socket** creates a TCP/IP connection to a local netcat server (requires *nc(1)*).
 * **time** prints out the results of time functions.
 * **uname** prints OS information from `uname()`.
+* **uptime** outputs system uptime.
 
 Build the examples with:
 

@@ -10,7 +10,7 @@ program main
     implicit none
     character(len=32)             :: iso
     character(len=:), allocatable :: str
-    integer(kind=8)               :: rc
+    integer(kind=i8)              :: rc
     integer(kind=c_time_t)        :: ts
     type(c_tm)                    :: tm1, tm2
     type(c_ptr)                   :: ptr, str_ptr

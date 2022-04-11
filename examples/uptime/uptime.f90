@@ -9,7 +9,7 @@ program main
     use :: unix
     implicit none
     integer          :: rc
-    integer(kind=8)  :: days, hrs, mins, secs, uptime
+    integer(kind=i8) :: days, hrs, mins, secs, uptime
     type(c_timespec) :: tp
 
     rc = c_clock_gettime(CLOCK_MONOTONIC, tp)

@@ -13,7 +13,7 @@ program main
 
     character(len=32), target :: err
     integer                   :: rc
-    integer(kind=8)           :: sz
+    integer(kind=i8)          :: sz
     type(c_regex_t)           :: regex
 
     ! Compile regular expression.
@@ -26,7 +26,7 @@ program main
         sz = c_regerror(errcode     = rc, &
                         preg        = regex, &
                         errbuf      = c_loc(err), &
-                        errbuf_size = len(err, kind=8))
+                        errbuf_size = len(err, kind=i8))
 
         if (sz > 0) then
             print '(2a)', 'regcomp(): ', trim(err)
@@ -38,7 +38,7 @@ program main
     ! Execute regular expression. Returns `0`, if pattern matches.
     rc = c_regexec(preg   = regex, &
                    string = STRING // c_null_char, &
-                   nmatch = int(0, kind=8), &
+                   nmatch = int(0, kind=i8), &
                    pmatch = c_null_ptr, &
                    eflags = 0)
 
