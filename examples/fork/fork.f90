@@ -39,7 +39,7 @@ program main
         print '(a)', '>>> child process is receiving message ...'
 
         ! Read message from pipe, byte by byte.
-        do while (c_read(pfds(READ_END), c_loc(buf), 1_8) > 0)
+        do while (c_read(pfds(READ_END), c_loc(buf), 1_i8) > 0)
             write (*, '(a)', advance='no') buf
         end do
 

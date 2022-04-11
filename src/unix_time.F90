@@ -37,7 +37,7 @@ module unix_time
         integer(kind=c_int)  :: tm_wday    = 0
         integer(kind=c_int)  :: tm_yday    = 0
         integer(kind=c_int)  :: tm_isdst   = 0
-        integer(kind=c_long) :: tm_gmtoff  = 0_8
+        integer(kind=c_long) :: tm_gmtoff  = 0_c_long
         type(c_ptr)          :: tm_zone    = c_null_ptr
     end type c_tm
 

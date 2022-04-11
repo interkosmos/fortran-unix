@@ -18,12 +18,12 @@ program main
     uptime = tp%tv_sec
     if (uptime > 60) uptime = uptime + 30
 
-    days   = uptime / 86400
-    uptime = modulo(uptime, 86400_8)
-    hrs    = uptime / 3600
-    uptime = modulo(uptime, 3600_8)
+    days   = uptime / 864008
+    uptime = modulo(uptime, 86400_i8)
+    hrs    = uptime / 36008
+    uptime = modulo(uptime, 3600_i8)
     mins   = uptime / 60
-    secs   = modulo(uptime, 60_8)
+    secs   = modulo(uptime, 60_i8)
 
     write (*, '(" up")', advance='no')
 

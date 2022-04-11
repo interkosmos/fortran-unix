@@ -96,7 +96,7 @@ contains
         hints%ai_socktype  = SOCK_STREAM
         hints%ai_flags     = 0
         hints%ai_protocol  = 0
-        hints%ai_addrlen   = 0_8
+        hints%ai_addrlen   = 0_i8
         hints%ai_canonname = c_null_ptr
         hints%ai_addr      = c_null_ptr
         hints%ai_next      = c_null_ptr
