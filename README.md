@@ -49,13 +49,13 @@ $ make FC=gfortran OS=linux PREFIX=/usr
 Using fpm, preprocessor flags have to be passed to GNU Fortran:
 
 ```
-$ fpm build --profile release --flag="-D__linux__"
+$ fpm build --profile=release --flag="-D__linux__"
 ```
 
 Or:
 
 ```
-$ fpm build --profile release --flag="-D__FreeBSD__"
+$ fpm build --profile=release --flag="-D__FreeBSD__"
 ```
 
 Link your Fortran application with `libfortran-unix.a`, and optionally with

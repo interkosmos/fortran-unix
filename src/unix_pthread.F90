@@ -5,6 +5,7 @@ module unix_pthread
     private
 
     public :: c_pthread_create
+    public :: c_pthread_detach
     public :: c_pthread_join
     public :: c_pthread_mutex_destroy
     public :: c_pthread_mutex_init
@@ -45,6 +46,14 @@ module unix_pthread
             type(c_ptr),       intent(in), value :: arg
             integer(kind=c_int)                  :: c_pthread_create
         end function c_pthread_create
+
+        ! int pthread_detach(pthread_t thread)
+        function c_pthread_detach(thread) bind(c, name='pthread_detach')
+            import :: c_int, c_ptr, c_pthread_t
+            implicit none
+            type(c_pthread_t), intent(in), value :: thread
+            integer(kind=c_int)                  :: c_pthread_detach
+        end function c_pthread_detach
 
         ! int pthread_join(pthread_t thread, void **value_ptr)
         function c_pthread_join(thread, value_ptr) bind(c, name='pthread_join')
