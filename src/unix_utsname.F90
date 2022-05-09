@@ -21,7 +21,7 @@ module unix_utsname
 
 #elif defined (__FreeBSD__)
 
-    integer(kind=c_int), parameter :: SYS_NMLN = 256
+    integer(kind=c_int), parameter :: SYS_NMLN = 32
 
     type, bind(c), public :: c_utsname
         character(kind=c_char) :: sysname(SYS_NMLN)
