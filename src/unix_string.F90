@@ -4,18 +4,29 @@ module unix_string
     implicit none
     private
 
+    public :: c_memcpy
     public :: c_memset
     public :: c_strerror
     public :: c_strlen
 
     interface
-        ! void *memset(void *s, int c, size_t n)
-        function c_memset(s, c, n) bind(c, name='memset')
+        ! void *memset(void *dst, const void *src, size_t len)
+        function c_memcpy(dst, src, len) bind(c, name='memset')
+            import :: c_ptr, c_size_t
+            implicit none
+            type(c_ptr),            intent(in), value :: dst
+            type(c_ptr),            intent(in), value :: src
+            integer(kind=c_size_t), intent(in), value :: len
+            type(c_ptr)                               :: c_memcpy
+        end function c_memcpy
+
+        ! void *memset(void *dest, int c, size_t len)
+        function c_memset(dest, c, len) bind(c, name='memset')
             import :: c_int, c_ptr, c_size_t
             implicit none
-            type(c_ptr),            intent(in), value :: s
+            type(c_ptr),            intent(in), value :: dest
             integer(kind=c_int),    intent(in), value :: c
-            integer(kind=c_size_t), intent(in), value :: n
+            integer(kind=c_size_t), intent(in), value :: len
             type(c_ptr)                               :: c_memset
         end function c_memset
 
