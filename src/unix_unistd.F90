@@ -5,6 +5,10 @@ module unix_unistd
     implicit none
     private
 
+    integer(kind=c_int), parameter, public :: STDIN_FILENO  = 0
+    integer(kind=c_int), parameter, public :: STDOUT_FILENO = 1
+    integer(kind=c_int), parameter, public :: STDERR_FILENO = 2
+
     public :: c_chdir
     public :: c_close
     public :: c_fork
