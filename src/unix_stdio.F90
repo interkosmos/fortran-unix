@@ -13,6 +13,8 @@ module unix_stdio
     public :: c_fopen
     public :: c_fprintf
     public :: c_fputs
+    public :: c_fread
+    public :: c_fwrite
     public :: c_pclose
     public :: c_perror
     public :: c_popen
@@ -103,6 +105,28 @@ module unix_stdio
             type(c_ptr),            intent(in), value :: stream
             integer(kind=c_int)                       :: c_fputs
         end function c_fputs
+
+        ! size_t fread(void *restrict ptr, size_t size, size_t nmemb, FILE *restrict stream)
+        function c_fread(ptr, size, nmemb, stream) bind(c, name='fread')
+            import :: c_ptr, c_size_t
+            implicit none
+            type(c_ptr),            intent(in), value :: ptr
+            integer(kind=c_size_t), intent(in), value :: size
+            integer(kind=c_size_t), intent(in), value :: nmemb
+            type(c_ptr),            intent(in), value :: stream
+            integer(kind=c_size_t)                    :: c_fread
+        end function c_fread
+
+        ! size_t fwrite(const void *restrict ptr, size_t size, size_t nmemb, FILE *restrict stream)
+        function c_fwrite(ptr, size, nmemb, stream) bind(c, name='fwrite')
+            import :: c_ptr, c_size_t
+            implicit none
+            type(c_ptr),            intent(in), value :: ptr
+            integer(kind=c_size_t), intent(in), value :: size
+            integer(kind=c_size_t), intent(in), value :: nmemb
+            type(c_ptr),            intent(in), value :: stream
+            integer(kind=c_size_t)                    :: c_fwrite
+        end function c_fwrite
 
         ! int pclose(FILE *stream)
         function c_pclose(stream) bind(c, name='pclose')

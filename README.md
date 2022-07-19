@@ -25,7 +25,7 @@ Similar libraries for modern Fortran:
 Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
 
-* FreeBSD 13 (GNU Fortran 11),
+* FreeBSD 13 (GNU Fortran 12),
 * CentOS 8 (GNU Fortran 8, Intel Fortran Compiler 19).
 
 Preprocessor macros are used to achieve platform-independent interoperability.
@@ -73,6 +73,7 @@ Examples are provided in directory `examples/`:
 * **mutex** demonstrates threaded access to variable using a mutex.
 * **os** returns the name of the operating system (Linux, macOS, FreeBSD, ...).
 * **pid** outputs the process id.
+* **pipe** creates anonymous pipes for bidirectional IPC.
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
 * **regex** calls POSIX regex functions.
 * **serial** shows some basic serial port input reading (requires *socat(1)* and *minicom(1)*).

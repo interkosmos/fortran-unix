@@ -34,7 +34,7 @@ LDLIBS  =
 TARGET  = libfortran-unix.a
 
 .PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pid \
-        pthread regex serial signal socket time
+        pipe pthread regex serial signal socket time
 
 all: $(TARGET)
 
@@ -100,6 +100,9 @@ os: $(TARGET)
 pid: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pid examples/pid/pid.f90 $(TARGET) $(LDLIBS)
 
+pipe: $(TARGET)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pipe examples/pipe/pipe.f90 $(TARGET) $(LDLIBS)
+
 pthread: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pthread examples/pthread/pthread.f90 $(TARGET) $(LDLIBS) -lpthread
 
@@ -124,7 +127,7 @@ uname: $(TARGET)
 uptime: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
 
-examples: dirent fifo fork irc mqueue mutex msg os pid pthread regex \
+examples: dirent fifo fork irc mqueue mutex msg os pid pipe pthread regex \
           serial signal socket time uname uptime
 
 clean:
@@ -140,6 +143,7 @@ clean:
 	if [ -e mutex ]; then rm mutex; fi
 	if [ -e os ]; then rm os; fi
 	if [ -e pid ]; then rm pid; fi
+	if [ -e pipe ]; then rm pipe; fi
 	if [ -e pthread ]; then rm pthread; fi
 	if [ -e regex ]; then rm regex; fi
 	if [ -e serial ]; then rm serial; fi

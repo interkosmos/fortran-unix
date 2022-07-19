@@ -11,6 +11,9 @@ module unix_unistd
 
     public :: c_chdir
     public :: c_close
+    public :: c_dup
+    public :: c_dup2
+    public :: c_execl
     public :: c_fork
     public :: c_getpid
     public :: c_pipe
@@ -36,6 +39,35 @@ module unix_unistd
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int)                    :: c_close
         end function c_close
+
+        ! int dup(int oldfd)
+        function c_dup(old_fd) bind(c, name='dup')
+            import :: c_int
+            implicit none
+            integer(kind=c_int), intent(in), value :: old_fd
+            integer(kind=c_int)                    :: c_dup
+        end function c_dup
+
+        ! int dup2(int oldfd, int newfd)
+        function c_dup2(old_fd, new_fd) bind(c, name='dup2')
+            import :: c_int
+            implicit none
+            integer(kind=c_int), intent(in), value :: old_fd
+            integer(kind=c_int), intent(in), value :: new_fd
+            integer(kind=c_int)                    :: c_dup2
+        end function c_dup2
+
+        ! int execl(const char *path, const char *arg, ...)
+        function c_execl(path, arg1, arg2, arg3, ptr) bind(c, name='execl')
+            import :: c_char, c_int, c_ptr
+            implicit none
+            character(kind=c_char), intent(in)        :: path
+            character(kind=c_char), intent(in)        :: arg1
+            character(kind=c_char), intent(in)        :: arg2
+            character(kind=c_char), intent(in)        :: arg3
+            type(c_ptr),            intent(in), value :: ptr
+            integer(kind=c_int)                       :: c_execl
+        end function c_execl
 
         ! pid_t fork(void)
         function c_fork() bind(c, name='fork')
