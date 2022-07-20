@@ -55,7 +55,12 @@ main = "os.F90"
 [[example]]
 name = "pid"
 source-dir = "examples/pid"
-main = "pid.F90"
+main = "pid.f90"
+
+[[example]]
+name = "pipe"
+source-dir = "examples/pipe"
+main = "pipe.f90"
 
 [[example]]
 name = "pthread"
