@@ -8,6 +8,7 @@ operating systems:
 * clocks and timers,
 * signals,
 * processes,
+* pipes,
 * serial port input/output,
 * terminal control,
 * POSIX threads,
@@ -33,14 +34,21 @@ Therefore, your Fortran compiler has to support at least GNU preprocessor
 conditionals (`#ifdef` …).
 
 ## Build Instructions
-Run either GNU/BSD make or fpm to build the static library `libfortran-unix.a`:
+Run either GNU/BSD make or [fpm](https://github.com/fortran-lang/fpm) to build
+the static library `libfortran-unix.a`. On FreeBSD:
 
 ```
-$ make
+$ make freebsd
 ```
 
-If you use GNU Fortran, set the parameter `OS` to either `linux` or `FreeBSD`,
-for instance:
+On Linux:
+
+```
+$ make linux
+```
+
+Or, instead, set parameter `OS` to either `linux` or `FreeBSD`, and `PREFIX` to
+`/usr` or `/usr/local`, for instance:
 
 ```
 $ make FC=gfortran OS=linux PREFIX=/usr
@@ -83,7 +91,7 @@ Examples are provided in directory `examples/`:
 * **uname** prints OS information from `uname()`.
 * **uptime** outputs system uptime.
 
-Build the examples with:
+The example programs are built by default. Otherwise, run:
 
 ```
 $ make OS=linux PREFIX=/usr examples

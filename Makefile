@@ -8,12 +8,14 @@
 #       FC          -       Fortran compiler.
 #       CC          -       C compiler.
 #       AR          -       Archiver.
+#       MAKE        -       Make tool.
 #
 OS      = FreeBSD
 PREFIX  = /usr/local
 FC      = gfortran
 CC      = gcc
 AR      = ar
+MAKE    = make
 
 # Flags:
 #
@@ -33,8 +35,8 @@ LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean dirent examples fifo fork irc mqueue msg mutex os pid \
-        pipe pthread regex serial signal socket time
+.PHONY: all clean dirent examples fifo fork freebsd irc linux mqueue \
+        msg mutex os pid pipe pthread regex serial signal socket time
 
 all: $(TARGET)
 
@@ -71,6 +73,14 @@ $(TARGET):
                                unix_socket.o unix_stat.o unix_stdio.o unix_stdlib.o \
                                unix_string.o unix_syslog.o unix_termios.o unix_time.o \
                                unix_types.o unix_unistd.o unix_utsname.o unix_wait.o errno.o
+
+freebsd:
+	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__FreeBSD__"
+	$(MAKE) examples PPFLAGS="-cpp -D__FreeBSD__"
+
+linux:
+	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__linux__"
+	$(MAKE) examples PPFLAGS="-cpp -D__linux__"
 
 # Examples
 dirent: $(TARGET)

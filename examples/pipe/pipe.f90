@@ -11,8 +11,6 @@ program main
 
     character(len=6)  :: message
     character(len=32) :: buffer
-    integer           :: rc
-    integer(kind=i8)  :: sz
     type(c_ptr)       :: stdin, stdout
 
     call popen2('cat -n', stdin, stdout)
