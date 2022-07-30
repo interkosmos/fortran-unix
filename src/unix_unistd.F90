@@ -5,6 +5,8 @@ module unix_unistd
     implicit none
     private
 
+    integer(kind=c_int), parameter, public :: c_useconds_t = c_int32_t
+
     integer(kind=c_int), parameter, public :: STDIN_FILENO  = 0
     integer(kind=c_int), parameter, public :: STDOUT_FILENO = 1
     integer(kind=c_int), parameter, public :: STDERR_FILENO = 2
@@ -118,10 +120,10 @@ module unix_unistd
 
         ! int usleep(useconds_t useconds)
         function c_usleep(useconds) bind(c, name='usleep')
-            import :: c_int, c_int32_t
+            import :: c_int, c_useconds_t
             implicit none
-            integer(kind=c_int32_t), value :: useconds
-            integer(kind=c_int)            :: c_usleep
+            integer(kind=c_useconds_t), value :: useconds
+            integer(kind=c_int)               :: c_usleep
         end function c_usleep
 
         ! ssize_t write(int fd, void *buf, size_t nbyte)
