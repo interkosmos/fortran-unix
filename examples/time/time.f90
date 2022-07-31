@@ -10,7 +10,7 @@ program main
     implicit none
     character(len=32)             :: iso
     character(len=:), allocatable :: str
-    integer(kind=i8)              :: rc
+    integer(kind=i8)              :: rc, mk
     integer(kind=c_time_t)        :: ts
     type(c_tm)                    :: tm1, tm2
     type(c_ptr)                   :: ptr, str_ptr
@@ -24,6 +24,9 @@ program main
     iso = ' '
     rc  = c_strftime(iso, len(iso, kind=c_size_t), '%FT%T' // c_null_char, tm1)
     print '("ISO 8601......: ", a)', iso
+
+    mk = c_mktime(tm1)
+    print '("UNIX Timestamp: ", i0)', mk
 
     ! Print date and time string (of 2020-10-01 12:00:00).
     ! The C function `asctime()` returns a null-terminated string

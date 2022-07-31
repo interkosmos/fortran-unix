@@ -8,6 +8,7 @@ module unix_time
     public :: c_asctime
     public :: c_clock_gettime
     public :: c_localtime_r
+    public :: c_mktime
     public :: c_strftime
     public :: c_time
 
@@ -102,6 +103,13 @@ module unix_time
             type(c_tm),             intent(inout) :: result
             type(c_ptr)                           :: c_localtime_r
         end function c_localtime_r
+
+        ! time_t mktime(struct tm *tm)
+        function c_mktime(tm) bind(c, name='mktime')
+            import :: c_time_t, c_tm
+            type(c_tm), intent(in) :: tm
+            integer(kind=c_time_t) :: c_mktime
+        end function c_mktime
 
         ! size_t strftime(char *restrict s, size_t max, const char *restrict format, const struct tm *restrict tm)
         function c_strftime(s, max, format, tm) bind(c, name='strftime')
