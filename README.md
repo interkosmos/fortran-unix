@@ -12,6 +12,7 @@ operating systems:
 * serial port input/output,
 * terminal control,
 * POSIX threads,
+* POSIX semaphores,
 * POSIX regular expressions,
 * BSD sockets,
 * UNIX System V message queues,
@@ -84,6 +85,7 @@ Examples are provided in directory `examples/`:
 * **pipe** creates anonymous pipes for bidirectional IPC.
 * **pthread** runs a Fortran subroutine inside multiple POSIX threads.
 * **regex** calls POSIX regex functions.
+* **semaphore** tests POSIX semaphores.
 * **serial** shows some basic serial port input reading (requires *socat(1)* and *minicom(1)*).
 * **signal** catches SIGINT (`CTRL` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server (requires *nc(1)*).

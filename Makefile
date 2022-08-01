@@ -54,6 +54,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_netdb.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_pthread.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_regex.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_semaphore.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_signal.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_socket.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stat.F90
@@ -69,10 +70,11 @@ $(TARGET):
 	$(CC) $(CFLAGS) -c src/errno.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
                                unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
-                               unix_netdb.o unix_pthread.o unix_regex.o unix_signal.o \
-                               unix_socket.o unix_stat.o unix_stdio.o unix_stdlib.o \
-                               unix_string.o unix_syslog.o unix_termios.o unix_time.o \
-                               unix_types.o unix_unistd.o unix_utsname.o unix_wait.o errno.o
+                               unix_netdb.o unix_pthread.o unix_regex.o unix_semaphore.o \
+                               unix_signal.o unix_socket.o unix_stat.o unix_stdio.o \
+                               unix_stdlib.o unix_string.o unix_syslog.o unix_termios.o \
+                               unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
+                               unix_wait.o errno.o
 
 freebsd:
 	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__FreeBSD__"
@@ -119,6 +121,9 @@ pthread: $(TARGET)
 regex: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o regex examples/regex/regex.f90 $(TARGET) $(LDLIBS)
 
+semaphore: $(TARGET)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o semaphore examples/semaphore/semaphore.f90 $(TARGET) $(LDLIBS) -lpthread
+
 serial: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o serial examples/serial/serial.f90 $(TARGET) $(LDLIBS)
 
@@ -138,7 +143,7 @@ uptime: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
 
 examples: dirent fifo fork irc mqueue mutex msg os pid pipe pthread regex \
-          serial signal socket time uname uptime
+          semaphore serial signal socket time uname uptime
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
@@ -156,6 +161,7 @@ clean:
 	if [ -e pipe ]; then rm pipe; fi
 	if [ -e pthread ]; then rm pthread; fi
 	if [ -e regex ]; then rm regex; fi
+	if [ -e semaphore ]; then rm semaphore; fi
 	if [ -e serial ]; then rm serial; fi
 	if [ -e signal ]; then rm signal; fi
 	if [ -e socket ]; then rm socket; fi
