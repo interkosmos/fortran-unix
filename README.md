@@ -12,7 +12,7 @@ operating systems:
 * serial port input/output,
 * terminal control,
 * POSIX threads,
-* POSIX semaphores,
+* POSIX mutexes and semaphores,
 * POSIX regular expressions,
 * BSD sockets,
 * UNIX System V message queues,

@@ -67,14 +67,14 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_utsname.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90
-	$(CC) $(CFLAGS) -c src/errno.c
+	$(CC) $(CFLAGS) -c src/unix_macro.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
                                unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
                                unix_netdb.o unix_pthread.o unix_regex.o unix_semaphore.o \
                                unix_signal.o unix_socket.o unix_stat.o unix_stdio.o \
                                unix_stdlib.o unix_string.o unix_syslog.o unix_termios.o \
                                unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
-                               unix_wait.o errno.o
+                               unix_wait.o unix_macro.o
 
 freebsd:
 	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__FreeBSD__"

@@ -1,4 +1,4 @@
-/* errno.c */
+/* unix_macro.c */
 #include <errno.h>
 
 /* Returns variable `errno` from `errno.h`. */

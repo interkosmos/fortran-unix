@@ -1,9 +1,9 @@
 name = "fortran-unix"
-version = "0.1.2"
+version = "0.2.0"
 license = "ISC"
 author = "Philipp Engel"
 maintainer = "@interkosmos"
-copyright = "Copyright (c) 2021, Philipp Engel"
+copyright = "Copyright (c) 2022, Philipp Engel"
 description = "Fortran 2018 ISO C binding interfaces to SysV/POSIX"
 keywords = [ "posix", "sysv", "system", "unix", "linux", "freebsd" ]
 
