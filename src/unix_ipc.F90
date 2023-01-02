@@ -21,6 +21,7 @@ module unix_ipc
         ! key_t ftok(const char *pathname, int proj_id)
         function c_ftok(pathname, proj_id) bind(c, name='ftok')
             import :: c_char, c_int, c_key_t
+            implicit none
             character(kind=c_char), intent(in)        :: pathname
             integer(kind=c_int),    intent(in), value :: proj_id
             integer(kind=c_key_t)                     :: c_ftok

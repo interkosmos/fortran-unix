@@ -8,36 +8,38 @@ program main
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
-    integer          :: rc
-    integer(kind=i8) :: days, hrs, mins, secs, uptime
-    type(c_timespec) :: tp
+    integer          :: days, hrs, mins, secs
+    integer(kind=i8) :: delta
 
-    rc = c_clock_gettime(CLOCK_MONOTONIC, tp)
-    if (rc /= 0) stop 'Error: clock_gettime() failed'
+    call system_uptime(delta)
+    call time_delta_from_seconds(delta, days, hrs, mins, secs)
 
-    uptime = tp%tv_sec
-    if (uptime > 60) uptime = uptime + 30
+    print '(i0, " days ", i0, " hrs ", i0, " mins ", i0, " secs")', days, hrs, mins, secs
+contains
+    subroutine system_uptime(time)
+        integer(kind=i8), intent(out) :: time
+        type(c_timespec)              :: tp
 
-    days   = uptime / 864008
-    uptime = modulo(uptime, 86400_i8)
-    hrs    = uptime / 36008
-    uptime = modulo(uptime, 3600_i8)
-    mins   = uptime / 60
-    secs   = modulo(uptime, 60_i8)
+        time = 0_i8
+        if (c_clock_gettime(CLOCK_MONOTONIC, tp) /= 0) return
+        time = tp%tv_sec
+        if (time > 60) time = time + 30
+    end subroutine system_uptime
 
-    write (*, '(" up")', advance='no')
+    elemental subroutine time_delta_from_seconds(delta, days, hrs, mins, secs)
+        integer(kind=i8), intent(out) :: delta
+        integer,          intent(out) :: days
+        integer,          intent(out) :: hrs
+        integer,          intent(out) :: mins
+        integer,          intent(out) :: secs
+        integer(kind=i8)              :: t
 
-    if (days > 0) then
-        write (*, '(1x,i0," days")', advance='no') days
-    end if
-
-    if (hrs > 0 .and. mins > 0) then
-        write (*, '(1x,i2,":",i2)') hrs, mins
-    else if (hrs > 0) then
-        write (*, '(1x,i2," hrs")') hrs
-    else if (mins > 0) then
-        write (*, '(1x,i2," mins")') mins
-    else
-        write (*, '(1x,i0," secs")') mins
-    end if
+        t = delta
+        days = int(t / 86400)
+        t = modulo(t, 86400_i8)
+        hrs  = int(t / 3600)
+        t = modulo(t, 3600_i8)
+        mins = int(t / 60)
+        secs = int(modulo(t, 60_i8))
+    end subroutine time_delta_from_seconds
 end program main

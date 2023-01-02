@@ -35,8 +35,9 @@ LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean dirent examples fifo fork freebsd irc linux mqueue \
-        msg mutex os pid pipe pthread regex serial signal socket time
+.PHONY: all clean dirent examples fifo fork freebsd freebsd_examples \
+        irc linux linux_examples mqueue msg mutex os pid pipe pthread \
+        regex serial signal socket time
 
 all: $(TARGET)
 
@@ -77,12 +78,16 @@ $(TARGET):
                                unix_wait.o unix_macro.o
 
 freebsd:
-	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__FreeBSD__"
-	$(MAKE) examples PPFLAGS="-cpp -D__FreeBSD__"
+	$(MAKE) $(TARGET) OS=FreeBSD
 
 linux:
-	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__linux__"
-	$(MAKE) examples PPFLAGS="-cpp -D__linux__"
+	$(MAKE) $(TARGET) OS=linux
+
+freebsd_examples:
+	$(MAKE) examples OS=FreeBSD
+
+linux_examples:
+	$(MAKE) examples OS=linux
 
 # Examples
 dirent: $(TARGET)

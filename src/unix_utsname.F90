@@ -37,6 +37,7 @@ module unix_utsname
         ! int uname(struct utsname *name)
         function c_uname(name) bind(c, name='uname')
             import :: c_int, c_utsname
+            implicit none
             type(c_utsname), intent(out) :: name
             integer(kind=c_int)          :: c_uname
         end function c_uname

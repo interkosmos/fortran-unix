@@ -99,6 +99,7 @@ module unix_time
         ! struct tm *localtime_r(const time_t *restrict timer, struct tm *restrict result)
         function c_localtime_r(timer, result) bind(c, name='localtime_r')
             import :: c_ptr, c_time_t, c_tm
+            implicit none
             integer(kind=c_time_t), intent(in)    :: timer
             type(c_tm),             intent(inout) :: result
             type(c_ptr)                           :: c_localtime_r
@@ -107,6 +108,7 @@ module unix_time
         ! time_t mktime(struct tm *tm)
         function c_mktime(tm) bind(c, name='mktime')
             import :: c_time_t, c_tm
+            implicit none
             type(c_tm), intent(in) :: tm
             integer(kind=c_time_t) :: c_mktime
         end function c_mktime

@@ -93,13 +93,17 @@ Examples are provided in directory `examples/`:
 * **uname** prints OS information from `uname()`.
 * **uptime** outputs system uptime.
 
-The example programs are built by default. Otherwise, run:
+To compile the example programs, either run:
 
 ```
-$ make OS=linux PREFIX=/usr examples
+$ make freebsd_examples
 ```
 
-Or, call `make` with the name of a particular example.
+Or:
+
+```
+$ make linux_examples
+```
 
 ## Licence
 ISC
