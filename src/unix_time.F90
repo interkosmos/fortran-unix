@@ -44,6 +44,9 @@ module unix_time
 
 #elif defined (__FreeBSD__)
 
+    integer(kind=c_int), parameter, public :: CLOCK_REALTIME           = 0
+    integer(kind=c_int), parameter, public :: CLOCK_VIRTUAL            = 1
+    integer(kind=c_int), parameter, public :: CLOCK_PROF               = 2
     integer(kind=c_int), parameter, public :: CLOCK_MONOTONIC          = 4
     integer(kind=c_int), parameter, public :: CLOCK_UPTIME             = 5
     integer(kind=c_int), parameter, public :: CLOCK_UPTIME_PRECISE     = 7
