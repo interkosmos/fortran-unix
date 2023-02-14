@@ -32,15 +32,19 @@ contains
         !!     https://man.openbsd.org/getaddrinfo.3
         character(len=*), intent(in)  :: hostname
         integer,          intent(in)  :: port
-        character(len=63), target     :: host_str
-        character(len=7),  target     :: port_str
+
+        character(len=63), target :: host_str
+        character(len=7),  target :: port_str
+
+        integer     :: rc
+        integer     :: sock_fd
+        type(c_ptr) :: ptr
+
+        type(c_addrinfo), target  :: hints
+        type(c_addrinfo), target  :: res
+        type(c_addrinfo), pointer :: next
+
         character(len=:), allocatable :: err_str
-        integer                       :: rc
-        integer                       :: sock_fd
-        type(c_addrinfo),  target     :: hints
-        type(c_addrinfo),  target     :: res
-        type(c_addrinfo),  pointer    :: next
-        type(c_ptr)                   :: ptr
 
         irc_connect = -1
 

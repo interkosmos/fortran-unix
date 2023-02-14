@@ -11,6 +11,7 @@ module unix
     use :: unix_dirent
     use :: unix_errno
     use :: unix_fcntl
+    use :: unix_inet
     use :: unix_ipc
     use :: unix_ioctl
     use :: unix_mqueue

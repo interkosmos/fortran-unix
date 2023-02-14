@@ -25,6 +25,8 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: O_FSYNC    = O_SYNC
     integer(kind=c_int), parameter, public :: O_ASYNC    = int(o'020000')
 
+    integer(kind=c_int), parameter, public :: O_CLOEXEC  = int(o'02000000')
+
     integer(kind=c_int), parameter, public :: F_DUPFD = 0
     integer(kind=c_int), parameter, public :: F_GETFD = 1
     integer(kind=c_int), parameter, public :: F_SETFD = 2
@@ -44,6 +46,8 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: O_NONBLOCK = int(z'0004') ! No delay.
     integer(kind=c_int), parameter, public :: O_APPEND   = int(z'0008') ! Set append mode.
     integer(kind=c_int), parameter, public :: O_NOCTTY   = int(z'8000') ! Don't assign controlling terminal.
+
+    integer(kind=c_int), parameter, public :: O_CLOEXEC  = int(z'00100000')
 
     integer(kind=c_int), parameter, public :: F_DUPFD = 0 ! Duplicate file descriptor.
     integer(kind=c_int), parameter, public :: F_GETFD = 1 ! Get file descriptor flags.

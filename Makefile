@@ -36,7 +36,7 @@ LDLIBS  =
 TARGET  = libfortran-unix.a
 
 .PHONY: all clean dirent examples fifo fork freebsd freebsd_examples \
-        irc linux linux_examples mqueue msg mutex os pid pipe pthread \
+        irc key linux linux_examples mqueue msg mutex os pid pipe pthread \
         regex serial signal socket time
 
 all: $(TARGET)
@@ -47,6 +47,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_dirent.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_fcntl.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_inet.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ioctl.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ipc.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_time.F90
@@ -70,7 +71,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90
 	$(CC) $(CFLAGS) -c src/unix_macro.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
-                               unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
+                               unix_inet.o unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
                                unix_netdb.o unix_pthread.o unix_regex.o unix_semaphore.o \
                                unix_signal.o unix_socket.o unix_stat.o unix_stdio.o \
                                unix_stdlib.o unix_string.o unix_syslog.o unix_termios.o \
@@ -101,6 +102,9 @@ fork: $(TARGET)
 
 irc: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o irc examples/irc/irc.f90 $(TARGET) $(LDLIBS)
+
+key: $(TARGET)
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o key examples/key/key.f90 $(TARGET) $(LDLIBS)
 
 mqueue: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o mqueue examples/mqueue/mqueue.f90 $(TARGET) $(LDLIBS) -lrt
@@ -147,7 +151,7 @@ uname: $(TARGET)
 uptime: $(TARGET)
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
 
-examples: dirent fifo fork irc mqueue mutex msg os pid pipe pthread regex \
+examples: dirent fifo fork irc key mqueue mutex msg os pid pipe pthread regex \
           semaphore serial signal socket time uname uptime
 
 clean:
@@ -158,6 +162,7 @@ clean:
 	if [ -e fifo ]; then rm fifo; fi
 	if [ -e fork ]; then rm fork; fi
 	if [ -e irc ]; then rm irc; fi
+	if [ -e key ]; then rm key; fi
 	if [ -e mqueue ]; then rm mqueue; fi
 	if [ -e msg ]; then rm msg; fi
 	if [ -e mutex ]; then rm mutex; fi

@@ -4,6 +4,7 @@ module unix_stdio
     implicit none
     private
 
+    public :: c_getchar
     public :: c_getline
     public :: c_fclose
     public :: c_fdopen
@@ -26,6 +27,13 @@ module unix_stdio
     integer(kind=c_int), parameter, public :: EOF = -1
 
     interface
+        ! int getchar(void)
+        function c_getchar() bind(c, name='getchar')
+            import :: c_int
+            implicit none
+            integer(kind=c_int) :: c_getchar
+        end function c_getchar
+
         ! ssize_t getline(char **lineptr, size_t *n, FILE *stream)
         function c_getline(lineptr, n, stream) bind(c, name='getline')
             import :: c_char, c_ptr, c_size_t

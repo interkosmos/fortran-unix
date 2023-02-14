@@ -77,6 +77,7 @@ Examples are provided in directory `examples/`:
 * **fifo** creates a named pipe for IPC.
 * **fork** forks a process and uses anonymous pipes for IPC.
 * **irc** implements a basic IRC bot, based on BSD sockets.
+* **key** reads single key-strokes from standard input.
 * **mqueue** creates a POSIX message queue.
 * **msg** shows message passing with UNIX System V message queues.
 * **mutex** demonstrates threaded access to variable using a mutex.

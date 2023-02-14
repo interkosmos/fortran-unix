@@ -1,13 +1,10 @@
 ! unix_netdb.F90
 module unix_netdb
     use, intrinsic :: iso_c_binding
+    use :: unix_fcntl
     use :: unix_types
     implicit none
     private
-
-    public :: c_gai_strerror
-    public :: c_getaddrinfo
-    public :: c_freeaddrinfo
 
     integer(kind=c_int), parameter, public :: AF_LOCAL = 1
     integer(kind=c_int), parameter, public :: AF_UNIX  = 1
@@ -17,9 +14,15 @@ module unix_netdb
 
     integer(kind=c_int), parameter, public :: AF_INET6 = 10
 
+    integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = O_CLOEXEC
+    integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = O_NONBLOCK
+
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: AF_INET6 = 28
+
+    integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = int(z'10000000')
+    integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = int(z'20000000')
 
 #endif
 
@@ -34,8 +37,10 @@ module unix_netdb
     integer(kind=c_int), parameter, public :: AI_NUMERICHOST = int(z'00000004')
     integer(kind=c_int), parameter, public :: AI_NUMERICSERV = int(z'00000008')
 
+    integer(kind=c_in_addr_t), parameter, public :: INADDR_ANY = int(z'00000000')
+
     type, bind(c), public :: c_in_addr
-        integer(kind=c_int32_t) :: s_addr
+        integer(kind=c_int32_t) :: s_addr = 0
     end type c_in_addr
 
 #if defined (__linux__)
@@ -43,55 +48,59 @@ module unix_netdb
     integer(kind=c_int), parameter, public :: c_sa_family_t = c_signed_char
 
     type, bind(c), public :: c_sockaddr
-        integer(kind=c_sa_family_t) :: sa_family
-        character(kind=c_char)      :: sa_data(14)
+        integer(kind=c_sa_family_t) :: sa_family   = 0
+        character(kind=c_char)      :: sa_data(14) = c_null_char
     end type c_sockaddr
 
     type, bind(c), public :: c_addrinfo
-        integer(kind=c_int)       :: ai_flags
-        integer(kind=c_int)       :: ai_family
-        integer(kind=c_int)       :: ai_socktype
-        integer(kind=c_int)       :: ai_protocol
-        integer(kind=c_socklen_t) :: ai_addrlen
-        type(c_ptr)               :: ai_addr
-        type(c_ptr)               :: ai_canonname
-        type(c_ptr)               :: ai_next
+        integer(kind=c_int)       :: ai_flags     = 0
+        integer(kind=c_int)       :: ai_family    = 0
+        integer(kind=c_int)       :: ai_socktype  = 0
+        integer(kind=c_int)       :: ai_protocol  = 0
+        integer(kind=c_socklen_t) :: ai_addrlen   = 0
+        type(c_ptr)               :: ai_addr      = c_null_ptr
+        type(c_ptr)               :: ai_canonname = c_null_ptr
+        type(c_ptr)               :: ai_next      = c_null_ptr
     end type c_addrinfo
 
     type, bind(c), public :: c_sockaddr_in
-        integer(kind=c_sa_family_t) :: sin_family
-        integer(kind=c_int16_t)     :: sin_port
+        integer(kind=c_sa_family_t) :: sin_family = 0
+        integer(kind=c_int16_t)     :: sin_port   = 0
         type(c_in_addr)             :: sin_addr
     end type c_sockaddr_in
 
 #elif defined (__FreeBSD__)
 
     type, bind(c), public :: c_sockaddr
-        character(kind=c_char) :: sa_len
-        integer(kind=c_int)    :: sa_family
-        character(kind=c_char) :: sa_data(14)
+        character(kind=c_char) :: sa_len      = c_null_char
+        integer(kind=c_int)    :: sa_family   = 0
+        character(kind=c_char) :: sa_data(14) = c_null_char
     end type c_sockaddr
 
     type, bind(c), public :: c_addrinfo
-        integer(kind=c_int)       :: ai_flags
-        integer(kind=c_int)       :: ai_family
-        integer(kind=c_int)       :: ai_socktype
-        integer(kind=c_int)       :: ai_protocol
-        integer(kind=c_socklen_t) :: ai_addrlen
-        type(c_ptr)               :: ai_canonname
-        type(c_ptr)               :: ai_addr
-        type(c_ptr)               :: ai_next
+        integer(kind=c_int)       :: ai_flags     = 0
+        integer(kind=c_int)       :: ai_family    = 0
+        integer(kind=c_int)       :: ai_socktype  = 0
+        integer(kind=c_int)       :: ai_protocol  = 0
+        integer(kind=c_socklen_t) :: ai_addrlen   = 0
+        type(c_ptr)               :: ai_canonname = c_null_ptr
+        type(c_ptr)               :: ai_addr      = c_null_ptr
+        type(c_ptr)               :: ai_next      = c_null_ptr
     end type c_addrinfo
 
     type, bind(c), public :: c_sockaddr_in
-        integer(kind=c_int8_t)        :: sin_len
-        integer(kind=c_int)           :: sin_family
-        integer(kind=c_int16_t)       :: sin_port
+        integer(kind=c_int8_t)        :: sin_len     = 0
+        integer(kind=c_int)           :: sin_family  = 0
+        integer(kind=c_int16_t)       :: sin_port    = 0
         type(c_in_addr)               :: sin_addr
-        character(kind=c_char, len=1) :: sin_zero(8)
+        character(kind=c_char, len=1) :: sin_zero(8) = c_null_char
     end type c_sockaddr_in
 
 #endif
+
+    public :: c_gai_strerror
+    public :: c_getaddrinfo
+    public :: c_freeaddrinfo
 
     interface
         ! const char *gai_strerror(int ecode)

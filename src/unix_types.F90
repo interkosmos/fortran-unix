@@ -9,8 +9,10 @@ module unix_types
     integer, parameter, public :: c_unsigned_int   = c_int
     integer, parameter, public :: c_unsigned_long  = c_long
 
+    integer, parameter, public :: c_uint16_t  = c_int16_t
     integer, parameter, public :: c_uint32_t  = c_int32_t
 
+    integer, parameter, public :: c_in_addr_t = c_uint32_t
     integer, parameter, public :: c_key_t     = c_long
     integer, parameter, public :: c_mode_t    = c_int32_t
     integer, parameter, public :: c_pid_t     = c_int32_t
