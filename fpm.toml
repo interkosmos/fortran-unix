@@ -10,6 +10,9 @@ keywords = [ "posix", "sysv", "system", "unix", "linux", "freebsd" ]
 [library]
 source-dir = "src"
 
+[install]
+library = true
+
 [[example]]
 name = "dirent"
 source-dir = "examples/dirent"
