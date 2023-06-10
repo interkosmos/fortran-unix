@@ -3,12 +3,19 @@
 
 # Parameters:
 #
-#       OS          -       Set to either `FreeBSD` or `linux`:
-#       PREFIX      -       Change to `/usr` on Linux.
-#       FC          -       Fortran compiler.
-#       CC          -       C compiler.
-#       AR          -       Archiver.
-#       MAKE        -       Make tool.
+#   OS      - Set to either `FreeBSD` or `linux`:
+#   PREFIX  - Change to `/usr` on Linux.
+#   FC      - Fortran compiler.
+#   CC      - C compiler.
+#   AR      - Archiver.
+#   MAKE    - Make tool.
+#   FFLAGS  - Fortran compiler flags.
+#   CFLAGS  - C compiler flags.
+#   PPFLAGS - Pre-processor flags. Change to `-fpp` for Intel IFORT.
+#   ARFLAGS - Archiver flags.
+#   LDFLAGS - Linker flags.
+#   LDLIBS  - Linker libraries.
+#   TARGET  - Output library name. #
 #
 OS      = FreeBSD
 PREFIX  = /usr/local
@@ -17,18 +24,9 @@ CC      = gcc
 AR      = ar
 MAKE    = make
 
-# Flags:
-#
-#       FFLAGS      -       Fortran compiler flags.
-#       CFLAGS      -       C compiler flags.
-#       PPFLAGS     -       Pre-processor flags. Change to `-fpp` for Intel IFORT.
-#       ARFLAGS     -       Archiver flags.
-#       LDFLAGS     -       Linker flags.
-#       LDLIBS      -       Linker libraries.
-#       TARGET      -       Output library name.
-#
-FFLAGS  = -Wall -std=f2008 -fmax-errors=1 -fcheck=all
-CFLAGS  = -Wall -fmax-errors=1
+DEBUG   = #-g -O0 -fmax-errors=1 -fcheck=all -Wall
+FFLAGS  = $(DEBUG) -std=f2008
+CFLAGS  = $(DEBUG)
 PPFLAGS = -cpp -D__$(OS)__
 ARFLAGS = rcs
 LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/

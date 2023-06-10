@@ -2,7 +2,7 @@
 !
 ! Reads from a serial port, and prints received characters to screen.
 !
-! Create a two pseudo-terminals with socat(1):
+! Create two pseudo-terminals with socat(1):
 !
 !   $ socat -d -d pty,raw,echo=0 pty,raw,echo=0
 !   2021/11/20 21:37:31 socat[40743] N PTY is /dev/pts/5
