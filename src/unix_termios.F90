@@ -151,6 +151,11 @@ module unix_termios
     integer(kind=c_int), parameter, public :: TIOCM_OUT2 = int(z'4000')
     integer(kind=c_int), parameter, public :: TIOCM_LOOP = int(z'8000')
 
+    integer(kind=c_int), parameter, public :: TIOCMGET = int(z'5415')
+    integer(kind=c_int), parameter, public :: TIOCMBIC = int(z'5417')
+    integer(kind=c_int), parameter, public :: TIOCMBIS = int(z'5416')
+    integer(kind=c_int), parameter, public :: TIOCMSET = int(z'5418')
+
 #elif defined (__FreeBSD__)
 
     integer, parameter, public :: c_cc_t     = c_unsigned_int
