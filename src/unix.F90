@@ -41,19 +41,7 @@ module unix
     public :: c_f_str_chars
     public :: c_f_str_ptr
     public :: f_c_str_chars
-
-    private :: copy
 contains
-    pure function copy(a)
-        character, intent(in)  :: a(:)
-        character(len=size(a)) :: copy
-        integer(kind=i8)       :: i
-
-        do i = 1, size(a)
-            copy(i:i) = a(i)
-        end do
-    end function copy
-
     function f_readdir(dirp)
         !! Wrapper function that calls `c_readdir()` and converts the returned
         !! C pointer to Fortran pointer.
@@ -99,17 +87,28 @@ contains
     end subroutine c_f_str_chars
 
     subroutine c_f_str_ptr(c_str, f_str)
+        !! Copies a C string, passed as a C pointer, to a Fortran string.
         type(c_ptr),                   intent(in)  :: c_str
         character(len=:), allocatable, intent(out) :: f_str
-        character(kind=c_char), pointer            :: ptrs(:)
-        integer(kind=i8)                           :: sz
 
-        if (.not. c_associated(c_str)) return
-        sz = c_strlen(c_str)
-        if (sz <= 0) return
-        call c_f_pointer(c_str, ptrs, [ sz ])
-        allocate (character(len=sz) :: f_str)
-        f_str = copy(ptrs)
+        character(kind=c_char), pointer :: ptrs(:)
+        integer(kind=c_size_t)          :: i, sz
+
+        copy_block: block
+            if (.not. c_associated(c_str)) exit copy_block
+            sz = c_strlen(c_str)
+            if (sz < 0) exit copy_block
+            call c_f_pointer(c_str, ptrs, [ sz ])
+            allocate (character(len=sz) :: f_str)
+
+            do i = 1, sz
+                f_str(i:i) = ptrs(i)
+            end do
+
+            return
+        end block copy_block
+
+        if (.not. allocated(f_str)) f_str = ''
     end subroutine c_f_str_ptr
 
     subroutine f_c_str_chars(f_str, c_str)

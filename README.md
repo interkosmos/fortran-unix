@@ -27,8 +27,8 @@ Similar libraries for modern Fortran:
 Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
 
-* FreeBSD 13 (GNU Fortran 12),
-* CentOS 8 (GNU Fortran 8, Intel Fortran Compiler 19).
+* FreeBSD 13 (GNU Fortran 13),
+* Debian 12 (GNU Fortran 12).
 
 Preprocessor macros are used to achieve platform-independent interoperability.
 Therefore, your Fortran compiler has to support at least GNU preprocessor
