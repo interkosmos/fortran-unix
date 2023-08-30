@@ -1,4 +1,5 @@
 # fortran-unix
+
 A work-in-progress collection of Fortran 2008 ISO C binding interfaces to
 selected POSIX and SysV types, functions, and routines on 64-bit Unix-like
 operating systems:
@@ -35,6 +36,7 @@ Therefore, your Fortran compiler has to support at least GNU preprocessor
 conditionals (`#ifdef` …).
 
 ## Build Instructions
+
 Run either GNU/BSD make or [fpm](https://github.com/fortran-lang/fpm) to build
 the static library `libfortran-unix.a`. On FreeBSD:
 
@@ -71,6 +73,7 @@ Link your Fortran application with `libfortran-unix.a`, and optionally with
 `-lpthread` to access POSIX threads or `-lrt` to access POSIX message queues.
 
 ## Examples
+
 Examples are provided in directory `examples/`:
 
 * **dirent** prints the contents of a file system directory.
@@ -107,4 +110,5 @@ $ make linux_examples
 ```
 
 ## Licence
+
 ISC

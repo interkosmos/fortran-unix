@@ -14,14 +14,14 @@ module unix_termios
     integer, parameter, public :: NCCS = 32
 
     type, bind(c), public :: c_termios
-        integer(kind=c_tcflag_t) :: c_iflag
-        integer(kind=c_tcflag_t) :: c_oflag
-        integer(kind=c_tcflag_t) :: c_cflag
-        integer(kind=c_tcflag_t) :: c_lflag
-        integer(kind=c_cc_t)     :: c_line
-        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1)
-        integer(kind=c_speed_t)  :: c_ispeed
-        integer(kind=c_speed_t)  :: c_ospeed
+        integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
+        integer(kind=c_cc_t)     :: c_line           = 0_c_cc_t
+        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
+        integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
+        integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
     end type c_termios
 
     integer(kind=c_int), parameter, public :: VINTR    = 0
@@ -165,13 +165,13 @@ module unix_termios
     integer, parameter, public :: NCCS = 20
 
     type, bind(c), public :: c_termios
-        integer(kind=c_tcflag_t) :: c_iflag
-        integer(kind=c_tcflag_t) :: c_oflag
-        integer(kind=c_tcflag_t) :: c_cflag
-        integer(kind=c_tcflag_t) :: c_lflag
-        integer(kind=c_cc_t  )   :: c_cc(0:NCCS - 1)
-        integer(kind=c_speed_t)  :: c_ispeed
-        integer(kind=c_speed_t)  :: c_ospeed
+        integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
+        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
+        integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
+        integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
     end type c_termios
 
     integer(kind=c_int), parameter, public :: VEOF     = 0  ! ICANON
