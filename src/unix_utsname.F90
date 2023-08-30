@@ -11,12 +11,12 @@ module unix_utsname
     integer(kind=c_int), parameter :: UTS_LEN = 65
 
     type, bind(c), public :: c_utsname
-        character(kind=c_char) :: sysname(UTS_LEN)
-        character(kind=c_char) :: nodename(UTS_LEN)
-        character(kind=c_char) :: release(UTS_LEN)
-        character(kind=c_char) :: version(UTS_LEN)
-        character(kind=c_char) :: machine(UTS_LEN)
-        character(kind=c_char) :: domainname(UTS_LEN)
+        character(kind=c_char) :: sysname(UTS_LEN)    = ' '
+        character(kind=c_char) :: nodename(UTS_LEN)   = ' '
+        character(kind=c_char) :: release(UTS_LEN)    = ' '
+        character(kind=c_char) :: version(UTS_LEN)    = ' '
+        character(kind=c_char) :: machine(UTS_LEN)    = ' '
+        character(kind=c_char) :: domainname(UTS_LEN) = ' '
     end type c_utsname
 
 #elif defined (__FreeBSD__)
@@ -24,11 +24,11 @@ module unix_utsname
     integer(kind=c_int), parameter :: SYS_NMLN = 32
 
     type, bind(c), public :: c_utsname
-        character(kind=c_char) :: sysname(SYS_NMLN)
-        character(kind=c_char) :: nodename(SYS_NMLN)
-        character(kind=c_char) :: release(SYS_NMLN)
-        character(kind=c_char) :: version(SYS_NMLN)
-        character(kind=c_char) :: machine(SYS_NMLN)
+        character(kind=c_char) :: sysname(SYS_NMLN)  = ' '
+        character(kind=c_char) :: nodename(SYS_NMLN) = ' '
+        character(kind=c_char) :: release(SYS_NMLN)  = ' '
+        character(kind=c_char) :: version(SYS_NMLN)  = ' '
+        character(kind=c_char) :: machine(SYS_NMLN)  = ' '
     end type c_utsname
 
 #endif

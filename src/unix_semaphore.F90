@@ -17,6 +17,7 @@ module unix_semaphore
 #endif
 
     type, bind(c), public :: c_sem_t
+        private
         character(kind=c_char) :: hidden(SEM_SIZE)
     end type c_sem_t
 

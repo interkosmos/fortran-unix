@@ -7,7 +7,7 @@ module unix_ioctl
     public :: c_ioctl
 
     interface
-        ! int ioctl(int fd, int cmd, int arg)
+        ! int ioctl(int fd, int cmd, ...)
         function c_ioctl(fd, request, arg) bind(c, name='ioctl')
             import :: c_int, c_ptr
             implicit none

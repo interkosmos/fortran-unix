@@ -77,8 +77,8 @@ module unix_time
 #endif
 
     type, bind(c), public :: c_timespec
-        integer(kind=c_time_t) :: tv_sec
-        integer(kind=c_long)   :: tv_nsec
+        integer(kind=c_time_t) :: tv_sec  = 0_c_time_t
+        integer(kind=c_long)   :: tv_nsec = 0_c_long
     end type c_timespec
 
     interface

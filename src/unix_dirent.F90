@@ -21,23 +21,23 @@ module unix_dirent
 #if defined (__linux__)
 
     type, bind(c), public :: c_dirent
-        integer(kind=c_int64_t) :: d_ino
-        integer(kind=c_int64_t) :: d_off
-        integer(kind=c_int16_t) :: d_reclen
-        integer(kind=c_int8_t)  :: d_type
-        character(kind=c_char)  :: d_name(256)
+        integer(kind=c_int64_t) :: d_ino       = 0_c_int64_t
+        integer(kind=c_int64_t) :: d_off       = 0_c_int64_t
+        integer(kind=c_int16_t) :: d_reclen    = 0_c_int16_t
+        integer(kind=c_int8_t)  :: d_type      = 0_c_int8_t
+        character(kind=c_char)  :: d_name(256) = c_null_char
     end type c_dirent
 
 #elif defined (__FreeBSD__)
 
     type, bind(c), public :: c_dirent
-        integer(kind=c_int64_t) :: d_fileno
-        integer(kind=c_int64_t) :: d_off
-        integer(kind=c_int16_t) :: d_reclen
-        integer(kind=c_int8_t)  :: d_type
-        integer(kind=c_int8_t)  :: d_namlen
-        integer(kind=c_int32_t) :: d_pad0
-        character(kind=c_char)  :: d_name(256)
+        integer(kind=c_int64_t)          :: d_fileno    = 0_c_int64_t
+        integer(kind=c_int64_t)          :: d_off       = 0_c_int64_t
+        integer(kind=c_int16_t)          :: d_reclen    = 0_c_int16_t
+        integer(kind=c_int8_t)           :: d_type      = 0_c_int8_t
+        integer(kind=c_int8_t)           :: d_namlen    = 0_c_int8_t
+        integer(kind=c_int32_t), private :: d_pad0      = 0_c_int32_t
+        character(kind=c_char)           :: d_name(256) = c_null_char
     end type c_dirent
 
 #endif

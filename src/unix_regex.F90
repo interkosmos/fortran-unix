@@ -10,6 +10,7 @@ module unix_regex
     integer, parameter, public :: c_regoff_t = c_size_t
 
     type, bind(c), public :: c_regex_t
+        private
         character(kind=c_char) :: hidden(64)
     end type c_regex_t
 
@@ -21,55 +22,34 @@ module unix_regex
     integer(kind=c_int), parameter, public :: REG_NOTEOL   = shiftl(1, 1)
     integer(kind=c_int), parameter, public :: REG_STARTEND = shiftl(1, 2)
 
-    public :: REG_ENOSYS
-    public :: REG_NOERROR
-    public :: REG_NOMATCH
-    public :: REG_BADPAT
-    public :: REG_ECOLLATE
-    public :: REG_ECTYPE
-    public :: REG_EESCAPE
-    public :: REG_ESUBREG
-    public :: REG_EBRACK
-    public :: REG_EPAREN
-    public :: REG_EBRACE
-    public :: REG_BADBR
-    public :: REG_ERANGE
-    public :: REG_ESPACE
-    public :: REG_BADRPT
-    public :: REG_EEND
-    public :: REG_ESIZE
-    public :: REG_ERPAREN
-
-    enum, bind(c)
-        enumerator :: REG_ENOSYS  = -1
-        enumerator :: REG_NOERROR = 0
-        enumerator :: REG_NOMATCH
-        enumerator :: REG_BADPAT
-        enumerator :: REG_ECOLLATE
-        enumerator :: REG_ECTYPE
-        enumerator :: REG_EESCAPE
-        enumerator :: REG_ESUBREG
-        enumerator :: REG_EBRACK
-        enumerator :: REG_EPAREN
-        enumerator :: REG_EBRACE
-        enumerator :: REG_BADBR
-        enumerator :: REG_ERANGE
-        enumerator :: REG_ESPACE
-        enumerator :: REG_BADRPT
-        enumerator :: REG_EEND
-        enumerator :: REG_ESIZE
-        enumerator :: REG_ERPAREN
-    end enum
+    integer(kind=c_int), parameter, public :: REG_ENOSYS   = -1
+    integer(kind=c_int), parameter, public :: REG_NOERROR  = 0
+    integer(kind=c_int), parameter, public :: REG_NOMATCH  = 1
+    integer(kind=c_int), parameter, public :: REG_BADPAT   = 2
+    integer(kind=c_int), parameter, public :: REG_ECOLLATE = 3
+    integer(kind=c_int), parameter, public :: REG_ECTYPE   = 4
+    integer(kind=c_int), parameter, public :: REG_EESCAPE  = 5
+    integer(kind=c_int), parameter, public :: REG_ESUBREG  = 6
+    integer(kind=c_int), parameter, public :: REG_EBRACK   = 7
+    integer(kind=c_int), parameter, public :: REG_EPAREN   = 8
+    integer(kind=c_int), parameter, public :: REG_EBRACE   = 9
+    integer(kind=c_int), parameter, public :: REG_BADBR    = 10
+    integer(kind=c_int), parameter, public :: REG_ERANGE   = 11
+    integer(kind=c_int), parameter, public :: REG_ESPACE   = 12
+    integer(kind=c_int), parameter, public :: REG_BADRPT   = 13
+    integer(kind=c_int), parameter, public :: REG_EEND     = 14
+    integer(kind=c_int), parameter, public :: REG_ESIZE    = 15
+    integer(kind=c_int), parameter, public :: REG_ERPAREN  = 16
 
 #elif defined (__FreeBSD__)
 
     integer, parameter, public :: c_regoff_t = c_int64_t
 
     type, bind(c), public :: c_regex_t
-        integer(kind=c_int)    :: re_magic
-        integer(kind=c_size_t) :: re_nsub
-        type(c_ptr)            :: re_endp
-        type(c_ptr)            :: re_g
+        integer(kind=c_int)    :: re_magic = 0
+        integer(kind=c_size_t) :: re_nsub  = 0_c_size_t
+        type(c_ptr)            :: re_endp  = c_null_ptr
+        type(c_ptr)            :: re_g     = c_null_ptr
     end type c_regex_t
 
     ! regcomp() flags
@@ -115,8 +95,8 @@ module unix_regex
 #endif
 
     type, bind(c), public :: c_regmatch_t
-        integer(kind=c_regoff_t) :: rm_so ! Start of match.
-        integer(kind=c_regoff_t) :: rm_eo ! End of match.
+        integer(kind=c_regoff_t) :: rm_so = 0_c_regoff_t ! Start of match.
+        integer(kind=c_regoff_t) :: rm_eo = 0_c_regoff_t ! End of match.
     end type c_regmatch_t
 
     public :: c_regcomp

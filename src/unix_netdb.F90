@@ -40,7 +40,7 @@ module unix_netdb
     integer(kind=c_in_addr_t), parameter, public :: INADDR_ANY = int(z'00000000')
 
     type, bind(c), public :: c_in_addr
-        integer(kind=c_int32_t) :: s_addr = 0
+        integer(kind=c_int32_t) :: s_addr = 0_c_int32_t
     end type c_in_addr
 
 #if defined (__linux__)
@@ -48,7 +48,7 @@ module unix_netdb
     integer(kind=c_int), parameter, public :: c_sa_family_t = c_signed_char
 
     type, bind(c), public :: c_sockaddr
-        integer(kind=c_sa_family_t) :: sa_family   = 0
+        integer(kind=c_sa_family_t) :: sa_family   = 0_c_sa_family_t
         character(kind=c_char)      :: sa_data(14) = c_null_char
     end type c_sockaddr
 
@@ -57,15 +57,15 @@ module unix_netdb
         integer(kind=c_int)       :: ai_family    = 0
         integer(kind=c_int)       :: ai_socktype  = 0
         integer(kind=c_int)       :: ai_protocol  = 0
-        integer(kind=c_socklen_t) :: ai_addrlen   = 0
+        integer(kind=c_socklen_t) :: ai_addrlen   = 0_c_socklen_t
         type(c_ptr)               :: ai_addr      = c_null_ptr
         type(c_ptr)               :: ai_canonname = c_null_ptr
         type(c_ptr)               :: ai_next      = c_null_ptr
     end type c_addrinfo
 
     type, bind(c), public :: c_sockaddr_in
-        integer(kind=c_sa_family_t) :: sin_family = 0
-        integer(kind=c_int16_t)     :: sin_port   = 0
+        integer(kind=c_sa_family_t) :: sin_family = 0_c_sa_family_t
+        integer(kind=c_int16_t)     :: sin_port   = 0_c_int16_t
         type(c_in_addr)             :: sin_addr
     end type c_sockaddr_in
 
@@ -82,18 +82,18 @@ module unix_netdb
         integer(kind=c_int)       :: ai_family    = 0
         integer(kind=c_int)       :: ai_socktype  = 0
         integer(kind=c_int)       :: ai_protocol  = 0
-        integer(kind=c_socklen_t) :: ai_addrlen   = 0
+        integer(kind=c_socklen_t) :: ai_addrlen   = 0_c_socklen_t
         type(c_ptr)               :: ai_canonname = c_null_ptr
         type(c_ptr)               :: ai_addr      = c_null_ptr
         type(c_ptr)               :: ai_next      = c_null_ptr
     end type c_addrinfo
 
     type, bind(c), public :: c_sockaddr_in
-        integer(kind=c_int8_t)        :: sin_len     = 0
-        integer(kind=c_int)           :: sin_family  = 0
-        integer(kind=c_int16_t)       :: sin_port    = 0
-        type(c_in_addr)               :: sin_addr
-        character(kind=c_char, len=1) :: sin_zero(8) = c_null_char
+        integer(kind=c_int8_t)  :: sin_len     = 0_c_int8_t
+        integer(kind=c_int)     :: sin_family  = 0
+        integer(kind=c_int16_t) :: sin_port    = 0_c_int16_t
+        type(c_in_addr)         :: sin_addr
+        character(kind=c_char)  :: sin_zero(8) = c_null_char
     end type c_sockaddr_in
 
 #endif
