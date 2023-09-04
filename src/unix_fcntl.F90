@@ -59,17 +59,17 @@ module unix_fcntl
 
     interface
         ! int fcntl(int fd, int cmd, ...)
-        function c_fcntl(fd, cmd, flag) bind(c, name='fcntl')
+        function c_fcntl(fd, cmd, arg) bind(c, name='c_fcntl')
             import :: c_int, c_ptr
             implicit none
             integer(kind=c_int), intent(in), value :: fd
             integer(kind=c_int), intent(in), value :: cmd
-            type(c_ptr),         intent(in), value :: flag
+            integer(kind=c_int), intent(in), value :: arg
             integer(kind=c_int)                    :: c_fcntl
         end function c_fcntl
 
         ! int open(const char *pathname, int flags, mode_t mode)
-        function c_open(pathname, flags, mode) bind(c, name='open')
+        function c_open(pathname, flags, mode) bind(c, name='c_open')
             import :: c_char, c_int, c_mode_t
             implicit none
             character(kind=c_char), intent(in)        :: pathname

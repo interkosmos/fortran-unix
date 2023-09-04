@@ -217,10 +217,10 @@ module unix_errno
 
     public :: c_errno
 
-    ! Interface to `error_number()` in `errno.c`
+    ! Interface to `c_errno()` in `errno.c`
     interface
-        ! int error_number()
-        function c_errno() bind(c, name='error_number')
+        ! int c_errno()
+        function c_errno() bind(c, name='c_errno')
             import :: c_int
             implicit none
             integer(c_int) :: c_errno

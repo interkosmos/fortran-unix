@@ -100,7 +100,7 @@ contains
         tty%c_iflag = ior(tty%c_iflag, not(IGNBRK))
 
         ! Translate carriage-return to new-line.
-        tty%c_iflag = iand(tty%c_iflag, ICRNL)
+        tty%c_iflag = ior(tty%c_iflag, ICRNL)
 
         ! No signaling chars, no echo, no canonical processing.
         tty%c_lflag = 0
