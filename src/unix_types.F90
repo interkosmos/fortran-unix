@@ -4,7 +4,7 @@ module unix_types
     implicit none
     private
 
-    integer, parameter, public :: c_unsigned_char  = c_char
+    integer, parameter, public :: c_unsigned_char  = c_signed_char
     integer, parameter, public :: c_unsigned_short = c_short
     integer, parameter, public :: c_unsigned_int   = c_int
     integer, parameter, public :: c_unsigned_long  = c_long

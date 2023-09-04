@@ -18,8 +18,8 @@ module unix_termios
         integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
-        character(kind=c_cc_t)   :: c_line           = c_null_char
-        character(kind=c_cc_t)   :: c_cc(0:NCCS - 1) = c_null_char
+        integer(kind=c_cc_t)     :: c_line           = 0_c_cc_t
+        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
         integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
         integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
     end type c_termios
@@ -169,7 +169,7 @@ module unix_termios
         integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
-        character(kind=c_cc_t)   :: c_cc(0:NCCS - 1) = c_null_char
+        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
         integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
         integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
     end type c_termios
