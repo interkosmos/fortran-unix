@@ -216,8 +216,11 @@ module unix_termios
     integer(kind=c_int), parameter, public :: IMAXBEL = int(z'002000') ! ring bell on input queue full
 
     ! Output flags.
-    integer(kind=c_int), parameter, public :: OPOST = int(o'000001')
-    integer(kind=c_int), parameter, public :: ONLCR = int(o'000002')
+    integer(kind=c_int), parameter, public :: OPOST  = int(o'0000001')
+    integer(kind=c_int), parameter, public :: ONLCR  = int(o'0000002')
+    integer(kind=c_int), parameter, public :: OCRNL  = int(o'0000010')
+    integer(kind=c_int), parameter, public :: ONOCR  = int(o'0000020')
+    integer(kind=c_int), parameter, public :: ONLRET = int(o'0000040')
 
     ! Control flags (hardware control of terminal).
     integer(kind=c_int), parameter, public :: CIGNORE    = int(z'000001') ! ignore control flags
