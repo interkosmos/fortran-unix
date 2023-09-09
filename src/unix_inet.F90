@@ -26,7 +26,7 @@ module unix_inet
             integer(kind=c_uint16_t)                    :: c_htons
         end function c_htons
 
-         ! in_addr_t inet_addr(const char *cp)
+        ! in_addr_t inet_addr(const char *cp)
         function c_inet_addr(cp) bind(c, name='inet_addr')
             import :: c_char, c_in_addr_t
             implicit none

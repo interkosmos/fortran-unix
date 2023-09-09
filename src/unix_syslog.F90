@@ -60,11 +60,12 @@ module unix_syslog
        end subroutine c_openlog
 
        ! void syslog(int priority, const char *format, ...)
-       subroutine c_syslog(priority, format) bind(c, name='syslog')
+       subroutine c_syslog(priority, format, str) bind(c, name='c_syslog')
            import :: c_char, c_int
            implicit none
            integer(kind=c_int),    intent(in), value :: priority
            character(kind=c_char), intent(in)        :: format
+           character(kind=c_char), intent(in)        :: str
        end subroutine c_syslog
     end interface
 end module unix_syslog

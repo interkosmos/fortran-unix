@@ -60,7 +60,7 @@ module unix_unistd
         end function c_dup2
 
         ! int execl(const char *path, const char *arg, ...)
-        function c_execl(path, arg1, arg2, arg3, ptr) bind(c, name='execl')
+        function c_execl(path, arg1, arg2, arg3, ptr) bind(c, name='c_execl')
             import :: c_char, c_int, c_ptr
             implicit none
             character(kind=c_char), intent(in)        :: path
