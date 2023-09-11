@@ -5,13 +5,6 @@ module unix_time
     implicit none
     private
 
-    public :: c_asctime
-    public :: c_clock_gettime
-    public :: c_localtime_r
-    public :: c_mktime
-    public :: c_strftime
-    public :: c_time
-
 #if defined (__linux__)
 
     integer(kind=c_int), parameter, public :: CLOCK_REALTIME           = 0
@@ -81,6 +74,16 @@ module unix_time
         integer(kind=c_long)   :: tv_nsec = 0_c_long
     end type c_timespec
 
+    public :: c_asctime
+    public :: c_clock_gettime
+    public :: c_gmtime
+    public :: c_gmtime_r
+    public :: c_localtime
+    public :: c_localtime_r
+    public :: c_mktime
+    public :: c_strftime
+    public :: c_time
+
     interface
         ! char *asctime(const struct tm *timeptr)
         function c_asctime(timeptr) bind(c, name='asctime')
@@ -98,6 +101,31 @@ module unix_time
             type(c_timespec),          intent(out)       :: tp
             integer(kind=c_int)                          :: c_clock_gettime
         end function c_clock_gettime
+
+        ! struct tm *gmtime(const time_t *timer)
+        function c_gmtime(timer) bind(c, name='gmtime')
+            import :: c_ptr, c_time_t
+            implicit none
+            integer(kind=c_time_t), intent(in) :: timer
+            type(c_ptr)                        :: c_gmtime
+        end function c_gmtime
+
+        ! struct tm *gmtime_r(const time_t *restrict timer, struct tm *restrict result)
+        function c_gmtime_r(timer, result) bind(c, name='gmtime_r')
+            import :: c_ptr, c_time_t, c_tm
+            implicit none
+            integer(kind=c_time_t), intent(in)    :: timer
+            type(c_tm),             intent(inout) :: result
+            type(c_ptr)                           :: c_gmtime_r
+        end function c_gmtime_r
+
+        ! struct tm *localtime(const time_t *timer)
+        function c_localtime(timer) bind(c, name='localtime')
+            import :: c_ptr, c_time_t
+            implicit none
+            integer(kind=c_time_t), intent(in) :: timer
+            type(c_ptr)                        :: c_localtime
+        end function c_localtime
 
         ! struct tm *localtime_r(const time_t *restrict timer, struct tm *restrict result)
         function c_localtime_r(timer, result) bind(c, name='localtime_r')
