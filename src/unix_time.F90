@@ -83,6 +83,7 @@ module unix_time
     public :: c_mktime
     public :: c_strftime
     public :: c_time
+    public :: c_timegm
 
     interface
         ! char *asctime(const struct tm *timeptr)
@@ -162,5 +163,13 @@ module unix_time
             integer(kind=c_time_t), intent(in), value :: tloc
             integer(kind=c_time_t)                    :: c_time
         end function c_time
+
+        ! time_t timegm(struct tm *tm)
+        function c_timegm(tm) bind(c, name='timegm')
+            import :: c_time_t, c_tm
+            implicit none
+            type(c_tm), intent(in) :: tm
+            integer(kind=c_time_t) :: c_timegm
+        end function c_timegm
     end interface
 end module unix_time
