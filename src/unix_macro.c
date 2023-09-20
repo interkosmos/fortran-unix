@@ -23,7 +23,7 @@ int c_errno()
 /* int execl(const char *path, const char *arg, ...) */
 int c_execl(const char *path, const char *arg1, const char *arg2, const char *arg3, void *ptr)
 {
-    return execl(path, arg1, arg2, arg3, ptr);
+    return execl(path, arg1, arg2, arg3, ptr, NULL);
 }
 
 /* int fcntl(int fd, int cmd, ...) */
