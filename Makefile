@@ -24,12 +24,14 @@ CC      = gcc
 AR      = ar
 MAKE    = make
 
-DEBUG   = #-g -O0 -fmax-errors=1 -fcheck=all -Wall
-FFLAGS  = $(DEBUG) -std=f2008
-CFLAGS  = $(DEBUG)
+DEBUG   = -g -O0 -Wall -fmax-errors=1
+RELEASE = -O2 -march=native
+
+FFLAGS  = $(RELEASE)
+CFLAGS  = $(RELEASE)
 PPFLAGS = -cpp -D__$(OS)__
 ARFLAGS = rcs
-LDFLAGS = -I$(PREFIX)/include/ -L$(PREFIX)/lib/
+LDFLAGS = -I$(PREFIX)/include -L$(PREFIX)/lib
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
