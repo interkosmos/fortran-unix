@@ -11,7 +11,7 @@ module unix_string
 
     interface
         ! void *memset(void *dst, const void *src, size_t len)
-        function c_memcpy(dst, src, len) bind(c, name='memset')
+        function c_memcpy(dst, src, len) bind(c, name='memcpy')
             import :: c_ptr, c_size_t
             implicit none
             type(c_ptr),            intent(in), value :: dst
