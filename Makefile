@@ -68,7 +68,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_unistd.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_utsname.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
-	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.f90
 	$(CC) $(CFLAGS) -c src/unix_macro.c
 	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
                                unix_inet.o unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \

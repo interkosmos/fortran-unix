@@ -29,7 +29,7 @@ Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
 
 * FreeBSD 13 (GNU Fortran 13),
-* Debian 12 (GNU Fortran 12).
+* Debian 12 (GNU Fortran 12, Intel oneAPI 2024).
 
 Preprocessor macros are used to achieve platform-independent interoperability.
 Therefore, your Fortran compiler has to support at least GNU preprocessor
@@ -55,6 +55,12 @@ Or, instead, set parameter `OS` to either `linux` or `FreeBSD`, and `PREFIX` to
 
 ```
 $ make FC=gfortran OS=linux PREFIX=/usr
+```
+
+For Intel oneAPI, run:
+
+```
+$ make CC=icx FC=ifx PPFLAGS=
 ```
 
 Using fpm, preprocessor flags have to be passed to GNU Fortran:
