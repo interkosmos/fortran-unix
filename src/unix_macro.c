@@ -6,19 +6,32 @@
 #include <stdio.h>
 #include <syslog.h>
 
-/*
- * Macro replacements.
- */
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int c_errno(void);
+int c_execl(const char *, const char *, const char *, const char *, void *);
+int c_fcntl(int, int, int);
+int c_fprintf(FILE *, const char *, const char *);
+int c_ioctl(int, unsigned long, void *);
+int c_open(const char *, int, mode_t);
+int c_scanf(const char *, const char *);
+void c_syslog(int, const char *, const char *);
+
+/*******************************************************************************
+ *** Macro replacements.                                                     ***
+ *******************************************************************************/
 
 /* Returns variable `errno` from `errno.h`. */
-int c_errno()
+int c_errno(void)
 {
     return errno;
 }
 
-/*
- * Non-variadic wrapper procedures.
- */
+/*******************************************************************************
+ *** Non-variadic wrapper procedures.                                        ***
+ *******************************************************************************/
 
 /* int execl(const char *path, const char *arg, ...) */
 int c_execl(const char *path, const char *arg1, const char *arg2, const char *arg3, void *ptr)
@@ -61,3 +74,7 @@ void c_syslog(int priority, const char *format, const char *arg)
 {
     syslog(priority, format, arg);
 }
+
+#ifdef __cplusplus
+}
+#endif
