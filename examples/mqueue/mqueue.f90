@@ -88,14 +88,14 @@ program main
 
     msg = 'Hello, World!'
 
-    if (c_mq_send(mqds, msg, len(msg, 8), 1) < 0) &
+    if (c_mq_send(mqds, msg, len(msg, kind=c_size_t), 1) < 0) &
         call c_perror('mq_send()')
 
     ! Receive message.
     print '(a)', 'Waiting for message ...'
 
     buf = ' ' ! Make sure to clear buffer!
-    sz  = c_mq_receive(mqds, buf, len(buf, 8), prio)
+    sz  = c_mq_receive(mqds, buf, len(buf, kind=c_size_t), prio)
 
     if (sz < 0) then
         call c_perror('mq_receive()' // c_null_char)
