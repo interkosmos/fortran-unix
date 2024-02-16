@@ -55,35 +55,29 @@ contains
         call c_f_pointer(ptr, f_readdir)
     end function f_readdir
 
-    function f_strerror(errnum)
+    function f_strerror(errnum) result(str)
         !! Wrapper function for `c_strerr()` that converts the returned C char
         !! array pointer to Fortran string.
         integer, intent(in)           :: errnum
-        character(len=:), allocatable :: f_strerror
+        character(len=:), allocatable :: str
         type(c_ptr)                   :: ptr
-        integer(kind=i8)              :: size
 
         ptr = c_strerror(errnum)
-        if (.not. c_associated(ptr)) return
-        size = c_strlen(ptr)
-        allocate (character(len=size) :: f_strerror)
-        call c_f_str_ptr(ptr, f_strerror)
+        call c_f_str_ptr(ptr, str)
     end function f_strerror
 
     subroutine c_f_str_chars(c_str, f_str)
         !! Copies a C string, passed as a C char array, to a Fortran string.
-        character(kind=c_char), intent(in)  :: c_str(*)
-        character(len=*),       intent(out) :: f_str
-        integer                             :: i
+        character(kind=c_char),     intent(in)  :: c_str(:)
+        character(len=size(c_str)), intent(out) :: f_str
+        integer                                 :: i
 
-        i = 1
+        f_str = ' '
 
-        do while (c_str(i) /= c_null_char .and. i <= len(f_str))
+        do i = 1, size(c_str)
+            if (c_str(i) == c_null_char) exit
             f_str(i:i) = c_str(i)
-            i = i + 1
         end do
-
-        if (i < len(f_str)) f_str(i:) = ' '
     end subroutine c_f_str_chars
 
     subroutine c_f_str_ptr(c_str, f_str)
@@ -113,17 +107,14 @@ contains
 
     subroutine f_c_str_chars(f_str, c_str)
         !! Copies a Fortran string to a C char array.
-        character(len=*),       intent(in)    :: f_str
-        character(kind=c_char), intent(inout) :: c_str(:)
-        integer(kind=i8)                      :: i
+        character(len=*),       intent(in)  :: f_str
+        character(kind=c_char), intent(out) :: c_str(len(f_str))
+        integer                             :: i
 
-        i = 1
+        c_str = c_null_char
 
-        do while (i <= len(f_str) .and. i <= size(c_str))
+        do i = 1, len(f_str)
             c_str(i) = f_str(i:i)
-            i = i + 1
         end do
-
-        if (i < size(c_str)) c_str(i:) = c_null_char
     end subroutine f_c_str_chars
 end module unix

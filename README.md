@@ -28,7 +28,7 @@ Similar libraries for modern Fortran:
 Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
 
-* FreeBSD 13 (GNU Fortran 13),
+* FreeBSD 14 (GNU Fortran 13),
 * Debian 12 (GNU Fortran 12, Intel oneAPI 2024).
 
 Preprocessor macros are used to achieve platform-independent interoperability.
@@ -63,7 +63,7 @@ For Intel oneAPI, run:
 $ make CC=icx FC=ifx PPFLAGS=
 ```
 
-Using fpm, preprocessor flags have to be passed to GNU Fortran:
+Using fpm, a preprocessor flag has to be passed to GNU Fortran:
 
 ```
 $ fpm build --profile=release --flag="-D__linux__"

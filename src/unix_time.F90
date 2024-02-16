@@ -21,20 +21,6 @@ module unix_time
 
     integer(kind=c_int), parameter, public :: TIMER_ABSTIME = 1
 
-    type, bind(c), public :: c_tm
-        integer(kind=c_int)  :: tm_sec     = 0
-        integer(kind=c_int)  :: tm_min     = 0
-        integer(kind=c_int)  :: tm_hour    = 0
-        integer(kind=c_int)  :: tm_mday    = 0
-        integer(kind=c_int)  :: tm_mon     = 0
-        integer(kind=c_int)  :: tm_year    = 0
-        integer(kind=c_int)  :: tm_wday    = 0
-        integer(kind=c_int)  :: tm_yday    = 0
-        integer(kind=c_int)  :: tm_isdst   = 0
-        integer(kind=c_long) :: tm_gmtoff  = 0_c_long
-        type(c_ptr)          :: tm_zone    = c_null_ptr
-    end type c_tm
-
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: CLOCK_REALTIME           = 0
@@ -55,6 +41,23 @@ module unix_time
     integer(kind=c_int), parameter, public :: TIMER_RELTIME = 0
     integer(kind=c_int), parameter, public :: TIMER_ABSTIME = 1
 
+#endif
+
+    type, bind(c), public :: c_timespec
+        integer(kind=c_time_t) :: tv_sec  = 0_c_time_t
+        integer(kind=c_long)   :: tv_nsec = 0_c_long
+    end type c_timespec
+
+    type, bind(c), public :: c_timeval
+        integer(kind=c_time_t)      :: tv_sec  = 0_c_time_t
+        integer(kind=c_suseconds_t) :: tv_usec = 0_c_suseconds_t
+    end type c_timeval
+
+    type, bind(c), public :: c_timezone
+        integer(kind=c_int) :: tz_minuteswest = 0 ! Minutes west of Greenwich.
+        integer(kind=c_int) :: tz_dsttime     = 0 ! Type of DST correction.
+    end type c_timezone
+
     type, bind(c), public :: c_tm
         integer(kind=c_int)  :: tm_sec    = 0          ! Seconds after minute (0 - 59).
         integer(kind=c_int)  :: tm_min    = 0          ! Minutes after hour (0 - 59).
@@ -69,15 +72,9 @@ module unix_time
         type(c_ptr)          :: tm_zone   = c_null_ptr ! Abbreviation of timezone name.
     end type c_tm
 
-#endif
-
-    type, bind(c), public :: c_timespec
-        integer(kind=c_time_t) :: tv_sec  = 0_c_time_t
-        integer(kind=c_long)   :: tv_nsec = 0_c_long
-    end type c_timespec
-
     public :: c_asctime
     public :: c_clock_gettime
+    public :: c_gettimeofday
     public :: c_gmtime
     public :: c_gmtime_r
     public :: c_localtime
@@ -105,6 +102,15 @@ module unix_time
             integer(kind=c_int)                          :: c_clock_gettime
         end function c_clock_gettime
 
+        ! int gettimeofday(struct timeval *tv, struct timezone *tz)
+        function c_gettimeofday(tv, tz) bind(c, name='gettimeofday')
+            import :: c_int, c_ptr, c_timeval
+            implicit none
+            type(c_timeval), intent(out)       :: tv !! Returned `timeval` struct.
+            type(c_ptr),     intent(in), value :: tz !! Should alway be `c_null_ptr`.
+            integer(kind=c_int)                :: c_gettimeofday
+        end function c_gettimeofday
+
         ! struct tm *gmtime(const time_t *timer)
         function c_gmtime(timer) bind(c, name='gmtime')
             import :: c_ptr, c_time_t
@@ -113,7 +119,7 @@ module unix_time
             type(c_ptr)                        :: c_gmtime
         end function c_gmtime
 
-        ! struct tm *gmtime_r(const time_t *restrict timer, struct tm *restrict result)
+        ! struct tm *gmtime_r(const time_t *timer, struct tm *result)
         function c_gmtime_r(timer, result) bind(c, name='gmtime_r')
             import :: c_ptr, c_time_t, c_tm
             implicit none
@@ -130,7 +136,7 @@ module unix_time
             type(c_ptr)                        :: c_localtime
         end function c_localtime
 
-        ! struct tm *localtime_r(const time_t *restrict timer, struct tm *restrict result)
+        ! struct tm *localtime_r(const time_t *timer, struct tm *result)
         function c_localtime_r(timer, result) bind(c, name='localtime_r')
             import :: c_ptr, c_time_t, c_tm
             implicit none
@@ -143,11 +149,11 @@ module unix_time
         function c_mktime(tm) bind(c, name='mktime')
             import :: c_time_t, c_tm
             implicit none
-            type(c_tm), intent(in) :: tm
-            integer(kind=c_time_t) :: c_mktime
+            type(c_tm), intent(inout) :: tm
+            integer(kind=c_time_t)    :: c_mktime
         end function c_mktime
 
-        ! size_t strftime(char *restrict s, size_t max, const char *restrict format, const struct tm *restrict tm)
+        ! size_t strftime(char *s, size_t max, const char *format, const struct tm *tm)
         function c_strftime(s, max, format, tm) bind(c, name='strftime')
             import :: c_char, c_size_t, c_tm
             implicit none
