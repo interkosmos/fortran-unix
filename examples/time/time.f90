@@ -62,10 +62,10 @@ contains
         hour    = tm%tm_hour
         minute  = tm%tm_min
         second  = tm%tm_sec
-        usecond = tv%tv_usec
+        usecond = int(tv%tv_usec)
 
-        zone_hour = tm%tm_gmtoff / 3600
-        zone_min  = modulo(tm%tm_gmtoff / 60, 60)
+        zone_hour = int(tm%tm_gmtoff) / 3600
+        zone_min  = modulo(int(tm%tm_gmtoff) / 60, 60)
 
         write (iso, FMT_ISO) year, month, day, hour, minute, second, usecond, &
                              zone_hour, zone_min
@@ -87,7 +87,7 @@ contains
     subroutine strftime()
         !! Outputs date and time in ISO 8601.
         character(len=32)      :: iso
-        integer                :: rc
+        integer(kind=c_size_t) :: rc
         integer(kind=c_time_t) :: ts
         type(c_ptr)            :: ptr
         type(c_tm)             :: tm

@@ -112,7 +112,7 @@ contains
         tty%c_cc(VMIN) = 0
 
         ! Read timeout in 1/10 seconds.
-        tty%c_cc(VTIME) = timeout
+        tty%c_cc(VTIME) = int(timeout, kind=c_cc_t)
 
         ! Turn XON/XOFF control off.
         tty%c_iflag = iand(tty%c_iflag, not(IXON + IXOFF + IXANY))
@@ -140,7 +140,7 @@ contains
             tty%c_cc(VMIN) = 0
         end if
 
-        if (present(timeout)) tty%c_cc(VTIME) = timeout
+        if (present(timeout)) tty%c_cc(VTIME) = int(timeout, kind=c_cc_t)
 
         rc = c_tcsetattr(fd, TCSANOW, tty)
     end function serial_set_blocking
