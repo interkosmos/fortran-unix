@@ -84,25 +84,25 @@ module unix_stat
 
     ! struct stat
     type, bind(c), public :: c_stat_type
-        integer(kind=c_dev_t)             :: st_dev        = 0 ! ID of device containing file
-        integer(kind=c_ino_t)             :: st_ino        = 0 ! inode number
-        integer(kind=c_nlink_t)           :: st_nlink      = 0 ! number of hard links
-        integer(kind=c_mode_t)            :: st_mode       = 0 ! protection
-        integer(kind=c_int16_t),  private :: st_padding0   = 0
-        integer(kind=c_uid_t)             :: st_uid        = 0 ! user ID of owner
-        integer(kind=c_gid_t)             :: st_gid        = 0 ! group ID of owner
-        integer(kind=c_int32_t),  private :: st_padding1   = 0
-        integer(kind=c_dev_t)             :: st_rdev       = 0 ! device ID (if special file)
-        type(c_timespec)                  :: st_atim           ! time of last access
-        type(c_timespec)                  :: st_mtim           ! time of last modification
-        type(c_timespec)                  :: st_ctim           ! time of last status change
+        integer(kind=c_dev_t)             :: st_dev       = 0 ! ID of device containing file
+        integer(kind=c_ino_t)             :: st_ino       = 0 ! inode number
+        integer(kind=c_nlink_t)           :: st_nlink     = 0 ! number of hard links
+        integer(kind=c_mode_t)            :: st_mode      = 0 ! protection
+        integer(kind=c_int16_t),  private :: st_padding0  = 0
+        integer(kind=c_uid_t)             :: st_uid       = 0 ! user ID of owner
+        integer(kind=c_gid_t)             :: st_gid       = 0 ! group ID of owner
+        integer(kind=c_int32_t),  private :: st_padding1  = 0
+        integer(kind=c_dev_t)             :: st_rdev      = 0 ! device ID (if special file)
+        type(c_timespec)                  :: st_atim          ! time of last access
+        type(c_timespec)                  :: st_mtim          ! time of last modification
+        type(c_timespec)                  :: st_ctim          ! time of last status change
         type(c_timespec)                  :: st_birthtim
-        integer(kind=c_off_t)             :: st_size       = 0 ! total size, in bytes
-        integer(kind=c_blkcnt_t)          :: st_blocks     = 0 ! number of 512B blocks allocated
-        integer(kind=c_blksize_t)         :: st_blksize    = 0 ! blocksize for file system I/O
-        integer(kind=c_fflags_t)          :: st_flags      = 0
-        integer(kind=c_uint64_t)          :: st_gen        = 0
-        integer(kind=c_uint64_t), private :: st_spare(0:9) = 0
+        integer(kind=c_off_t)             :: st_size      = 0 ! total size, in bytes
+        integer(kind=c_blkcnt_t)          :: st_blocks    = 0 ! number of 512B blocks allocated
+        integer(kind=c_blksize_t)         :: st_blksize   = 0 ! blocksize for file system I/O
+        integer(kind=c_fflags_t)          :: st_flags     = 0
+        integer(kind=c_uint64_t)          :: st_gen       = 0
+        integer(kind=c_uint64_t), private :: st_spare(10) = 0
     end type c_stat_type
 #endif
 

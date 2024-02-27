@@ -35,6 +35,15 @@ module unix
     use :: unix_wait
     implicit none
 
+    interface c_uint_to_int
+        !! Converts unsigned integer to signed integer.
+        module procedure :: c_uint16_to_int32
+        module procedure :: c_uint32_to_int64
+    end interface
+
+    public :: c_uint16_to_int32
+    public :: c_uint32_to_int64
+    public :: c_uint_to_int
     public :: f_readdir
     public :: f_strerror
 
@@ -42,6 +51,30 @@ module unix
     public :: c_f_str_ptr
     public :: f_c_str_chars
 contains
+    pure elemental function c_uint16_to_int32(i) result(r)
+        !! Converts unsigned `uint16_t` integer to signed `int32_t` integer.
+        integer(kind=c_uint16_t), intent(in) :: i !! Unsigned integer.
+        integer(kind=c_int32_t)              :: r !! Signed integer.
+
+        if (i > 0) then
+            r = int(i, kind=c_int32_t)
+        else
+            r = 65536_c_int32_t + int(i, kind=c_int32_t)
+        end if
+    end function c_uint16_to_int32
+
+    pure elemental function c_uint32_to_int64(i) result(r)
+        !! Converts unsigned `uint32_t` integer to signed `int64_t` integer.
+        integer(kind=c_uint32_t), intent(in) :: i !! Unsigned integer.
+        integer(kind=c_int64_t)              :: r !! Signed integer.
+
+        if (i > 0) then
+            r = int(i, kind=c_int64_t)
+        else
+            r = 4294967296_c_int64_t + int(i, kind=c_int64_t)
+        end if
+    end function c_uint32_to_int64
+
     function f_readdir(dirp)
         !! Wrapper function that calls `c_readdir()` and converts the returned
         !! C pointer to Fortran pointer.
