@@ -35,14 +35,30 @@ LDFLAGS = -I$(PREFIX)/include -L$(PREFIX)/lib
 LDLIBS  =
 TARGET  = libfortran-unix.a
 
-.PHONY: all clean dirent examples fifo fork freebsd freebsd_examples \
-        irc key linux linux_examples mqueue msg mutex os pid pipe pthread \
-        regex serial signal socket time
+SRC = src/unix.f90 src/unix_dirent.F90 src/unix_errno.F90 src/unix_fcntl.F90 \
+      src/unix_inet.F90 src/unix_ioctl.F90 src/unix_ipc.F90 src/unix_mqueue.F90 \
+      src/unix_msg.F90 src/unix_netdb.F90 src/unix_pthread.F90 \
+      src/unix_regex.F90 src/unix_semaphore.F90 src/unix_signal.F90 \
+      src/unix_socket.F90 src/unix_stat.F90 src/unix_stdio.F90 \
+      src/unix_stdlib.F90 src/unix_string.F90 src/unix_syslog.F90 \
+      src/unix_termios.F90 src/unix_time.F90 src/unix_types.F90 \
+      src/unix_unistd.F90 src/unix_utsname.F90 src/unix_wait.F90
+
+OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
+      unix_inet.o unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
+      unix_netdb.o unix_pthread.o unix_regex.o unix_semaphore.o \
+      unix_signal.o unix_socket.o unix_stat.o unix_stdio.o \
+      unix_stdlib.o unix_string.o unix_syslog.o unix_termios.o \
+      unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
+      unix_wait.o unix_macro.o
+
+.PHONY: all clean examples freebsd freebsd_examples linux linux_examples
 
 all: $(TARGET)
 
 # Library
-$(TARGET):
+$(TARGET): $(SRC)
+	$(CC) $(CFLAGS) -c src/unix_macro.c
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_types.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_dirent.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.F90
@@ -69,14 +85,7 @@ $(TARGET):
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_utsname.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_wait.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix.f90
-	$(CC) $(CFLAGS) -c src/unix_macro.c
-	$(AR) $(ARFLAGS) $(TARGET) unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
-                               unix_inet.o unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
-                               unix_netdb.o unix_pthread.o unix_regex.o unix_semaphore.o \
-                               unix_signal.o unix_socket.o unix_stat.o unix_stdio.o \
-                               unix_stdlib.o unix_string.o unix_syslog.o unix_termios.o \
-                               unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
-                               unix_wait.o unix_macro.o
+	$(AR) $(ARFLAGS) $(TARGET) $(OBJ)
 
 freebsd:
 	$(MAKE) $(TARGET) OS=FreeBSD
@@ -91,68 +100,71 @@ linux_examples:
 	$(MAKE) examples OS=linux
 
 # Examples
-dirent: $(TARGET)
+examples: dirent fifo fork irc key mqueue mutex msg os pid pipe pthread regex \
+          semaphore serial signal socket stat time uname uptime
+
+dirent: $(TARGET) examples/dirent/dirent.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o dirent examples/dirent/dirent.f90 $(TARGET) $(LDLIBS)
 
-fifo: $(TARGET)
+fifo: $(TARGET) examples/fifo/fifo.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o fifo examples/fifo/fifo.f90 $(TARGET) $(LDLIBS)
 
-fork: $(TARGET)
+fork: $(TARGET) examples/fork/fork.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o fork examples/fork/fork.f90 $(TARGET) $(LDLIBS)
 
-irc: $(TARGET)
+irc: $(TARGET) examples/irc/irc.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o irc examples/irc/irc.f90 $(TARGET) $(LDLIBS)
 
-key: $(TARGET)
+key: $(TARGET) examples/key/key.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o key examples/key/key.f90 $(TARGET) $(LDLIBS)
 
-mqueue: $(TARGET)
+mqueue: $(TARGET) examples/mqueue/mqueue.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o mqueue examples/mqueue/mqueue.f90 $(TARGET) $(LDLIBS) -lrt
 
-msg: $(TARGET)
+msg: $(TARGET) examples/msg/msg.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o msg examples/msg/msg.f90 $(TARGET) $(LDLIBS)
 
-mutex: $(TARGET)
+mutex: $(TARGET) examples/mutex/mutex.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o mutex examples/mutex/mutex.f90 $(TARGET) $(LDLIBS) -lpthread
 
-os: $(TARGET)
+os: $(TARGET) examples/os/os.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o os examples/os/os.F90 $(TARGET) $(LDLIBS)
 
-pid: $(TARGET)
+pid: $(TARGET) examples/pid/pid.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pid examples/pid/pid.f90 $(TARGET) $(LDLIBS)
 
-pipe: $(TARGET)
+pipe: $(TARGET) examples/pipe/pipe.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pipe examples/pipe/pipe.f90 $(TARGET) $(LDLIBS)
 
-pthread: $(TARGET)
+pthread: $(TARGET) examples/pthread/pthread.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o pthread examples/pthread/pthread.f90 $(TARGET) $(LDLIBS) -lpthread
 
-regex: $(TARGET)
+regex: $(TARGET) examples/regex/regex.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o regex examples/regex/regex.f90 $(TARGET) $(LDLIBS)
 
-semaphore: $(TARGET)
+semaphore: $(TARGET) examples/semaphore/semaphore.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o semaphore examples/semaphore/semaphore.f90 $(TARGET) $(LDLIBS) -lpthread
 
-serial: $(TARGET)
+serial: $(TARGET) examples/serial/serial.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o serial examples/serial/serial.f90 $(TARGET) $(LDLIBS)
 
-signal: $(TARGET)
+signal: $(TARGET) examples/signal/signal.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o signal examples/signal/signal.f90 $(TARGET) $(LDLIBS)
 
-socket: $(TARGET)
+socket: $(TARGET) examples/socket/socket.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o socket examples/socket/socket.f90 $(TARGET) $(LDLIBS)
 
-time: $(TARGET)
+stat: $(TARGET) examples/stat/stat.f90
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o stat examples/stat/stat.f90 $(TARGET) $(LDLIBS)
+
+time: $(TARGET) examples/time/time.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o time examples/time/time.f90 $(TARGET) $(LDLIBS)
 
-uname: $(TARGET)
+uname: $(TARGET) examples/uname/uname.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uname examples/uname/uname.f90 $(TARGET) $(LDLIBS)
 
-uptime: $(TARGET)
+uptime: $(TARGET)  examples/uptime/uptime.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
-
-examples: dirent fifo fork irc key mqueue mutex msg os pid pipe pthread regex \
-          semaphore serial signal socket time uname uptime
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
@@ -175,6 +187,7 @@ clean:
 	if [ -e serial ]; then rm serial; fi
 	if [ -e signal ]; then rm signal; fi
 	if [ -e socket ]; then rm socket; fi
+	if [ -e stat ]; then rm stat; fi
 	if [ -e time ]; then rm time; fi
 	if [ -e uname ]; then rm uname; fi
 	if [ -e uptime ]; then rm uptime; fi

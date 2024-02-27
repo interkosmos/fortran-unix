@@ -1,5 +1,5 @@
 name = "fortran-unix"
-version = "0.2.0"
+version = "0.1.0"
 license = "ISC"
 author = "Philipp Engel"
 maintainer = "@interkosmos"
@@ -90,6 +90,11 @@ main = "signal.f90"
 name = "socket"
 source-dir = "examples/socket"
 main = "socket.f90"
+
+[[example]]
+name = "stat"
+source-dir = "examples/stat"
+main = "stat.f90"
 
 [[example]]
 name = "time"

@@ -4,10 +4,6 @@ module unix_dirent
     implicit none
     private
 
-    public :: c_closedir
-    public :: c_opendir
-    public :: c_readdir
-
     integer(kind=c_int), parameter, public :: DT_UNKNOWN = 0
     integer(kind=c_int), parameter, public :: DT_FIFO    = 1
     integer(kind=c_int), parameter, public :: DT_CHR     = 2
@@ -41,6 +37,10 @@ module unix_dirent
     end type c_dirent
 
 #endif
+
+    public :: c_closedir
+    public :: c_opendir
+    public :: c_readdir
 
     interface
         ! int closedir(DIR *dirp)

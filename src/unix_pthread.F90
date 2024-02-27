@@ -4,15 +4,6 @@ module unix_pthread
     implicit none
     private
 
-    public :: c_pthread_create
-    public :: c_pthread_detach
-    public :: c_pthread_join
-    public :: c_pthread_mutex_destroy
-    public :: c_pthread_mutex_init
-    public :: c_pthread_mutex_lock
-    public :: c_pthread_mutex_trylock
-    public :: c_pthread_mutex_unlock
-
     integer, parameter :: PTHREAD_SIZE       = 8    ! 8 Bytes.
 
 #if defined (__linux__)
@@ -34,6 +25,15 @@ module unix_pthread
         private
         character(kind=c_char) :: hidden(PTHREAD_MUTEX_SIZE)
     end type c_pthread_mutex_t
+
+    public :: c_pthread_create
+    public :: c_pthread_detach
+    public :: c_pthread_join
+    public :: c_pthread_mutex_destroy
+    public :: c_pthread_mutex_init
+    public :: c_pthread_mutex_lock
+    public :: c_pthread_mutex_trylock
+    public :: c_pthread_mutex_unlock
 
     interface
         ! int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg)

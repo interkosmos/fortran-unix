@@ -1,13 +1,10 @@
 ! unix_stat.F90
 module unix_stat
     use, intrinsic :: iso_c_binding
+    use :: unix_time
     use :: unix_types
     implicit none
     private
-
-    public :: c_mkdir
-    public :: c_mkfifo
-    public :: c_umask
 
 #if defined (__linux__)
 
@@ -38,6 +35,24 @@ module unix_stat
     integer(kind=c_int), parameter, public :: S_ISGID  = int(o'0002000')
     integer(kind=c_int), parameter, public :: S_ISVTX  = int(o'0001000')
 
+    ! struct stat
+    type, bind(c), public :: c_stat_type
+        integer(kind=c_dev_t)         :: st_dev      = 0 ! ID of device containing file
+        integer(kind=c_ino_t)         :: st_ino      = 0 ! inode number
+        integer(kind=c_nlink_t)       :: st_nlink    = 0 ! number of hard links
+        integer(kind=c_mode_t)        :: st_mode     = 0 ! protection
+        integer(kind=c_uid_t)         :: st_uid      = 0 ! user ID of owner
+        integer(kind=c_gid_t)         :: st_gid      = 0 ! group ID of owner
+        integer(kind=c_int), private  :: pad0        = 0
+        integer(kind=c_dev_t)         :: st_rdev     = 0 ! device ID (if special file)
+        integer(kind=c_off_t)         :: st_size     = 0 ! total size, in bytes
+        integer(kind=c_blksize_t)     :: st_blksize  = 0 ! blocksize for file system I/O
+        integer(kind=c_blkcnt_t)      :: st_blocks   = 0 ! number of 512B blocks allocated
+        type(c_timespec)              :: st_atim         ! time of last access
+        type(c_timespec)              :: st_mtim         ! time of last modification
+        type(c_timespec)              :: st_ctim         ! time of last status change
+        integer(kind=c_long), private :: reserved(3) = 0
+    end type c_stat_type
 
 #elif defined (__FreeBSD__)
 
@@ -67,9 +82,56 @@ module unix_stat
     integer(kind=c_int), parameter, public :: S_ISVTX  = int(o'0001000') ! save swapped text even after use
     integer(kind=c_int), parameter, public :: S_IFWHT  = int(o'0160000') ! whiteout
 
+    ! struct stat
+    type, bind(c), public :: c_stat_type
+        integer(kind=c_dev_t)             :: st_dev        = 0 ! ID of device containing file
+        integer(kind=c_ino_t)             :: st_ino        = 0 ! inode number
+        integer(kind=c_nlink_t)           :: st_nlink      = 0 ! number of hard links
+        integer(kind=c_mode_t)            :: st_mode       = 0 ! protection
+        integer(kind=c_int16_t),  private :: st_padding0   = 0
+        integer(kind=c_uid_t)             :: st_uid        = 0 ! user ID of owner
+        integer(kind=c_gid_t)             :: st_gid        = 0 ! group ID of owner
+        integer(kind=c_int32_t),  private :: st_padding1   = 0
+        integer(kind=c_dev_t)             :: st_rdev       = 0 ! device ID (if special file)
+        type(c_timespec)                  :: st_atim           ! time of last access
+        type(c_timespec)                  :: st_mtim           ! time of last modification
+        type(c_timespec)                  :: st_ctim           ! time of last status change
+        type(c_timespec)                  :: st_birthtim
+        integer(kind=c_off_t)             :: st_size       = 0 ! total size, in bytes
+        integer(kind=c_blkcnt_t)          :: st_blocks     = 0 ! number of 512B blocks allocated
+        integer(kind=c_blksize_t)         :: st_blksize    = 0 ! blocksize for file system I/O
+        integer(kind=c_fflags_t)          :: st_flags      = 0
+        integer(kind=c_uint64_t)          :: st_gen        = 0
+        integer(kind=c_uint64_t), private :: st_spare(0:9) = 0
+    end type c_stat_type
 #endif
 
+    public :: c_fstat
+    public :: c_lstat
+    public :: c_mkdir
+    public :: c_mkfifo
+    public :: c_umask
+    public :: c_stat
+
     interface
+        ! int fstat(int fd, struct stat *buf)
+        function c_fstat(fd, buf) bind(c, name='fstat')
+            import :: c_int, c_stat_type
+            implicit none
+            integer(kind=c_int), intent(in), value :: fd
+            type(c_stat_type),   intent(inout)     :: buf
+            integer(kind=c_int)                    :: c_fstat
+        end function c_fstat
+
+        ! int lstat(const char *path, struct stat *buf)
+        function c_lstat(path, buf) bind(c, name='lstat')
+            import :: c_char, c_int, c_stat_type
+            implicit none
+            character(kind=c_char), intent(in)    :: path
+            type(c_stat_type),      intent(inout) :: buf
+            integer(kind=c_int)                   :: c_lstat
+        end function c_lstat
+
         ! int mkdir(const char *path, mode_t mode)
         function c_mkdir(path, mode) bind(c, name='mkdir')
             import :: c_char, c_int, c_mode_t
@@ -87,6 +149,15 @@ module unix_stat
             integer(kind=c_mode_t), intent(in), value :: mode
             integer(kind=c_int)                       :: c_mkfifo
         end function c_mkfifo
+
+        ! int stat(const char *path, struct stat *buf)
+        function c_stat(path, buf) bind(c, name='stat')
+            import :: c_char, c_int, c_stat_type
+            implicit none
+            character(kind=c_char), intent(in)    :: path
+            type(c_stat_type),      intent(inout) :: buf
+            integer(kind=c_int)                   :: c_stat
+        end function c_stat
 
         ! mode_t umask(mode_t numask)
         function c_umask(numask) bind(c, name='umask')

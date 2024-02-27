@@ -5,9 +5,6 @@ module unix_signal
     implicit none
     private
 
-    public :: c_kill
-    public :: c_signal
-
 #if defined (__linux__)
 
     integer(kind=c_int), parameter, public :: SIGHUP    = 1
@@ -81,6 +78,9 @@ module unix_signal
     integer(kind=c_int), parameter, public :: SIGUSR2   = 31
 
 #endif
+
+    public :: c_kill
+    public :: c_signal
 
     interface
         ! int kill(pid_t pid, int sig)

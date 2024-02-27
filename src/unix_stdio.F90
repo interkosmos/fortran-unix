@@ -4,6 +4,8 @@ module unix_stdio
     implicit none
     private
 
+    integer(kind=c_int), parameter, public :: EOF = -1
+
     public :: c_getchar
     public :: c_getline
     public :: c_fclose
@@ -23,8 +25,6 @@ module unix_stdio
     public :: c_scanf
     public :: c_setbuf
     public :: c_setvbuf
-
-    integer(kind=c_int), parameter, public :: EOF = -1
 
     interface
         ! int getchar(void)

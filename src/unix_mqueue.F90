@@ -6,6 +6,14 @@ module unix_mqueue
     implicit none
     private
 
+    type, bind(c), public :: c_mq_attr
+        integer(kind=c_long)          :: mq_flags    = 0_c_long ! Flags (ignored for mq_open()).
+        integer(kind=c_long)          :: mq_maxmsg   = 0_c_long ! Max. # of messages on queue.
+        integer(kind=c_long)          :: mq_msgsize  = 0_c_long ! Max. message size (bytes).
+        integer(kind=c_long)          :: mq_curmsgs  = 0_c_long ! # of messages currently in queue.
+        integer(kind=c_long), private :: reserved(4) = 0_c_long
+    end type c_mq_attr
+
     public :: c_mq_close
     public :: c_mq_getattr
     public :: c_mq_open
@@ -14,14 +22,6 @@ module unix_mqueue
     public :: c_mq_setattr
     public :: c_mq_timedreceive
     public :: c_mq_unlink
-
-    type, bind(c), public :: c_mq_attr
-        integer(kind=c_long)          :: mq_flags    = 0_c_long ! Flags (ignored for mq_open()).
-        integer(kind=c_long)          :: mq_maxmsg   = 0_c_long ! Max. # of messages on queue.
-        integer(kind=c_long)          :: mq_msgsize  = 0_c_long ! Max. message size (bytes).
-        integer(kind=c_long)          :: mq_curmsgs  = 0_c_long ! # of messages currently in queue.
-        integer(kind=c_long), private :: reserved(4) = 0_c_long
-    end type c_mq_attr
 
     interface
         ! int mq_close(mqd_t mqdes)

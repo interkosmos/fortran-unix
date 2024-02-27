@@ -52,7 +52,7 @@ contains
         flags = ior(O_NOCTTY, O_SYNC)
         flags = ior(flags, access_mode)
 
-        fd = c_open(trim(port_name) // c_null_char, flags, 0)
+        fd = c_open(trim(port_name) // c_null_char, flags, int(0, kind=c_mode_t))
     end function serial_open
 
     integer(kind=i8) function serial_read(fd, a) result(n)

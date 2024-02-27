@@ -65,7 +65,7 @@ program main
     ! Create new message queue `/fortran`.
     mqds = c_mq_open(name  = MQ_NAME // c_null_char, &
                      oflag = ior(O_CREAT, O_RDWR), &
-                     mode  = MQ_PERM, &
+                     mode  = int(MQ_PERM, kind=c_mode_t), &
                      attr  = c_null_ptr)
 
     if (mqds < 0) then

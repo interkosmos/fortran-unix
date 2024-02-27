@@ -9,9 +9,9 @@ module unix_ipc
     integer(kind=c_int), parameter, public :: IPC_EXCL   = int(o'002000')
     integer(kind=c_int), parameter, public :: IPC_NOWAIT = int(o'004000')
 
-    integer(kind=c_int), parameter, public :: IPC_RMID   = 0
-    integer(kind=c_int), parameter, public :: IPC_SET    = 1
-    integer(kind=c_int), parameter, public :: IPC_STAT   = 2
+    integer(kind=c_int), parameter, public :: IPC_RMID = 0
+    integer(kind=c_int), parameter, public :: IPC_SET  = 1
+    integer(kind=c_int), parameter, public :: IPC_STAT = 2
 
     integer(kind=c_key_t), parameter, public :: IPC_PRIVATE = 0
 

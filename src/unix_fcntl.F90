@@ -5,9 +5,6 @@ module unix_fcntl
     implicit none
     private
 
-    public :: c_fcntl
-    public :: c_open
-
 #if defined (__linux__)
 
     integer(kind=c_int), parameter, public :: O_ACCMODE  = int(o'0003')
@@ -56,6 +53,9 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: F_SETFL = 4 ! Set file status flags.
 
 #endif
+
+    public :: c_fcntl
+    public :: c_open
 
     interface
         ! int fcntl(int fd, int cmd, ...)

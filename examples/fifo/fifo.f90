@@ -21,7 +21,7 @@ program main
     integer        :: rc     ! Return code.
 
     ! Create named pipe.
-    rc = c_mkfifo(PATH // c_null_char, PERM)
+    rc = c_mkfifo(PATH // c_null_char, int(PERM, kind=c_mode_t))
 
     if (rc < 0) then
         call c_perror('Error' // c_null_char)
@@ -35,7 +35,7 @@ program main
         print '(3a)', 'Waiting for input in "', path, '" ...'
 
         ! Open file descriptor (read-only) and stream (read-only).
-        fd     = c_open(PATH // c_null_char, O_RDONLY, S_IRUSR)
+        fd     = c_open(PATH // c_null_char, O_RDONLY, int(S_IRUSR, kind=c_mode_t))
         stream = c_fdopen(fd, 'r' // c_null_char)
 
         do

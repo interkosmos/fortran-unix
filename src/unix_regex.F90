@@ -7,13 +7,6 @@ module unix_regex
 
 #if defined (__linux__)
 
-    integer, parameter, public :: c_regoff_t = c_size_t
-
-    type, bind(c), public :: c_regex_t
-        private
-        character(kind=c_char) :: hidden(64)
-    end type c_regex_t
-
     integer(kind=c_int), parameter, public :: REG_EXTENDED = 1
     integer(kind=c_int), parameter, public :: REG_ICASE    = shiftl(1, 1)
     integer(kind=c_int), parameter, public :: REG_NEWLINE  = shiftl(1, 2)
@@ -41,16 +34,14 @@ module unix_regex
     integer(kind=c_int), parameter, public :: REG_ESIZE    = 15
     integer(kind=c_int), parameter, public :: REG_ERPAREN  = 16
 
-#elif defined (__FreeBSD__)
-
-    integer, parameter, public :: c_regoff_t = c_int64_t
+    integer, parameter, public :: c_regoff_t = c_size_t
 
     type, bind(c), public :: c_regex_t
-        integer(kind=c_int)    :: re_magic = 0
-        integer(kind=c_size_t) :: re_nsub  = 0_c_size_t
-        type(c_ptr)            :: re_endp  = c_null_ptr
-        type(c_ptr)            :: re_g     = c_null_ptr
+        private
+        character(kind=c_char) :: hidden(64)
     end type c_regex_t
+
+#elif defined (__FreeBSD__)
 
     ! regcomp() flags
     integer(kind=c_int), parameter, public :: REG_BASIC    = int(o'0000')
@@ -91,6 +82,15 @@ module unix_regex
     integer(kind=c_int), parameter, public :: REG_TRACE    = int(o'00400')
     integer(kind=c_int), parameter, public :: REG_LARGE    = int(o'01000')
     integer(kind=c_int), parameter, public :: REG_BACKR    = int(o'02000')
+
+    integer, parameter, public :: c_regoff_t = c_int64_t
+
+    type, bind(c), public :: c_regex_t
+        integer(kind=c_int)    :: re_magic = 0
+        integer(kind=c_size_t) :: re_nsub  = 0_c_size_t
+        type(c_ptr)            :: re_endp  = c_null_ptr
+        type(c_ptr)            :: re_g     = c_null_ptr
+    end type c_regex_t
 
 #endif
 

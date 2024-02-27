@@ -74,6 +74,7 @@ module unix_time
 
     public :: c_asctime
     public :: c_clock_gettime
+    public :: c_ctime
     public :: c_gettimeofday
     public :: c_gmtime
     public :: c_gmtime_r
@@ -101,6 +102,13 @@ module unix_time
             type(c_timespec),          intent(out)       :: tp
             integer(kind=c_int)                          :: c_clock_gettime
         end function c_clock_gettime
+
+        ! char *ctime(const time_t *clock)
+        function c_ctime(clock) bind(c, name='ctime')
+            import :: c_ptr, c_time_t
+            integer(kind=c_time_t), intent(in) :: clock
+            type(c_ptr)                        :: c_ctime
+        end function c_ctime
 
         ! int gettimeofday(struct timeval *tv, struct timezone *tz)
         function c_gettimeofday(tv, tz) bind(c, name='gettimeofday')
