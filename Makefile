@@ -33,6 +33,9 @@ PPFLAGS = -cpp -D__$(OS)__
 ARFLAGS = rcs
 LDFLAGS = -I$(PREFIX)/include -L$(PREFIX)/lib
 LDLIBS  =
+INCDIR  = $(PREFIX)/include/libfortran-unix
+LIBDIR  = $(PREFIX)/lib
+
 TARGET  = libfortran-unix.a
 
 SRC = src/unix.f90 src/unix_dirent.F90 src/unix_errno.F90 src/unix_fcntl.F90 \
@@ -52,7 +55,7 @@ OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
       unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
       unix_wait.o unix_macro.o
 
-.PHONY: all clean examples freebsd freebsd_examples linux linux_examples
+.PHONY: all clean examples freebsd freebsd_examples install linux linux_examples
 
 all: $(TARGET)
 
@@ -163,8 +166,16 @@ time: $(TARGET) examples/time/time.f90
 uname: $(TARGET) examples/uname/uname.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uname examples/uname/uname.f90 $(TARGET) $(LDLIBS)
 
-uptime: $(TARGET)  examples/uptime/uptime.f90
+uptime: $(TARGET) examples/uptime/uptime.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
+
+install:
+	@echo "--- Installing $(TARGET) to $(LIBDIR)/ ..."
+	install -d $(LIBDIR)
+	install -m 644 $(TARGET) $(LIBDIR)/
+	@echo "--- Installing module files to $(INCDIR)/ ..."
+	install -d $(INCDIR)
+	install -m 644 *.mod $(INCDIR)/
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi

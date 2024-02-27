@@ -41,15 +41,14 @@ module unix
         module procedure :: c_uint32_to_int64
     end interface
 
+    public :: c_f_str_chars
+    public :: c_f_str_ptr
     public :: c_uint16_to_int32
     public :: c_uint32_to_int64
     public :: c_uint_to_int
+    public :: f_c_str_chars
     public :: f_readdir
     public :: f_strerror
-
-    public :: c_f_str_chars
-    public :: c_f_str_ptr
-    public :: f_c_str_chars
 contains
     pure elemental function c_uint16_to_int32(i) result(r)
         !! Converts unsigned `uint16_t` integer to signed `int32_t` integer.
