@@ -49,11 +49,12 @@ contains
         integer :: hour, minute, second, usecond
         integer :: zone_hour, zone_min
 
-        type(c_ptr)     :: ptr
-        type(c_timeval) :: tv
-        type(c_tm)      :: tm
+        type(c_ptr)      :: ptr
+        type(c_timeval)  :: tv
+        type(c_tm)       :: tm
+        type(c_timezone) :: tz
 
-        rc  = c_gettimeofday(tv, c_null_ptr)
+        rc  = c_gettimeofday(tv, tz)
         ptr = c_localtime_r(tv%tv_sec, tm)
 
         year    = tm%tm_year + 1900

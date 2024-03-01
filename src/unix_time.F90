@@ -112,11 +112,11 @@ module unix_time
 
         ! int gettimeofday(struct timeval *tv, struct timezone *tz)
         function c_gettimeofday(tv, tz) bind(c, name='gettimeofday')
-            import :: c_int, c_ptr, c_timeval
+            import :: c_int, c_timeval, c_timezone
             implicit none
-            type(c_timeval), intent(out)       :: tv !! Returned `timeval` struct.
-            type(c_ptr),     intent(in), value :: tz !! Should alway be `c_null_ptr`.
-            integer(kind=c_int)                :: c_gettimeofday
+            type(c_timeval),  intent(out) :: tv
+            type(c_timezone), intent(in)  :: tz
+            integer(kind=c_int)           :: c_gettimeofday
         end function c_gettimeofday
 
         ! struct tm *gmtime(const time_t *timer)
