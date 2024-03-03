@@ -169,13 +169,13 @@ uname: $(TARGET) examples/uname/uname.f90
 uptime: $(TARGET) examples/uptime/uptime.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
 
-install:
+install: $(TARGET)
 	@echo "--- Installing $(TARGET) to $(LIBDIR)/ ..."
 	install -d $(LIBDIR)
 	install -m 644 $(TARGET) $(LIBDIR)/
 	@echo "--- Installing module files to $(INCDIR)/ ..."
 	install -d $(INCDIR)
-	install -m 644 *.mod $(INCDIR)/
+	install -m 644 unix*.mod $(INCDIR)/
 
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
