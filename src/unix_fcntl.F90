@@ -41,6 +41,7 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: O_TRUNC    = int(z'0400') ! Truncate to zero length.
     integer(kind=c_int), parameter, public :: O_EXCL     = int(z'0800') ! Error if already exists.
     integer(kind=c_int), parameter, public :: O_NONBLOCK = int(z'0004') ! No delay.
+    integer(kind=c_int), parameter, public :: O_NDELAY   = O_NONBLOCK
     integer(kind=c_int), parameter, public :: O_APPEND   = int(z'0008') ! Set append mode.
     integer(kind=c_int), parameter, public :: O_NOCTTY   = int(z'8000') ! Don't assign controlling terminal.
 
