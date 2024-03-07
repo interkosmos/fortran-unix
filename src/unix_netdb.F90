@@ -10,22 +10,6 @@ module unix_netdb
     integer(kind=c_int), parameter, public :: AF_UNIX  = 1
     integer(kind=c_int), parameter, public :: AF_INET  = 2
 
-#if defined (__linux__)
-
-    integer(kind=c_int), parameter, public :: AF_INET6 = 10
-
-    integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = O_CLOEXEC
-    integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = O_NONBLOCK
-
-#elif defined (__FreeBSD__)
-
-    integer(kind=c_int), parameter, public :: AF_INET6 = 28
-
-    integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = int(z'10000000')
-    integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = int(z'20000000')
-
-#endif
-
     integer(kind=c_int), parameter, public :: SOCK_STREAM    = 1
     integer(kind=c_int), parameter, public :: SOCK_DGRAM     = 2
     integer(kind=c_int), parameter, public :: SOCK_RAW       = 3
@@ -45,11 +29,16 @@ module unix_netdb
 
 #if defined (__linux__)
 
+    integer(kind=c_int), parameter, public :: AF_INET6 = 10
+
+    integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = O_CLOEXEC
+    integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = O_NONBLOCK
+
     integer(kind=c_int), parameter, public :: c_sa_family_t = c_signed_char
 
     type, bind(c), public :: c_sockaddr
-        integer(kind=c_sa_family_t) :: sa_family   = 0_c_sa_family_t
-        character(kind=c_char)      :: sa_data(14) = c_null_char
+        integer(kind=c_sa_family_t) :: sa_family     = 0_c_sa_family_t
+        character(kind=c_char)      :: sa_data(0:13) = c_null_char
     end type c_sockaddr
 
     type, bind(c), public :: c_addrinfo
@@ -71,10 +60,15 @@ module unix_netdb
 
 #elif defined (__FreeBSD__)
 
+    integer(kind=c_int), parameter, public :: AF_INET6 = 28
+
+    integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = int(z'10000000')
+    integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = int(z'20000000')
+
     type, bind(c), public :: c_sockaddr
-        character(kind=c_char) :: sa_len      = c_null_char
-        integer(kind=c_int)    :: sa_family   = 0
-        character(kind=c_char) :: sa_data(14) = c_null_char
+        character(kind=c_char) :: sa_len        = c_null_char
+        integer(kind=c_int)    :: sa_family     = 0
+        character(kind=c_char) :: sa_data(0:13) = c_null_char
     end type c_sockaddr
 
     type, bind(c), public :: c_addrinfo
@@ -89,11 +83,11 @@ module unix_netdb
     end type c_addrinfo
 
     type, bind(c), public :: c_sockaddr_in
-        integer(kind=c_int8_t)  :: sin_len     = 0_c_int8_t
-        integer(kind=c_int)     :: sin_family  = 0
-        integer(kind=c_int16_t) :: sin_port    = 0_c_int16_t
+        integer(kind=c_int8_t)  :: sin_len       = 0_c_int8_t
+        integer(kind=c_int)     :: sin_family    = 0
+        integer(kind=c_int16_t) :: sin_port      = 0_c_int16_t
         type(c_in_addr)         :: sin_addr
-        character(kind=c_char)  :: sin_zero(8) = c_null_char
+        character(kind=c_char)  :: sin_zero(0:7) = c_null_char
     end type c_sockaddr_in
 
 #endif

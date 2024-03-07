@@ -69,7 +69,7 @@ module unix_time
         integer(kind=c_int)  :: tm_yday   = 0          ! Day of year (0 - 365).
         integer(kind=c_int)  :: tm_isdst  = 0          ! Positive if daylight saving time is in effect.
         integer(kind=c_long) :: tm_gmtoff = 0_c_long   ! Offset from UTC in seconds.
-        type(c_ptr)          :: tm_zone   = c_null_ptr ! Abbreviation of timezone name.
+        type(c_ptr)          :: tm_zone   = c_null_ptr ! Abbreviation of timezone name (const char *).
     end type c_tm
 
     public :: c_asctime

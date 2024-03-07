@@ -4,14 +4,14 @@ module unix_pthread
     implicit none
     private
 
-    integer, parameter :: PTHREAD_SIZE       = 8    ! 8 Bytes.
-
 #if defined (__linux__)
 
+    integer, parameter :: PTHREAD_SIZE       = 8    ! 8 Bytes.
     integer, parameter :: PTHREAD_MUTEX_SIZE = 40   ! 40 Bytes.
 
 #elif defined (__FreeBSD__)
 
+    integer, parameter :: PTHREAD_SIZE       = 8    ! 8 Bytes.
     integer, parameter :: PTHREAD_MUTEX_SIZE = 8    ! 8 Bytes.
 
 #endif

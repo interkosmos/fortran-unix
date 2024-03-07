@@ -1,10 +1,11 @@
 /* unix_macro.c */
 #include <errno.h>
 #include <fcntl.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 #include <stdio.h>
+#include <sys/ioctl.h>
+#include <sys/utsname.h>
 #include <syslog.h>
+#include <unistd.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -17,6 +18,7 @@ int c_fprintf(FILE *, const char *, const char *);
 int c_ioctl(int, unsigned long, void *);
 int c_open(const char *, int, mode_t);
 int c_scanf(const char *, const char *);
+int uname(struct utsname *);
 void c_syslog(int, const char *, const char *);
 
 /*******************************************************************************
@@ -67,6 +69,12 @@ int c_open(const char *pathname, int flags, mode_t mode)
 int c_scanf(const char *format, const char *arg)
 {
     return scanf(format, arg);
+}
+
+/* int uname(struct utsname *name) */
+int c_uname(struct utsname *name)
+{
+    uname(name);
 }
 
 /* void syslog(int priority, const char *format, ...) */

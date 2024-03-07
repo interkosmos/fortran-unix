@@ -39,7 +39,7 @@ conditionals (`#ifdef` …).
 
 ## Build Instructions
 
-Run either GNU/BSD make or [fpm](https://github.com/fortran-lang/fpm) to build
+Run either GNU/BSD make or [FPM](https://github.com/fortran-lang/fpm) to build
 the static library `libfortran-unix.a`. Link your Fortran application with
 `libfortran-unix.a`, and optionally with `-lpthread` to access POSIX threads, or
 `-lrt` to access POSIX message queues.
@@ -62,7 +62,7 @@ Or, set parameter `OS` to either `linux` or `FreeBSD`, and `PREFIX` to `/usr` or
 `/usr/local`, for instance:
 
 ```
-$ make FC=gfortran OS=linux PREFIX=/usr
+$ make OS=linux PREFIX=/usr
 ```
 
 For Intel oneAPI, run:
@@ -82,7 +82,7 @@ $ make install PREFIX=/opt
 
 ### Fortran Package Manager
 
-Using fpm, a preprocessor flag has to be passed to GNU Fortran. On FreeBSD:
+Using FPM, a preprocessor flag has to be passed to GNU Fortran. On FreeBSD:
 
 ```
 $ fpm build --profile release --flag "-D__FreeBSD__"

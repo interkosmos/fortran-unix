@@ -24,12 +24,6 @@ module unix_fcntl
 
     integer(kind=c_int), parameter, public :: O_CLOEXEC  = int(o'02000000')
 
-    integer(kind=c_int), parameter, public :: F_DUPFD = 0
-    integer(kind=c_int), parameter, public :: F_GETFD = 1
-    integer(kind=c_int), parameter, public :: F_SETFD = 2
-    integer(kind=c_int), parameter, public :: F_GETFL = 3
-    integer(kind=c_int), parameter, public :: F_SETFL = 4
-
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: O_RDONLY   = int(z'0000') ! Open for reading only.
@@ -47,13 +41,13 @@ module unix_fcntl
 
     integer(kind=c_int), parameter, public :: O_CLOEXEC  = int(z'00100000')
 
+#endif
+
     integer(kind=c_int), parameter, public :: F_DUPFD = 0 ! Duplicate file descriptor.
     integer(kind=c_int), parameter, public :: F_GETFD = 1 ! Get file descriptor flags.
     integer(kind=c_int), parameter, public :: F_SETFD = 2 ! Set file descriptor flags.
     integer(kind=c_int), parameter, public :: F_GETFL = 3 ! Get file status flags.
     integer(kind=c_int), parameter, public :: F_SETFL = 4 ! Set file status flags.
-
-#endif
 
     public :: c_fcntl
     public :: c_open

@@ -78,6 +78,7 @@ contains
         !! Wrapper function that calls `c_readdir()` and converts the returned
         !! C pointer to Fortran pointer.
         type(c_ptr), intent(in) :: dirp
+
         type(c_dirent), pointer :: f_readdir
         type(c_ptr)             :: ptr
 
@@ -92,7 +93,8 @@ contains
         !! array pointer to Fortran string.
         integer, intent(in)           :: errnum
         character(len=:), allocatable :: str
-        type(c_ptr)                   :: ptr
+
+        type(c_ptr) :: ptr
 
         ptr = c_strerror(errnum)
         call c_f_str_ptr(ptr, str)
@@ -100,9 +102,10 @@ contains
 
     subroutine c_f_str_chars(c_str, f_str)
         !! Copies a C string, passed as a C char array, to a Fortran string.
-        character(kind=c_char),     intent(in)  :: c_str(:)
-        character(len=size(c_str)), intent(out) :: f_str
-        integer                                 :: i
+        character(kind=c_char),     intent(inout) :: c_str(:)
+        character(len=size(c_str)), intent(out)   :: f_str
+
+        integer :: i
 
         f_str = ' '
 
@@ -141,7 +144,8 @@ contains
         !! Copies a Fortran string to a C char array.
         character(len=*),       intent(in)  :: f_str
         character(kind=c_char), intent(out) :: c_str(len(f_str))
-        integer                             :: i
+
+        integer :: i
 
         c_str = c_null_char
 
