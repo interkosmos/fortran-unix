@@ -92,6 +92,7 @@ contains
         tty%c_cflag = c_cflag
         tty%c_iflag = c_iflag
         tty%c_oflag = c_oflag
+        tty%c_lflag = c_lflag
 
         tty%c_cc(VMIN)  = 0                         ! Read doesn't block.
         tty%c_cc(VTIME) = int(timeout, kind=c_cc_t) ! Read timeout in 1/10 seconds.
