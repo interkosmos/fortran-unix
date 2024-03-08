@@ -1,60 +1,62 @@
 ! mutex.f90
 !
-! Example that shows threaded access to a global variable, using a mutex.
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
-module util
+module mutex
+    !! Mutex module.
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 
-    type(c_pthread_mutex_t), save :: foo_mutex
-    integer,                 save :: foo_value = 0
+    type(c_pthread_mutex_t), save :: mutex_sample
+    integer,                 save :: value_sample = 0
 contains
-    recursive subroutine foo(arg) bind(c)
-        type(c_ptr), intent(in), value :: arg   ! Client data.
-        integer, pointer               :: n     ! Fortran pointer to client data.
-        integer                        :: rc
+    recursive subroutine mutex_update(arg) bind(c)
+        type(c_ptr), intent(in), value :: arg ! Client data.
+
+        integer, pointer :: n    ! Fortran pointer to client data.
+        integer          :: stat ! Return code.
 
         if (.not. c_associated(arg)) return
         call c_f_pointer(arg, n)
 
-        rc = c_pthread_mutex_lock(foo_mutex)
+        stat = c_pthread_mutex_lock(mutex_sample)
 
-        print '("Thread ", i2, " changes value from ", i2, " to ", i2)', n, foo_value, n
-        foo_value = n
+        print '("Thread ", i2, " changes value from ", i2, " to ", i2)', n, value_sample, n
+        value_sample = n
 
-        rc = c_pthread_mutex_unlock(foo_mutex)
-    end subroutine foo
-end module util
+        stat = c_pthread_mutex_unlock(mutex_sample)
+    end subroutine mutex_update
+end module mutex
 
 program main
+    !! Example that shows threaded access to a global variable, using a mutex.
     use, intrinsic :: iso_c_binding
     use :: unix
-    use :: util
+    use :: mutex
     implicit none
     integer, parameter :: NTHREADS = 16
-    integer            :: i, rc
-    type(c_pthread_t)  :: threads(NTHREADS)
-    integer, target    :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
 
-    rc = c_pthread_mutex_init(foo_mutex, c_null_ptr)
+    integer           :: i, stat
+    type(c_pthread_t) :: threads(NTHREADS)
+    integer, target   :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
 
-    print '(a)', 'Starting threads ...'
+    stat = c_pthread_mutex_init(mutex_sample, c_null_ptr)
 
-    do i = 1, NTHREADS
-        rc = c_pthread_create(thread        = threads(i), &
-                              attr          = c_null_ptr, &
-                              start_routine = c_funloc(foo), &
-                              arg           = c_loc(routines(i)))
-    end do
-
-    print '(a)', 'Joining threads ...'
+    print '("Starting threads ...")'
 
     do i = 1, NTHREADS
-        rc = c_pthread_join(threads(i), c_loc(routines(i)))
+        stat = c_pthread_create(thread        = threads(i), &
+                                attr          = c_null_ptr, &
+                                start_routine = c_funloc(mutex_update), &
+                                arg           = c_loc(routines(i)))
     end do
 
-    rc = c_pthread_mutex_destroy(foo_mutex)
+    print '("Joining threads ...")'
+
+    do i = 1, NTHREADS
+        stat = c_pthread_join(threads(i), c_loc(routines(i)))
+    end do
+
+    stat = c_pthread_mutex_destroy(mutex_sample)
 end program main

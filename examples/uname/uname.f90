@@ -1,22 +1,23 @@
 ! uname.f90
 !
-! Example program that outputs uname information.
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
+    !! Example program that outputs uname information.
     use :: unix
     implicit none
+
     character(len=SYS_NMLN) :: sys_name
     character(len=SYS_NMLN) :: node_name
     character(len=SYS_NMLN) :: release
     character(len=SYS_NMLN) :: version
     character(len=SYS_NMLN) :: machine
-    integer                 :: rc
-    type(c_utsname)         :: utsname
 
-    rc = c_uname(utsname)
-    if (rc /= 0) stop 'Error: uname() failed'
+    integer         :: stat
+    type(c_utsname) :: utsname
+
+    stat = c_uname(utsname)
+    if (stat /= 0) stop 'Error: uname() failed'
 
     call c_f_str_chars(utsname%sysname,  sys_name)
     call c_f_str_chars(utsname%nodename, node_name)

@@ -32,7 +32,7 @@ int c_errno(void)
 }
 
 /*******************************************************************************
- *** Non-variadic wrapper procedures.                                        ***
+ *** Non-variadic and other wrapper procedures.                              ***
  *******************************************************************************/
 
 /* int execl(const char *path, const char *arg, ...) */

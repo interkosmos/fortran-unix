@@ -1,13 +1,13 @@
 ! uptime.f90
 !
-! Prints system uptime to standard output, similar to uptime(1).
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
+    !! Prints system uptime to standard output, similar to uptime(1).
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
+
     integer          :: days, hrs, mins, secs
     integer(kind=i8) :: delta
 
@@ -18,7 +18,8 @@ program main
 contains
     subroutine system_uptime(time)
         integer(kind=i8), intent(out) :: time
-        type(c_timespec)              :: tp
+
+        type(c_timespec) :: tp
 
         time = 0_i8
         if (c_clock_gettime(CLOCK_MONOTONIC, tp) /= 0) return
@@ -32,7 +33,8 @@ contains
         integer,          intent(out) :: hrs
         integer,          intent(out) :: mins
         integer,          intent(out) :: secs
-        integer(kind=i8)              :: t
+
+        integer(kind=i8) :: t
 
         t = delta
         days = int(t / 86400)

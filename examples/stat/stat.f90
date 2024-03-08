@@ -1,10 +1,9 @@
 ! stat.f90
 !
-! Example program for file status access.
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
+    !! Example program for file status access.
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
@@ -13,13 +12,13 @@ program main
 
     character(len=:), allocatable :: atime, mtime, ctime
 
-    integer                 :: file_type, rc
+    integer                 :: file_type, stat
     integer(kind=c_int64_t) :: file_mode
     type(c_stat_type)       :: file_stat
 
     ! Get file status.
-    rc = c_stat(FILE_NAME // c_null_char, file_stat)
-    if (rc /= 0) error stop
+    stat = c_stat(FILE_NAME // c_null_char, file_stat)
+    if (stat /= 0) error stop
 
     print '("File name........: ", a)',  FILE_NAME
     print '("File size........: ", i0)', file_stat%st_size

@@ -1,29 +1,27 @@
 ! regex.f90
 !
-! Example that does basic pattern matching with POSIX regular expressions.
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
+    !! Example that does basic pattern matching with POSIX regular expressions.
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
+
     character(len=*), parameter :: STRING  = 'fortran'
     character(len=*), parameter :: PATTERN = '^[:lower:]*'
 
     character(len=32), target :: err_str
-    integer                   :: rc
+    integer                   :: stat
     integer(kind=c_size_t)    :: sz
     type(c_regex_t)           :: regex
 
     ! Compile regular expression.
-    rc = c_regcomp(preg   = regex, &
-                   regex  = PATTERN // c_null_char, &
-                   cflags = 0)
+    stat = c_regcomp(regex, PATTERN // c_null_char, 0)
 
     ! Check for errors.
-    if (rc /= 0) then
-        sz = c_regerror(errcode     = rc, &
+    if (stat /= 0) then
+        sz = c_regerror(errcode     = stat, &
                         preg        = regex, &
                         errbuf      = c_loc(err_str), &
                         errbuf_size = len(err_str, kind=c_size_t))
@@ -36,15 +34,15 @@ program main
     end if
 
     ! Execute regular expression. Returns 0 if pattern matches.
-    rc = c_regexec(preg   = regex, &
-                   string = STRING // c_null_char, &
-                   nmatch = 0_c_size_t, &
-                   pmatch = c_null_ptr, &
-                   eflags = 0)
+    stat = c_regexec(preg   = regex, &
+                     string = STRING // c_null_char, &
+                     nmatch = 0_c_size_t, &
+                     pmatch = c_null_ptr, &
+                     eflags = 0)
 
-    if (rc == 0) then
+    if (stat == 0) then
         print '("Pattern matches!")'
-    else if (rc == REG_NOMATCH) then
+    else if (stat == REG_NOMATCH) then
         print '("Pattern does not match.")'
     end if
 

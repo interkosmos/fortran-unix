@@ -1,28 +1,30 @@
 ! fork.f90
 !
-! Example program that forks the main process and opens two anonymous pipes
-! for IPC.
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
+    !! Example program that forks the main process and opens two anonymous pipes
+    !! for IPC.
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
-    integer, parameter :: READ_END  = 1     ! Reader pipe.
-    integer, parameter :: WRITE_END = 2     ! Writer pipe.
 
-    character(len=1),  target :: buf        ! Byte buffer.
-    character(len=32), target :: msg        ! Message to transmit.
-    integer                   :: pid        ! Process id.
-    integer                   :: pfds(2)    ! File descriptors (reader/writer).
-    integer                   :: rc         ! Return code.
+    integer, parameter :: READ_END  = 1 ! Reader pipe.
+    integer, parameter :: WRITE_END = 2 ! Writer pipe.
+
+    character,         target :: buf ! Byte buffer.
+    character(len=32), target :: msg ! Message to transmit.
+
+    integer                :: pid     ! Process id.
+    integer                :: pfds(2) ! File descriptors (reader/writer).
+    integer                :: stat    ! Return code.
+    integer(kind=c_size_t) :: nbytes
 
     ! Open anonymous pipe (read, write).
-    rc = c_pipe(pfds)
+    stat = c_pipe(pfds)
 
-    if (rc < 0) then
-        print '(a, i0)', 'Creating anonymous pipe failed: ', rc
+    if (stat < 0) then
+        print '("Creating anonymous pipe failed: ", i0)', stat
         stop
     end if
 
@@ -30,35 +32,45 @@ program main
     pid = c_fork()
 
     if (pid < 0) then
+        !
+        ! Fork error.
+        !
         call c_perror('fork()' // c_null_char)
     else if (pid == 0) then
+        !
         ! Child process.
-        print '(a)', '>>> child process running ...'
-        rc = c_close(pfds(WRITE_END))
+        !
+        print '(">>> child process running ...")'
+        stat = c_close(pfds(WRITE_END))
 
-        print '(a)', '>>> child process is receiving message ...'
+        print '(">>> child process is receiving message ...")'
 
         ! Read message from pipe, byte by byte.
-        do while (c_read(pfds(READ_END), c_loc(buf), 1_i8) > 0)
+        do while (c_read(pfds(READ_END), c_loc(buf), 1_c_size_t) > 0)
             write (*, '(a)', advance='no') buf
         end do
 
-        rc = c_close(pfds(READ_END))
-        print '(/, a)', '>>> child process done'
+        stat = c_close(pfds(READ_END))
+        print '(/, ">>> child process done")'
+
+        call c_exit(0)
     else
+        !
         ! Parent process.
-        rc = c_close(pfds(READ_END))
+        !
+        stat = c_close(pfds(READ_END))
 
         ! Write message to pipe.
-        print '(a)', '<<< parent process is sending message ...'
-        msg = 'Hi, there!'
+        print '("<<< parent process is sending message ...")'
 
-        if (c_write(pfds(WRITE_END), c_loc(msg), len(msg, kind=i8)) < 0) &
-            print '(a)', 'writing to pipe failed'
+        msg    = 'Hi, there!'
+        nbytes = c_write(pfds(WRITE_END), c_loc(msg), len(msg, kind=c_size_t))
 
-        rc = c_close(pfds(WRITE_END))
+        if (nbytes < 0) print '("<<< writing to pipe failed")'
+
+        stat = c_close(pfds(WRITE_END))
 
         print '("<<< waiting for child ", i0, " ...")', pid
-        print '("<<< child ", i0, " finished")', c_wait(rc)
+        print '("<<< child ", i0, " finished")', c_wait(stat)
     end if
 end program main

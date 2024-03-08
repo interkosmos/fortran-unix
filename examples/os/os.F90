@@ -1,17 +1,9 @@
 ! os.f90
 !
-! Prints the name of the operating system to stdout, using pre-processor macros.
-! Compile the source code with parameter `-cpp` (GNU Fortran) or `-fpp` (IFORT)
-! and `-D__<OS identifier>__`, for example:
-!
-!   $ gfortran -cpp -D__linux__   -o os os.f90
-!   $ gfortran -cpp -D__FreeBSD__ -o os os.f90
-!   $ gfortran -cpp -D__APPLE__   -o os os.f90
-!   $ ifort -fpp -o os os.f90
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 module os
+    !! Utility module.
     implicit none
     private
 
@@ -41,6 +33,16 @@ contains
 end module os
 
 program main
+    !! Prints the name of the operating system to stdout, using pre-processor
+    !! macros. Compile the source code with parameter `-cpp` (GNU Fortran) or
+    !! `-fpp` (IFORT) and `-D__<OS identifier>__`, for example:
+    !!
+    !! ```
+    !! $ gfortran -cpp -D__linux__ -o os os.f90
+    !! $ gfortran -cpp -D__FreeBSD__ -o os os.f90
+    !! $ gfortran -cpp -D__APPLE__ -o os os.f90
+    !! $ ifort -fpp -o os os.f90
+    !! ```
     use :: os
     implicit none
     integer :: current_os
@@ -70,4 +72,3 @@ program main
             print '(a)', 'Error'
     end select
 end program main
-

@@ -39,7 +39,6 @@ module unix_types
 
 #elif defined (__FreeBSD__)
 
-
     integer, parameter, public :: c_blkcnt_t    = c_int64_t
     integer, parameter, public :: c_blksize_t   = c_int32_t
     integer, parameter, public :: c_cc_t        = c_unsigned_char

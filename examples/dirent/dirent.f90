@@ -1,19 +1,20 @@
 ! dirent.f90
 !
-! Prints the contents of a file system directory to stdout (unsorted).
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
-    use, intrinsic :: iso_fortran_env, only: stderr => error_unit
+    !! Prints the contents of a file system directory to stdout (unsorted).
     use, intrinsic :: iso_c_binding
+    use, intrinsic :: iso_fortran_env, only: stderr => error_unit
     use :: unix
     implicit none
+
     character(len=*), parameter :: PATH = '/'
-    character(len=256)          :: entry_name
-    type(c_dirent), pointer     :: dirent_ptr
-    type(c_ptr)                 :: dir_ptr
-    integer                     :: rc
+
+    character(len=256)      :: entry_name
+    integer                 :: stat
+    type(c_dirent), pointer :: dirent_ptr
+    type(c_ptr)             :: dir_ptr
 
     ! Open directory.
     dir_ptr = c_opendir(PATH // c_null_char)
@@ -47,5 +48,5 @@ program main
     end do
 
     ! Close directory.
-    rc = c_closedir(dir_ptr)
+    stat = c_closedir(dir_ptr)
 end program main

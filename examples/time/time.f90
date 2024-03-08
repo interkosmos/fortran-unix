@@ -1,10 +1,9 @@
 ! time.f90
 !
-! Example that calls POSIX time functions.
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 program main
+    !! Example that calls POSIX time functions.
     use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
@@ -44,18 +43,18 @@ contains
 
         character(len=32) :: iso
 
-        integer :: rc
+        integer :: stat
         integer :: year, month, day
         integer :: hour, minute, second, usecond
         integer :: zone_hour, zone_min
 
         type(c_ptr)      :: ptr
         type(c_timeval)  :: tv
-        type(c_tm)       :: tm
         type(c_timezone) :: tz
+        type(c_tm)       :: tm
 
-        rc  = c_gettimeofday(tv, tz)
-        ptr = c_localtime_r(tv%tv_sec, tm)
+        stat = c_gettimeofday(tv, tz)
+        ptr  = c_localtime_r(tv%tv_sec, tm)
 
         year    = tm%tm_year + 1900
         month   = tm%tm_mon + 1
@@ -88,7 +87,7 @@ contains
     subroutine strftime()
         !! Outputs date and time in ISO 8601.
         character(len=32)      :: iso
-        integer(kind=c_size_t) :: rc
+        integer(kind=c_size_t) :: sz
         integer(kind=c_time_t) :: ts
         type(c_ptr)            :: ptr
         type(c_tm)             :: tm
@@ -96,7 +95,7 @@ contains
         iso = ' '
         ts  = c_time(0_c_time_t)
         ptr = c_localtime_r(ts, tm)
-        rc  = c_strftime(iso, len(iso, kind=c_size_t), '%FT%T' // c_null_char, tm)
+        sz  = c_strftime(iso, len(iso, kind=c_size_t), '%FT%T' // c_null_char, tm)
         print '("ISO 8601......: ", a)', iso
     end subroutine strftime
 

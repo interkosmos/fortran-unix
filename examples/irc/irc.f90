@@ -1,19 +1,9 @@
 ! irc.f90
 !
-! Dumb IRC bot that connects to an IRC server, joins a channel, and sends a
-! message each time someone mentions Fortran.
-!
-! You may want to change the following parameters to your liking:
-!
-!   IRC_MSG
-!   IRC_USERNAME
-!   IRC_HOSTNAME
-!   IRC_CHANNEL
-!   IRC_PORT
-!
 ! Author:  Philipp Engel
 ! Licence: ISC
 module irc
+    !! IRC connectivity module.
     use, intrinsic :: iso_c_binding
     use, intrinsic :: iso_fortran_env, only: stderr => error_unit, stdout => output_unit
     use :: unix
@@ -24,19 +14,19 @@ module irc
     public :: irc_send
     public :: irc_send_message
 contains
-    integer function irc_connect(hostname, port)
+    integer function irc_connect(hostname, port) result(fd)
         !! Creates a socket connection to `hostname`:`port`. The file descriptor
         !! of the socket is returned on success, -1 on failure.
         !!
-        !! The source code has been adapted from the example listed at:
-        !!     https://man.openbsd.org/getaddrinfo.3
-        character(len=*), intent(in)  :: hostname
-        integer,          intent(in)  :: port
+        !! The source code has been adapted from the example listed at
+        !! [https://man.openbsd.org/getaddrinfo.3](https://man.openbsd.org/getaddrinfo.3).
+        character(len=*), intent(in) :: hostname
+        integer,          intent(in) :: port
 
-        character(len=63), target :: host_str
-        character(len=7),  target :: port_str
+        character(len=64), target :: host_str
+        character(len=8),  target :: port_str
 
-        integer     :: rc
+        integer     :: stat
         integer     :: sock_fd
         type(c_ptr) :: ptr
 
@@ -46,33 +36,27 @@ contains
 
         character(len=:), allocatable :: err_str
 
-        irc_connect = -1
+        fd = -1
 
-        write (host_str, '(a, a)') trim(hostname), c_null_char
+        host_str = trim(hostname) // c_null_char
         write (port_str, '(i0, a)') port, c_null_char
 
-        ! Initialise derived type manually.
-        hints%ai_family    = AF_INET
-        hints%ai_socktype  = SOCK_STREAM
-        hints%ai_flags     = AI_NUMERICSERV
-        hints%ai_protocol  = 0
-        hints%ai_addrlen   = 0_i8
-        hints%ai_canonname = c_null_ptr
-        hints%ai_addr      = c_null_ptr
-        hints%ai_next      = c_null_ptr
+        ! Initialise derived type.
+        hints%ai_family   = AF_INET
+        hints%ai_socktype = SOCK_STREAM
+        hints%ai_flags    = AI_NUMERICSERV
 
-        ptr = c_loc(res)
-        rc  = c_getaddrinfo(node    = c_loc(host_str), &
-                            service = c_loc(port_str), &
-                            hints   = c_loc(hints), &
-                            res     = ptr)
+        ptr  = c_loc(res)
+        stat = c_getaddrinfo(node    = c_loc(host_str), &
+                             service = c_loc(port_str), &
+                             hints   = c_loc(hints), &
+                             res     = ptr)
 
         ! Print error message of `c_getaddrinfo()`.
-        if (rc /= 0) then
-            ptr = c_gai_strerror(rc)
+        if (stat /= 0) then
+            ptr = c_gai_strerror(stat)
             call c_f_str_ptr(ptr, err_str)
-            if (allocated(err_str)) &
-                write (stderr, '(2a)') 'getaddrinfo(): ', err_str
+            write (stderr, '("getaddrinfo(): ", a)') err_str
             return
         end if
 
@@ -93,9 +77,11 @@ contains
                 return
             end if
 
-            if (c_connect(sock_fd, next%ai_addr, next%ai_addrlen) == -1) then
+            stat = c_connect(sock_fd, next%ai_addr, next%ai_addrlen)
+
+            if (stat == -1) then
                 call c_perror('connect()' // c_null_char)
-                rc = c_close(sock_fd)
+                stat = c_close(sock_fd)
                 return
             end if
 
@@ -103,102 +89,114 @@ contains
         end do
 
         if (.not. associated(next)) then
-            rc = c_close(sock_fd)
+            stat = c_close(sock_fd)
             return
         end if
 
-        irc_connect = sock_fd
+        fd = sock_fd
     end function irc_connect
 
-    integer(kind=i8) function irc_send(socket, str)
+    integer(kind=i8) function irc_send(socket, bytes) result(nbytes)
         !! Sends string to socket (raw).
-        character(len=2), parameter           :: CR_LF = char(13) // char(10)
-        integer,          intent(in)          :: socket
-        character(len=*), intent(in)          :: str
-        character(len=:), allocatable, target :: str_esc
+        character(len=*), parameter :: CR_LF = char(13) // char(10)
 
-        str_esc  = trim(str) // CR_LF
-        irc_send = c_write(socket, c_loc(str_esc), len(str_esc, kind=i8))
+        integer,          intent(in) :: socket
+        character(len=*), intent(in) :: bytes
 
-        write (*, '("*** ", a, " (", i0, " Bytes)")') trim(str), irc_send
+        character(len=:), allocatable, target :: buffer
+
+        buffer = trim(bytes) // CR_LF
+        nbytes = c_write(socket, c_loc(buffer), len(buffer, kind=c_size_t))
+        write (*, '("*** ", a, " (", i0, " Bytes)")') trim(bytes), nbytes
     end function irc_send
 
-    integer(kind=i8) function irc_send_message(socket, channel, str)
+    integer(kind=i8) function irc_send_message(socket, channel, message) result(nbytes)
         !! Sends string as IRC message (PRIVMSG) to channel.
-        integer,          intent(in)  :: socket
-        character(len=*), intent(in)  :: channel
-        character(len=*), intent(in)  :: str
-        character(len=:), allocatable :: message
+        integer,          intent(in) :: socket
+        character(len=*), intent(in) :: channel
+        character(len=*), intent(in) :: message
 
-        message = 'PRIVMSG ' // trim(channel) // ' :' // trim(str)
-        irc_send_message = irc_send(socket, message)
+        character(len=:), allocatable :: buffer
+
+        buffer = 'PRIVMSG ' // trim(channel) // ' :' // trim(message)
+        nbytes = irc_send(socket, buffer)
     end function irc_send_message
 end module irc
 
 program main
+    !! Dumb IRC bot that connects to an IRC server, joins a channel, and sends a
+    !! message each time someone mentions Fortran.
+    !!
+    !! You may want to change the following parameters to your liking:
+    !!
+    !! * `IRC_MSG`
+    !! * `IRC_USERNAME`
+    !! * `IRC_HOSTNAME`
+    !! * `IRC_CHANNEL`
+    !! * `IRC_PORT`
     use, intrinsic :: iso_c_binding
     use, intrinsic :: iso_fortran_env, only: stderr => error_unit
     use :: irc
     use :: unix
     implicit none
+
     character(len=*), parameter :: IRC_MSG      = 'FORTRAN: The Greatest of the Programming Languages!'
     character(len=*), parameter :: IRC_USERNAME = 'forbot'
     character(len=*), parameter :: IRC_HOSTNAME = 'irc.libera.chat'
     character(len=*), parameter :: IRC_CHANNEL  = '#bot-test'
     integer,          parameter :: IRC_PORT     = 6667
 
-    character(len=512), target :: buffer                 ! Received message.
-    integer(kind=i8)           :: n                      ! Bytes read/written.
-    integer(kind=i8)           :: rc                     ! Return code.
-    integer                    :: sock_fd                ! Socket file descriptor.
-    logical                    :: is_logged_in = .false. ! Send credentials.
+    character(len=512), target :: buffer       ! Received message.
+    integer                    :: sock_fd      ! Socket file descriptor.
+    integer(kind=i8)           :: nbytes       ! Bytes read/written.
+    logical                    :: is_logged_in ! Send credentials.
 
-    print '(a)', '<<< FORTRAN IRC BOT >>>'
+    print '("<<< FORTRAN IRC BOT >>>")'
     print '("User:     ", a)',    trim(IRC_USERNAME)
     print '("Hostname: ", a)',    trim(IRC_HOSTNAME)
     print '("Port:     ", i0)',   IRC_PORT
     print '("Channel:  ", a, /)', trim(IRC_CHANNEL)
 
     ! Connect to IRC server.
-    print '(3a, i0, a)', '*** Connecting to ', trim(IRC_HOSTNAME), ':', IRC_PORT, ' ...'
+    print '("*** Connecting to ", a, ":", i0)', trim(IRC_HOSTNAME), IRC_PORT
 
     sock_fd = irc_connect(IRC_HOSTNAME, IRC_PORT)
 
     if (sock_fd < 0) then
-        write (stderr, '(3a, i0, a)') 'Connection to server ', trim(IRC_HOSTNAME), &
-                                      ':', IRC_PORT, ' failed'
+        write (stderr, '("Connection to server ", a, ":", i0, " failed")') trim(IRC_HOSTNAME), IRC_PORT
         stop
     end if
 
     ! Event loop.
+    is_logged_in = .false.
+
     do
         ! Read from socket.
-        n = c_read(sock_fd, c_loc(buffer), len(buffer, kind=i8))
-        if (n <= 0) exit
+        nbytes = c_read(sock_fd, c_loc(buffer), len(buffer, kind=c_size_t))
+        if (nbytes <= 0) exit
 
         ! Write buffer to standard output.
-        write (*, '(a)', advance='no') buffer(1:n)
+        write (*, '(a)', advance='no') buffer(1:nbytes)
 
         ! Check for IRC server `PING` and answer with `PONG` + payload.
-        if (index(buffer(1:n), 'PING') == 1) &
-            rc = irc_send(sock_fd, 'PONG ' // trim(buffer(6:len_trim(buffer) - 2)))
+        if (index(buffer(1:nbytes), 'PING') == 1) then
+            nbytes = irc_send(sock_fd, 'PONG ' // trim(buffer(6:len_trim(buffer) - 2)))
+        end if
 
         ! Log-in and join channel.
         if (.not. is_logged_in) then
-            rc = irc_send(sock_fd, 'NICK ' // trim(IRC_USERNAME))
-            rc = irc_send(sock_fd, 'USER ' // trim(IRC_USERNAME) // ' . . :' // trim(IRC_USERNAME))
-            rc = irc_send(sock_fd, 'JOIN ' // trim(IRC_CHANNEL))
+            nbytes = irc_send(sock_fd, 'NICK ' // trim(IRC_USERNAME))
+            nbytes = irc_send(sock_fd, 'USER ' // trim(IRC_USERNAME) // ' . . :' // trim(IRC_USERNAME))
+            nbytes = irc_send(sock_fd, 'JOIN ' // trim(IRC_CHANNEL))
             is_logged_in = .true.
         end if
 
         ! Check for new channel message.
-        if (index(buffer(1:n), 'PRIVMSG ' // trim(IRC_CHANNEL) // ' :') > 0) then
-            ! Check for 'FORTRAN', 'fortran', and 'Fortran' substring in received
-            ! message and respond with sample message if found.
-            if (index(buffer(1:n), 'FORTRAN') > 0 .or. &
-                index(buffer(1:n), 'fortran') > 0 .or. &
-                index(buffer(1:n), 'Fortran') > 0) then
-                rc = irc_send_message(sock_fd, IRC_CHANNEL, IRC_MSG)
+        if (index(buffer(1:nbytes), 'PRIVMSG ' // trim(IRC_CHANNEL) // ' :') > 0) then
+            ! Check for 'Fortran' substring in received message and respond with
+            ! sample message if found.
+            if (index(string_lower(buffer(1:nbytes)), 'fortran') > 0) then
+                nbytes = irc_send_message(sock_fd, IRC_CHANNEL, IRC_MSG)
             end if
         end if
 
@@ -207,11 +205,26 @@ program main
     end do
 
     ! Disconnect from server.
-    rc = irc_send(sock_fd, 'QUIT')
+    nbytes = irc_send(sock_fd, 'QUIT')
 
     ! Close connection.
     if (c_close(sock_fd) /= 0) then
         call c_perror('Error' // c_null_char)
         stop
     end if
+contains
+    pure elemental function string_lower(str) result(lower)
+        !! Returns given string in lower case.
+        character(len=*), intent(in) :: str   !! String to convert.
+        character(len=len(str))      :: lower !! Result.
+
+        character :: a
+        integer   :: i
+
+        do i = 1, len(str)
+            a = str(i:i)
+            if (a >= 'A' .and. a <= 'Z') a = achar(iachar(a) + 32)
+            lower(i:i) = a
+        end do
+    end function string_lower
 end program main
