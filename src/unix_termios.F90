@@ -7,23 +7,6 @@ module unix_termios
 
 #if defined (__linux__)
 
-    integer, parameter, public :: c_cc_t     = c_unsigned_char
-    integer, parameter, public :: c_speed_t  = c_unsigned_int
-    integer, parameter, public :: c_tcflag_t = c_unsigned_int
-
-    integer, parameter, public :: NCCS = 32
-
-    type, bind(c), public :: c_termios
-        integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
-        integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
-        integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
-        integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
-        integer(kind=c_cc_t)     :: c_line           = 0_c_cc_t
-        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
-        integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
-        integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
-    end type c_termios
-
     integer(kind=c_int), parameter, public :: VINTR    = 0
     integer(kind=c_int), parameter, public :: VQUIT    = 1
     integer(kind=c_int), parameter, public :: VERASE   = 2
@@ -156,23 +139,20 @@ module unix_termios
     integer(kind=c_int), parameter, public :: TIOCMBIS = int(z'5416')
     integer(kind=c_int), parameter, public :: TIOCMSET = int(z'5418')
 
-#elif defined (__FreeBSD__)
-
-    integer, parameter, public :: c_cc_t     = c_unsigned_char
-    integer, parameter, public :: c_speed_t  = c_int
-    integer, parameter, public :: c_tcflag_t = c_int
-
-    integer, parameter, public :: NCCS = 20
+    integer, parameter, public :: NCCS = 32
 
     type, bind(c), public :: c_termios
         integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
+        integer(kind=c_cc_t)     :: c_line           = 0_c_cc_t
         integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
         integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
         integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
     end type c_termios
+
+#elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: VEOF     = 0  ! ICANON
     integer(kind=c_int), parameter, public :: VEOL     = 1  ! ICANON
@@ -314,6 +294,18 @@ module unix_termios
     integer(kind=c_int), parameter, public :: TIOCMSET  = int(z'8004746d')
     integer(kind=c_int), parameter, public :: TIOCSTART = int(z'2000746e')
     integer(kind=c_int), parameter, public :: TIOCSTOP  = int(z'2000746f')
+
+    integer, parameter, public :: NCCS = 20
+
+    type, bind(c), public :: c_termios
+        integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_cflag          = 0_c_tcflag_t
+        integer(kind=c_tcflag_t) :: c_lflag          = 0_c_tcflag_t
+        integer(kind=c_cc_t)     :: c_cc(0:NCCS - 1) = 0_c_cc_t
+        integer(kind=c_speed_t)  :: c_ispeed         = 0_c_speed_t
+        integer(kind=c_speed_t)  :: c_ospeed         = 0_c_speed_t
+    end type c_termios
 
 #endif
 
