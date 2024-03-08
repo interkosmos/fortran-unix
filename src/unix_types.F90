@@ -57,7 +57,7 @@ module unix_types
     integer, parameter, public :: c_socklen_t   = c_size_t
     integer, parameter, public :: c_speed_t     = c_int
     integer, parameter, public :: c_suseconds_t = c_long
-    integer, parameter, public :: c_tcflag_t    = c_int
+    integer, parameter, public :: c_tcflag_t    = c_unsigned_int
     integer, parameter, public :: c_time_t      = c_int64_t
     integer, parameter, public :: c_uid_t       = c_uint32_t
     integer, parameter, public :: c_useconds_t  = c_unsigned_int
