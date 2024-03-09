@@ -90,27 +90,27 @@ contains
         end if
     end function c_int64_to_uint32
 
-    pure elemental function c_uint16_to_int32(i) result(r)
+    pure elemental function c_uint16_to_int32(u) result(s)
         !! Converts unsigned `uint16_t` integer to signed `int32_t` integer.
-        integer(kind=c_uint16_t), intent(in) :: i !! Unsigned integer.
-        integer(kind=c_int32_t)              :: r !! Signed integer.
+        integer(kind=c_uint16_t), intent(in) :: u !! Unsigned integer.
+        integer(kind=c_int32_t)              :: s !! Signed integer.
 
-        if (i > 0) then
-            r = int(i, kind=c_int32_t)
+        if (u > 0) then
+            s = int(u, kind=c_int32_t)
         else
-            r = 65536_c_int32_t + int(i, kind=c_int32_t)
+            s = 65536_c_int32_t + int(u, kind=c_int32_t)
         end if
     end function c_uint16_to_int32
 
-    pure elemental function c_uint32_to_int64(i) result(r)
+    pure elemental function c_uint32_to_int64(u) result(s)
         !! Converts unsigned `uint32_t` integer to signed `int64_t` integer.
-        integer(kind=c_uint32_t), intent(in) :: i !! Unsigned integer.
-        integer(kind=c_int64_t)              :: r !! Signed integer.
+        integer(kind=c_uint32_t), intent(in) :: u !! Unsigned integer.
+        integer(kind=c_int64_t)              :: s !! Signed integer.
 
-        if (i > 0) then
-            r = int(i, kind=c_int64_t)
+        if (u > 0) then
+            s = int(u, kind=c_int64_t)
         else
-            r = 4294967296_c_int64_t + int(i, kind=c_int64_t)
+            s = 4294967296_c_int64_t + int(u, kind=c_int64_t)
         end if
     end function c_uint32_to_int64
 
