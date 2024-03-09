@@ -94,6 +94,31 @@ On Linux:
 $ fpm build --profile release --flag "-D__linux__"
 ```
 
+## Source Code Documentation
+
+The source code documentation of the library has to be created with
+[FORD](https://github.com/Fortran-FOSS-Programmers/ford). Install the Python
+package with:
+
+```
+$ python3 -m pip install -U ford
+```
+
+In the source repository, either run:
+
+```
+$ make freebsd_doc
+```
+
+Or:
+
+```
+$ make linux_doc
+```
+
+The HTML files will be written to directory `doc/`. Open `index.html` in a web
+browser.
+
 ## Examples
 
 Examples are provided in directory `examples/`:

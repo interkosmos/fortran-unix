@@ -9,6 +9,7 @@
 #   CC      - C compiler.
 #   AR      - Archiver.
 #   MAKE    - Make tool.
+#   FORD    - FORD documentation generator.
 #   FFLAGS  - Fortran compiler flags.
 #   CFLAGS  - C compiler flags.
 #   PPFLAGS - Pre-processor flags. Change to `-fpp` for Intel IFORT.
@@ -23,6 +24,7 @@ FC      = gfortran
 CC      = gcc
 AR      = ar
 MAKE    = make
+FORD    = ford
 
 DEBUG   = -g -O0 -Wall -fmax-errors=1
 RELEASE = -O2 -march=native
@@ -35,6 +37,7 @@ LDFLAGS = -I$(PREFIX)/include -L$(PREFIX)/lib
 LDLIBS  =
 INCDIR  = $(PREFIX)/include/libfortran-unix
 LIBDIR  = $(PREFIX)/lib
+DOCDIR  = ./doc
 
 TARGET  = libfortran-unix.a
 
@@ -55,9 +58,13 @@ OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
       unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
       unix_wait.o unix_macro.o
 
-.PHONY: all clean examples freebsd freebsd_examples install linux linux_examples
+.PHONY: all clean doc examples install \
+        freebsd freebsd_doc freebsd_examples \
+        linux linux_doc linux_examples
 
-all: $(TARGET)
+all:
+	@echo "Add build target [freebsd|linux], for example:"
+	@echo "make linux"
 
 # Library
 $(TARGET): $(SRC)
@@ -169,6 +176,17 @@ uname: $(TARGET) examples/uname/uname.f90
 uptime: $(TARGET) examples/uptime/uptime.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
 
+# Documentation
+doc: ford.md
+	$(FORD) -d ./src ford.md
+
+freebsd_doc: ford.md
+	$(FORD) -m "__FreeBSD__" -d ./src ford.md
+
+linux_doc: ford.md
+	$(FORD) -m "__linux__" -d ./src ford.md
+
+# Installation.
 install: $(TARGET)
 	@echo "--- Installing $(TARGET) to $(LIBDIR)/ ..."
 	install -d $(LIBDIR)
@@ -177,9 +195,11 @@ install: $(TARGET)
 	install -d $(INCDIR)
 	install -m 644 unix*.mod $(INCDIR)/
 
+# Clean-up.
 clean:
 	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
 	if [ `ls -1 *.o 2>/dev/null | wc -l` -gt 0 ]; then rm *.o; fi
+	if [ -e $(DOCDIR) ]; then rm -r $(DOCDIR); fi
 	if [ -e $(TARGET) ]; then rm $(TARGET); fi
 	if [ -e dirent ]; then rm dirent; fi
 	if [ -e fifo ]; then rm fifo; fi
