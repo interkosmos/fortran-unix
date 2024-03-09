@@ -37,7 +37,7 @@ module unix_utsname
         ! int uname(struct utsname *name)
         function c_uname(name) bind(c, name='c_uname')
             !! Calls wrapper `c_uname()` in `unix_macro.c`, as it is an inline
-            !! function on FreeBSD, alternatively to callling `__xuname()`.
+            !! function on FreeBSD, alternatively to calling `__xuname()`.
             import :: c_int, c_utsname
             implicit none
             type(c_utsname), intent(inout) :: name

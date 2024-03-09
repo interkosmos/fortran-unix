@@ -18,7 +18,7 @@ int c_fprintf(FILE *, const char *, const char *);
 int c_ioctl(int, unsigned long, void *);
 int c_open(const char *, int, mode_t);
 int c_scanf(const char *, const char *);
-int uname(struct utsname *);
+int c_uname(struct utsname *);
 void c_syslog(int, const char *, const char *);
 
 /*******************************************************************************
