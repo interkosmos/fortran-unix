@@ -23,7 +23,6 @@ program main
     !! ```
     !!
     !! Enter 'PING' in netcat to receive a 'PONG' from the Fortran program.
-    use, intrinsic :: iso_c_binding
     use, intrinsic :: iso_fortran_env, only: i8 => int64, stderr => error_unit, stdout => output_unit
     use :: unix
     implicit none

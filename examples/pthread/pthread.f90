@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example that shows how to run a routine inside several POSIX threads.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

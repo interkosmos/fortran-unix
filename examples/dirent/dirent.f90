@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Prints the contents of a file system directory to stdout (unsorted).
-    use, intrinsic :: iso_c_binding
     use, intrinsic :: iso_fortran_env, only: stderr => error_unit
     use :: unix
     implicit none

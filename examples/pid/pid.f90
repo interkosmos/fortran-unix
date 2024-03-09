@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example program that outputs the process id.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

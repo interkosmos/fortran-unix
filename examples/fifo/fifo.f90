@@ -9,7 +9,6 @@ program main
     !! ```
     !! $ echo "Hello, World!" > /tmp/fifo
     !! ```
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

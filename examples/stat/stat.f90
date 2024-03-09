@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example program for file status access.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

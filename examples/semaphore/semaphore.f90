@@ -7,7 +7,6 @@ program main
     !! In contrast to named semaphores, unnamed ones have to be passed as C
     !! pointers to POSIX function interfaces other than `c_sem_init()` and
     !! `c_sem_destroy()`.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

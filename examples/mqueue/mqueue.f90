@@ -56,7 +56,6 @@ program main
     !! The size of the buffer passed to `c_mq_receive()` must be greater than
     !! the MQ message size given by `mq_getattr()`. We may set the max. message
     !! size with `mq_setattr()` beforehand.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
     character(len=*), parameter :: MQ_NAME = '/fortran'   ! New MQ in, e.g., `/mnt/mqueue/<name>`.

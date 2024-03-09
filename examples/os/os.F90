@@ -34,41 +34,43 @@ end module os
 
 program main
     !! Prints the name of the operating system to stdout, using pre-processor
-    !! macros. Compile the source code with parameter `-cpp` (GNU Fortran) or
-    !! `-fpp` (IFORT) and `-D__<OS identifier>__`, for example:
+    !! macros. Pass the parameter `-D__<OS identifier>__` to GNU Fortran, for
+    !! example:
     !!
     !! ```
-    !! $ gfortran -cpp -D__linux__ -o os os.f90
-    !! $ gfortran -cpp -D__FreeBSD__ -o os os.f90
-    !! $ gfortran -cpp -D__APPLE__ -o os os.f90
-    !! $ ifort -fpp -o os os.f90
+    !! $ gfortran -D__linux__ -o os os.F90
+    !! $ gfortran -D__FreeBSD__ -o os os.F90
+    !! $ gfortran -D__APPLE__ -o os os.F90
+    !! $ ifort -o os os.F90
     !! ```
     use :: os
     implicit none
     integer :: current_os
 
-    print '(a)', 'Current Operating System'
-    print '(a)', repeat('-', 24)
+    print '("Current Operating System")'
+    print '(24("-"))'
 
     current_os = os_type()
 
+    write (* , '("Name: ")', advance='no')
+
     select case (current_os)
         case (OS_UNKNOWN)
-            print '("Name: ", a)', 'Unknown OS'
+            print '("Unknown OS")'
 
         case (OS_WINDOWS)
-            print '("Name: ", a)', 'Microsoft Windows (Cygwin, MSYS2)'
+            print '("Microsoft Windows (Cygwin, MSYS2)")'
 
         case (OS_MACOS)
-            print '("Name: ", a)', 'macOS'
+            print '("macOS")'
 
         case (OS_LINUX)
-            print '("Name: ", a)', 'GNU/Linux'
+            print '("GNU/Linux")'
 
         case (OS_FREEBSD)
-            print '("Name: ", a)', 'FreeBSD'
+            print '("FreeBSD")'
 
         case default
-            print '(a)', 'Error'
+            print '("Error")'
     end select
 end program main

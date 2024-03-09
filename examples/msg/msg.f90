@@ -4,7 +4,6 @@
 ! Licence: ISC
 module ipc
     !! IPC abstraction module.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
     private
@@ -58,7 +57,6 @@ end module ipc
 program main
     !! Example that sends and receives a message with UNIX System V message
     !! queues.
-    use, intrinsic :: iso_c_binding
     use, intrinsic :: iso_fortran_env, only: stderr => error_unit, stdout => output_unit
     use :: unix
     use :: ipc

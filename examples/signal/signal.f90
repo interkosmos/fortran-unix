@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example program that registers a signal handler for SIGINT.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
     integer        :: stat

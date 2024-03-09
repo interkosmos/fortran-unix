@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example that does basic pattern matching with POSIX regular expressions.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

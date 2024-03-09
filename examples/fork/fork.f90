@@ -5,7 +5,6 @@
 program main
     !! Example program that forks the main process and opens two anonymous pipes
     !! for IPC.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

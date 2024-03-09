@@ -4,7 +4,6 @@
 ! Licence: ISC
 module mutex
     !! Mutex module.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 
@@ -31,7 +30,6 @@ end module mutex
 
 program main
     !! Example that shows threaded access to a global variable, using a mutex.
-    use, intrinsic :: iso_c_binding
     use :: unix
     use :: mutex
     implicit none

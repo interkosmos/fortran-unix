@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example that demonstrates IPC via bidirectional pipes.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 

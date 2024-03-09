@@ -4,7 +4,6 @@
 ! Licence: ISC
 program main
     !! Example that calls POSIX time functions.
-    use, intrinsic :: iso_c_binding
     use :: unix
     implicit none
 
