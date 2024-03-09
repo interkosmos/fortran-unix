@@ -5,6 +5,7 @@
 program main
     !! Prints system uptime to standard output, similar to uptime(1).
     use, intrinsic :: iso_c_binding
+    use, intrinsic :: iso_fortran_env, only: i8 => int64
     use :: unix
     implicit none
 

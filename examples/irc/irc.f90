@@ -5,10 +5,9 @@
 module irc
     !! IRC connectivity module.
     use, intrinsic :: iso_c_binding
-    use, intrinsic :: iso_fortran_env, only: stderr => error_unit, stdout => output_unit
+    use, intrinsic :: iso_fortran_env, only: i8 => int64, stderr => error_unit, stdout => output_unit
     use :: unix
     implicit none
-    private
 
     public :: irc_connect
     public :: irc_send
@@ -134,8 +133,6 @@ program main
     !! * `IRC_HOSTNAME`
     !! * `IRC_CHANNEL`
     !! * `IRC_PORT`
-    use, intrinsic :: iso_c_binding
-    use, intrinsic :: iso_fortran_env, only: stderr => error_unit
     use :: irc
     use :: unix
     implicit none

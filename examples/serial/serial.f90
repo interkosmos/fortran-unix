@@ -4,9 +4,9 @@
 ! Licence: ISC
 module serial
     !! Serial port access module.
+    use, intrinsic :: iso_fortran_env, only: i8 => int64
     use :: unix
     implicit none
-    private
 
     public :: serial_close
     public :: serial_open

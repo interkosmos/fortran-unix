@@ -7,7 +7,6 @@
 ! Licence: ISC
 module unix
     use, intrinsic :: iso_c_binding
-    use, intrinsic :: iso_fortran_env, only: i8 => int64
     use :: unix_dirent
     use :: unix_errno
     use :: unix_fcntl
