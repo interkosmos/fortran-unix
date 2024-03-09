@@ -28,29 +28,26 @@ contains
     subroutine set_mode(mode)
         integer, intent(in) :: mode
 
-        integer                  :: stat
-        integer(kind=c_tcflag_t) :: c_lflag
-        type(c_termios)          :: term_attr
-        type(c_termios), save    :: save_attr
+        integer                 :: stat
+        integer(kind=c_int64_t) :: c_lflag
+        type(c_termios)         :: term_attr
+        type(c_termios), save   :: save_attr
 
         if (mode == 0) then
             stat = c_tcsetattr(STDIN_FILENO, TCSADRAIN, save_attr)
-            if (stat /= 0) error stop
         else
             stat = c_tcgetattr(STDIN_FILENO, term_attr)
-            if (stat /= 0) error stop
 
             save_attr = term_attr
 
-            c_lflag = int(c_uint_to_int(term_attr%c_lflag), kind=c_tcflag_t)
-            c_lflag = iand(c_lflag, not(ior(ICANON, ECHO)))
+            c_lflag = c_uint_to_int(term_attr%c_lflag)
+            c_lflag = iand(c_lflag, not(int(ior(ICANON, ECHO), kind=c_int64_t)))
 
-            term_attr%c_lflag     = c_lflag
+            term_attr%c_lflag     = c_int_to_uint(c_lflag)
             term_attr%c_cc(VMIN)  = 1_c_cc_t
             term_attr%c_cc(VTIME) = 0_c_cc_t
 
-            stat = c_tcsetattr(STDIN_FILENO, TCSANOW , term_attr)
-            if (stat /= 0) error stop
+            stat = c_tcsetattr(STDIN_FILENO, TCSANOW, term_attr)
         end if
     end subroutine set_mode
 end program main

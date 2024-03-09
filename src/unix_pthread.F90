@@ -1,4 +1,7 @@
 ! unix_pthread.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_pthread
     use, intrinsic :: iso_c_binding
     implicit none
@@ -16,11 +19,13 @@ module unix_pthread
 
 #endif
 
+    ! struct pthread_t
     type, bind(c), public :: c_pthread_t
         private
         character(kind=c_char) :: hidden(PTHREAD_SIZE)
     end type c_pthread_t
 
+    ! struct pthread_mutex_t
     type, bind(c), public :: c_pthread_mutex_t
         private
         character(kind=c_char) :: hidden(PTHREAD_MUTEX_SIZE)
@@ -72,7 +77,7 @@ module unix_pthread
             integer(kind=c_int)                 :: c_pthread_mutex_destroy
         end function c_pthread_mutex_destroy
 
-        ! int pthread_mutex_init(pthread_mutex_t *restrict mutex, const pthread_mutexattr_t *restrict attr)
+        ! int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)
         function c_pthread_mutex_init(mutex, attr) bind(c, name='pthread_mutex_init')
             import :: c_int, c_ptr, c_pthread_mutex_t
             implicit none

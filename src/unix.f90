@@ -1,4 +1,4 @@
-! unix.F90
+! unix.f90
 !
 ! A collection of Fortran 2008 ISO C binding interfaces to selected POSIX and
 ! SysV routines on 64-bit Unix-like operating systems.
@@ -35,6 +35,12 @@ module unix
     use :: unix_wait
     implicit none
 
+    interface c_int_to_uint
+        !! Converts unsigned integer to signed integer.
+        module procedure :: c_int32_to_uint16
+        module procedure :: c_int64_to_uint32
+    end interface
+
     interface c_uint_to_int
         !! Converts unsigned integer to signed integer.
         module procedure :: c_uint16_to_int32
@@ -43,6 +49,9 @@ module unix
 
     public :: c_f_str_chars
     public :: c_f_str_ptr
+    public :: c_int32_to_uint16
+    public :: c_int64_to_uint32
+    public :: c_int_to_uint
     public :: c_uint16_to_int32
     public :: c_uint32_to_int64
     public :: c_uint_to_int
@@ -50,6 +59,38 @@ module unix
     public :: f_readdir
     public :: f_strerror
 contains
+    pure elemental function c_int32_to_uint16(s) result(u)
+        !! Converts signed `c_int32_t` integer to unsigned `c_uint16_t` integer.
+        integer(kind=c_int32_t), intent(in) :: s !! Signed integer.
+        integer(kind=c_uint16_t)            :: u !! Unsigned integer.
+
+        integer(kind=c_int32_t) :: i
+
+        i = modulo(s, 65536_c_int32_t)
+
+        if (i < 32768_c_int32_t) then
+            u = int(i, kind=c_uint16_t)
+        else
+            u = int(i - 65536_c_int32_t, kind=c_uint16_t)
+        end if
+    end function c_int32_to_uint16
+
+    pure elemental function c_int64_to_uint32(s) result(u)
+        !! Converts signed `c_int64_t` integer to unsigned `c_uint32_t` integer.
+        integer(kind=c_int64_t), intent(in) :: s !! Signed integer.
+        integer(kind=c_uint32_t)            :: u !! Unsigned integer.
+
+        integer(kind=c_int64_t) :: i
+
+        i = modulo(s, 4294967296_c_int64_t)
+
+        if (i < 2147483648_c_int64_t) then
+            u = int(i, kind=c_uint32_t)
+        else
+            u = int(i - 4294967296_c_int64_t, kind=c_uint32_t)
+        end if
+    end function c_int64_to_uint32
+
     pure elemental function c_uint16_to_int32(i) result(r)
         !! Converts unsigned `uint16_t` integer to signed `int32_t` integer.
         integer(kind=c_uint16_t), intent(in) :: i !! Unsigned integer.

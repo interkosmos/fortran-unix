@@ -1,4 +1,7 @@
 ! unix_time.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_time
     use, intrinsic :: iso_c_binding
     use :: unix_types
@@ -43,21 +46,25 @@ module unix_time
 
 #endif
 
+    ! struct timespec
     type, bind(c), public :: c_timespec
         integer(kind=c_time_t) :: tv_sec  = 0_c_time_t
         integer(kind=c_long)   :: tv_nsec = 0_c_long
     end type c_timespec
 
+    ! struct timeval
     type, bind(c), public :: c_timeval
         integer(kind=c_time_t)      :: tv_sec  = 0_c_time_t
         integer(kind=c_suseconds_t) :: tv_usec = 0_c_suseconds_t
     end type c_timeval
 
+    ! struct timezone
     type, bind(c), public :: c_timezone
         integer(kind=c_int) :: tz_minuteswest = 0 ! Minutes west of Greenwich.
         integer(kind=c_int) :: tz_dsttime     = 0 ! Type of DST correction.
     end type c_timezone
 
+    ! struct tm
     type, bind(c), public :: c_tm
         integer(kind=c_int)  :: tm_sec    = 0          ! Seconds after minute (0 - 59).
         integer(kind=c_int)  :: tm_min    = 0          ! Minutes after hour (0 - 59).

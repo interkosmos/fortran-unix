@@ -1,4 +1,7 @@
 ! unix_stdlib.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_stdlib
     use, intrinsic :: iso_c_binding
     implicit none

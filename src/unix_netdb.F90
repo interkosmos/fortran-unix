@@ -1,4 +1,7 @@
 ! unix_netdb.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_netdb
     use, intrinsic :: iso_c_binding
     use :: unix_fcntl
@@ -23,6 +26,7 @@ module unix_netdb
 
     integer(kind=c_in_addr_t), parameter, public :: INADDR_ANY = int(z'00000000')
 
+    ! struct in_addr
     type, bind(c), public :: c_in_addr
         integer(kind=c_int32_t) :: s_addr = 0_c_int32_t
     end type c_in_addr
@@ -36,11 +40,13 @@ module unix_netdb
 
     integer(kind=c_int), parameter, public :: c_sa_family_t = c_signed_char
 
+    ! struct sockaddr
     type, bind(c), public :: c_sockaddr
         integer(kind=c_sa_family_t) :: sa_family     = 0_c_sa_family_t
         character(kind=c_char)      :: sa_data(0:13) = c_null_char
     end type c_sockaddr
 
+    ! struct addrinfo
     type, bind(c), public :: c_addrinfo
         integer(kind=c_int)       :: ai_flags     = 0
         integer(kind=c_int)       :: ai_family    = 0
@@ -52,6 +58,7 @@ module unix_netdb
         type(c_ptr)               :: ai_next      = c_null_ptr
     end type c_addrinfo
 
+    ! struct sockaddr_in
     type, bind(c), public :: c_sockaddr_in
         integer(kind=c_sa_family_t) :: sin_family = 0_c_sa_family_t
         integer(kind=c_int16_t)     :: sin_port   = 0_c_int16_t
@@ -65,12 +72,14 @@ module unix_netdb
     integer(kind=c_int), parameter, public :: SOCK_CLOEXEC  = int(z'10000000')
     integer(kind=c_int), parameter, public :: SOCK_NONBLOCK = int(z'20000000')
 
+    ! struct sockaddr
     type, bind(c), public :: c_sockaddr
         character(kind=c_char) :: sa_len        = c_null_char
         integer(kind=c_int)    :: sa_family     = 0
         character(kind=c_char) :: sa_data(0:13) = c_null_char
     end type c_sockaddr
 
+    ! struct addrinfo
     type, bind(c), public :: c_addrinfo
         integer(kind=c_int)       :: ai_flags     = 0
         integer(kind=c_int)       :: ai_family    = 0
@@ -82,6 +91,7 @@ module unix_netdb
         type(c_ptr)               :: ai_next      = c_null_ptr
     end type c_addrinfo
 
+    ! struct sockaddr_in
     type, bind(c), public :: c_sockaddr_in
         integer(kind=c_int8_t)  :: sin_len       = 0_c_int8_t
         integer(kind=c_int)     :: sin_family    = 0

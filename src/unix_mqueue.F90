@@ -1,4 +1,7 @@
 ! unix_mqueues.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_mqueue
     use, intrinsic :: iso_c_binding
     use :: unix_time
@@ -6,6 +9,7 @@ module unix_mqueue
     implicit none
     private
 
+    ! struct mq_attr
     type, bind(c), public :: c_mq_attr
         integer(kind=c_long)          :: mq_flags    = 0_c_long ! Flags (ignored for mq_open()).
         integer(kind=c_long)          :: mq_maxmsg   = 0_c_long ! Max. # of messages on queue.
@@ -84,7 +88,7 @@ module unix_mqueue
             integer(kind=c_int)                      :: c_mq_setattr
         end function c_mq_setattr
 
-        ! ssize_t mq_timedreceive(mqd_t mqdes, char *restrict msg_ptr, size_t msg_len, unsigned int *restrict msg_prio, const struct timespec *restrict abs_timeout)
+        ! ssize_t mq_timedreceive(mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned int *msg_prio, const struct timespec *abs_timeout)
         function c_mq_timedreceive(mqdes, msg_ptr, msg_len, msg_prio, abs_timeout) bind(c, name='mq_timedreceive')
             import :: c_char, c_int, c_mqd_t, c_size_t, c_timespec
             implicit none

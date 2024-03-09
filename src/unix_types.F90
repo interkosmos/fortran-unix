@@ -1,4 +1,7 @@
 ! unix_types.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_types
     use, intrinsic :: iso_c_binding
     implicit none

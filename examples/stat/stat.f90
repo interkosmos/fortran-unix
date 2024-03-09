@@ -11,10 +11,9 @@ program main
     character(len=*), parameter :: FILE_NAME = 'README.md'
 
     character(len=:), allocatable :: atime, mtime, ctime
-
-    integer                 :: file_type, stat
-    integer(kind=c_int64_t) :: file_mode
-    type(c_stat_type)       :: file_stat
+    integer                       :: file_type, stat
+    integer(kind=c_int64_t)       :: file_mode
+    type(c_stat_type)             :: file_stat
 
     ! Get file status.
     stat = c_stat(FILE_NAME // c_null_char, file_stat)

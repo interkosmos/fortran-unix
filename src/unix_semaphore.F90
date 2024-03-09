@@ -1,4 +1,7 @@
 ! unix_semaphore.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_semaphore
     use, intrinsic :: iso_c_binding
     use :: unix_time
@@ -16,6 +19,7 @@ module unix_semaphore
 
 #endif
 
+    ! struct sem_t
     type, bind(c), public :: c_sem_t
         private
         character(kind=c_char) :: hidden(SEM_SIZE)

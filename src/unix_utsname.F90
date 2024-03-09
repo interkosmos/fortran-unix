@@ -1,4 +1,7 @@
 ! unix_utsname.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_utsname
     use, intrinsic :: iso_c_binding
     implicit none
@@ -8,6 +11,7 @@ module unix_utsname
 
     integer(kind=c_int), parameter, public :: SYS_NMLN = 65
 
+    ! struct utsname
     type, bind(c), public :: c_utsname
         character(kind=c_char) :: sysname(0:SYS_NMLN - 1)    = c_null_char
         character(kind=c_char) :: nodename(0:SYS_NMLN - 1)   = c_null_char
@@ -21,6 +25,7 @@ module unix_utsname
 
     integer(kind=c_int), parameter, public :: SYS_NMLN = 256
 
+    ! struct utsname
     type, bind(c), public :: c_utsname
         character(kind=c_char) :: sysname(0:SYS_NMLN - 1)  = c_null_char
         character(kind=c_char) :: nodename(0:SYS_NMLN - 1) = c_null_char

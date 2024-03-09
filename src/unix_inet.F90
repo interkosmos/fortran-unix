@@ -1,4 +1,7 @@
 ! unix_inet.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_inet
     use, intrinsic :: iso_c_binding
     use :: unix_types

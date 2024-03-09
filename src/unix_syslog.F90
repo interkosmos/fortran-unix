@@ -1,4 +1,7 @@
 ! unix_syslog.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_syslog
     use, intrinsic :: iso_c_binding
     implicit none

@@ -1,4 +1,7 @@
 ! unix_msg.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_msg
     use, intrinsic :: iso_c_binding
     use :: unix_types

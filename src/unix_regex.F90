@@ -1,4 +1,7 @@
 ! unix_regex.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_regex
     use, intrinsic :: iso_c_binding
     use :: unix_types
@@ -36,6 +39,7 @@ module unix_regex
 
     integer, parameter, public :: c_regoff_t = c_size_t
 
+    ! struct regex_t
     type, bind(c), public :: c_regex_t
         private
         character(kind=c_char) :: hidden(64)
@@ -85,6 +89,7 @@ module unix_regex
 
     integer, parameter, public :: c_regoff_t = c_int64_t
 
+    ! struct regex_t
     type, bind(c), public :: c_regex_t
         integer(kind=c_int)    :: re_magic = 0
         integer(kind=c_size_t) :: re_nsub  = 0_c_size_t

@@ -1,4 +1,7 @@
 ! unix_socket.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_socket
     use, intrinsic :: iso_c_binding
     use :: unix_types

@@ -1,4 +1,7 @@
 ! unix_signal.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_signal
     use, intrinsic :: iso_c_binding
     use :: unix_types

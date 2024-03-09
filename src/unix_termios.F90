@@ -1,4 +1,7 @@
 ! unix_termios.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_termios
     use, intrinsic :: iso_c_binding
     use :: unix_types
@@ -141,6 +144,7 @@ module unix_termios
 
     integer, parameter, public :: NCCS = 32
 
+    ! struct termios
     type, bind(c), public :: c_termios
         integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t
@@ -297,6 +301,7 @@ module unix_termios
 
     integer, parameter, public :: NCCS = 20
 
+    ! struct termios
     type, bind(c), public :: c_termios
         integer(kind=c_tcflag_t) :: c_iflag          = 0_c_tcflag_t
         integer(kind=c_tcflag_t) :: c_oflag          = 0_c_tcflag_t

@@ -1,4 +1,7 @@
 ! unix_stat.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_stat
     use, intrinsic :: iso_c_binding
     use :: unix_time

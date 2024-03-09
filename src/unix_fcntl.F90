@@ -1,4 +1,7 @@
 ! unix_fcntl.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_fcntl
     use, intrinsic :: iso_c_binding
     use :: unix_types

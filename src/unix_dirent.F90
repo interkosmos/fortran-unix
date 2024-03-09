@@ -1,4 +1,7 @@
 ! unix_dirent.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_dirent
     use, intrinsic :: iso_c_binding
     implicit none
@@ -16,6 +19,7 @@ module unix_dirent
 
 #if defined (__linux__)
 
+    ! struct dirent
     type, bind(c), public :: c_dirent
         integer(kind=c_int64_t) :: d_ino         = 0_c_int64_t
         integer(kind=c_int64_t) :: d_off         = 0_c_int64_t
@@ -26,6 +30,7 @@ module unix_dirent
 
 #elif defined (__FreeBSD__)
 
+    ! struct dirent
     type, bind(c), public :: c_dirent
         integer(kind=c_int64_t)          :: d_fileno      = 0_c_int64_t
         integer(kind=c_int64_t)          :: d_off         = 0_c_int64_t

@@ -1,4 +1,7 @@
 ! unix_stdio.F90
+!
+! Author:  Philipp Engel
+! Licence: ISC
 module unix_stdio
     use, intrinsic :: iso_c_binding
     implicit none
@@ -115,7 +118,7 @@ module unix_stdio
             integer(kind=c_int)                       :: c_fputs
         end function c_fputs
 
-        ! size_t fread(void *restrict ptr, size_t size, size_t nmemb, FILE *restrict stream)
+        ! size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
         function c_fread(ptr, size, nmemb, stream) bind(c, name='fread')
             import :: c_ptr, c_size_t
             implicit none
@@ -126,7 +129,7 @@ module unix_stdio
             integer(kind=c_size_t)                    :: c_fread
         end function c_fread
 
-        ! size_t fwrite(const void *restrict ptr, size_t size, size_t nmemb, FILE *restrict stream)
+        ! size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
         function c_fwrite(ptr, size, nmemb, stream) bind(c, name='fwrite')
             import :: c_ptr, c_size_t
             implicit none
@@ -145,11 +148,11 @@ module unix_stdio
             integer(kind=c_int)            :: c_pclose
         end function c_pclose
 
-        ! void perror(const char *s)
-        subroutine c_perror(s) bind(c, name='perror')
+        ! void perror(const char *str)
+        subroutine c_perror(str) bind(c, name='perror')
             import :: c_char
             implicit none
-            character(kind=c_char), intent(in) :: s
+            character(kind=c_char), intent(in) :: str
         end subroutine c_perror
 
         ! FILE *popen(const char *command, const char *type)
