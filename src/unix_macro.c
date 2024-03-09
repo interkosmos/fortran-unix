@@ -74,7 +74,7 @@ int c_scanf(const char *format, const char *arg)
 /* int uname(struct utsname *name) */
 int c_uname(struct utsname *name)
 {
-    uname(name);
+    return uname(name);
 }
 
 /* void syslog(int priority, const char *format, ...) */
