@@ -62,9 +62,7 @@ OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
         freebsd freebsd_doc freebsd_examples \
         linux linux_doc linux_examples
 
-all:
-	@echo "Add build target [freebsd|linux], for example:"
-	@echo "make linux"
+all: $(TARGET)
 
 # Library
 $(TARGET): $(SRC)
