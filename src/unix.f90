@@ -35,7 +35,7 @@ module unix
     implicit none
 
     interface c_int_to_uint
-        !! Converts unsigned integer to signed integer.
+        !! Converts signed integer to unsigned integer.
         module procedure :: c_int32_to_uint16
         module procedure :: c_int64_to_uint32
     end interface
