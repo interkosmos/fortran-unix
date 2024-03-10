@@ -37,8 +37,6 @@ module unix_regex
     integer(kind=c_int), parameter, public :: REG_ESIZE    = 15
     integer(kind=c_int), parameter, public :: REG_ERPAREN  = 16
 
-    integer, parameter, public :: c_regoff_t = c_size_t
-
     ! struct regex_t
     type, bind(c), public :: c_regex_t
         private
@@ -86,8 +84,6 @@ module unix_regex
     integer(kind=c_int), parameter, public :: REG_TRACE    = int(o'00400')
     integer(kind=c_int), parameter, public :: REG_LARGE    = int(o'01000')
     integer(kind=c_int), parameter, public :: REG_BACKR    = int(o'02000')
-
-    integer, parameter, public :: c_regoff_t = c_int64_t
 
     ! struct regex_t
     type, bind(c), public :: c_regex_t
