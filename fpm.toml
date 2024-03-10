@@ -34,6 +34,11 @@ source-dir = "examples/irc"
 main = "irc.f90"
 
 [[example]]
+name = "key"
+source-dir = "examples/key"
+main = "key.f90"
+
+[[example]]
 name = "mqueue"
 source-dir = "examples/mqueue"
 main = "mqueue.f90"
@@ -75,6 +80,12 @@ link = "pthread"
 name = "regex"
 source-dir = "examples/regex"
 main = "regex.f90"
+
+[[example]]
+name = "semaphore"
+source-dir = "examples/semaphore"
+main = "semaphore.f90"
+link = "pthread"
 
 [[example]]
 name = "serial"
