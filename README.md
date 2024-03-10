@@ -23,9 +23,14 @@ operating systems:
 
 Similar libraries for modern Fortran:
 
-* [fortyxima](https://bitbucket.org/aradi/fortyxima/),
 * [M_process](https://github.com/urbanjost/M_process),
-* [M_system](https://github.com/urbanjost/M_system).
+* [M_system](https://github.com/urbanjost/M_system),
+* [forthreads](https://github.com/ohm314/forthreads),
+* [fortran-server](https://github.com/lukeasrodgers/fortran-server),
+* [fortranposix](https://sourceforge.net/projects/fortranposix/),
+* [fortyxima](https://bitbucket.org/aradi/fortyxima/),
+* [fsockets](https://github.com/trifling/fsocket),
+* [posix90](http://savannah.nongnu.org/projects/posix90/).
 
 Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
