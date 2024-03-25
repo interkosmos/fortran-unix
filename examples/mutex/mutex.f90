@@ -36,8 +36,9 @@ program main
     integer, parameter :: NTHREADS = 16
 
     integer           :: i, stat
-    type(c_pthread_t) :: threads(NTHREADS)
     integer, target   :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
+    type(c_pthread_t) :: threads(NTHREADS)
+    type(c_ptr)       :: ptr
 
     stat = c_pthread_mutex_init(mutex_sample, c_null_ptr)
 
@@ -53,7 +54,7 @@ program main
     print '("Joining threads ...")'
 
     do i = 1, NTHREADS
-        stat = c_pthread_join(threads(i), c_loc(routines(i)))
+        stat = c_pthread_join(threads(i), ptr)
     end do
 
     stat = c_pthread_mutex_destroy(mutex_sample)

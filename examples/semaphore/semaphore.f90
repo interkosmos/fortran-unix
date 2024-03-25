@@ -15,6 +15,7 @@ program main
     type(c_funptr)        :: procs(NTHREADS)
     type(c_pthread_t)     :: threads(NTHREADS)
     type(c_sem_t), target :: sem
+    type(c_ptr)           :: ptr
 
     integer         :: i, stat
     integer, target :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
@@ -38,7 +39,7 @@ program main
     print '("--- Joining threads ...")'
 
     do i = 1, NTHREADS
-        stat = c_pthread_join(threads(i), c_loc(routines(i)))
+        stat = c_pthread_join(threads(i), ptr)
     end do
 
     stat = c_sem_destroy(sem)

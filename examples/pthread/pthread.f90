@@ -10,8 +10,9 @@ program main
     integer, parameter :: NTHREADS = 3
 
     integer           :: i, stat
-    type(c_pthread_t) :: threads(NTHREADS)
     integer, target   :: routines(NTHREADS) = [ (i, i = 1, NTHREADS) ]
+    type(c_pthread_t) :: threads(NTHREADS)
+    type(c_ptr)       :: ptr
 
     print '("Starting threads ...")'
 
@@ -25,7 +26,7 @@ program main
     print '("Joining threads ...")'
 
     do i = 1, NTHREADS
-        stat = c_pthread_join(threads(i), c_loc(routines(i)))
+        stat = c_pthread_join(threads(i), ptr)
     end do
 contains
     recursive subroutine hello(arg) bind(c)

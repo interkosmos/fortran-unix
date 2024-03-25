@@ -65,7 +65,7 @@ module unix_pthread
             import :: c_int, c_ptr, c_pthread_t
             implicit none
             type(c_pthread_t), intent(in), value :: thread
-            type(c_ptr),       intent(in)        :: value_ptr
+            type(c_ptr),       intent(out)       :: value_ptr
             integer(kind=c_int)                  :: c_pthread_join
         end function c_pthread_join
 
