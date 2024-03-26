@@ -7,6 +7,9 @@ module unix_stdlib
     implicit none
     private
 
+    integer(kind=c_int), parameter, public :: EXIT_SUCCESS = 0
+    integer(kind=c_int), parameter, public :: EXIT_FAILURE = 1
+
     public :: c_exit
     public :: c_free
 
