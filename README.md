@@ -57,20 +57,19 @@ On FreeBSD, run:
 $ make freebsd
 ```
 
-On Linux, run instead:
+On Linux (x86-64), run instead:
 
 ```
 $ make linux
 ```
 
-Or, set parameter `OS` to either `linux` or `FreeBSD`, and `PREFIX` to `/usr` or
-`/usr/local`, for instance:
+On Linux (aarch64), run:
 
 ```
-$ make OS=linux PREFIX=/usr
+$ make linux_aarch64
 ```
 
-For Intel oneAPI, run:
+To build with Intel oneAPI, run:
 
 ```
 $ make CC=icx FC=ifx PPFLAGS=
@@ -93,10 +92,16 @@ Using FPM, a preprocessor flag has to be passed to GNU Fortran. On FreeBSD:
 $ fpm build --profile release --flag "-D__FreeBSD__"
 ```
 
-On Linux:
+On Linux (x86-64):
 
 ```
 $ fpm build --profile release --flag "-D__linux__"
+```
+
+On Linux (aarch64):
+
+```
+$ fpm build --profile release --flag "-D__linux__ -D__aarch64__"
 ```
 
 ## Source Code Documentation
