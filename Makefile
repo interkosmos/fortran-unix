@@ -60,7 +60,7 @@ OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
 
 .PHONY: all clean doc examples install \
         freebsd freebsd_doc freebsd_examples \
-        linux linux_doc linux_examples
+        linux linux_aarch64 linux_doc linux_examples
 
 all: $(TARGET)
 
@@ -100,6 +100,9 @@ freebsd:
 
 linux:
 	$(MAKE) $(TARGET) OS=linux
+
+linux_aarch64:
+	$(MAKE) $(TARGET) PPFLAGS="-cpp -D__linux__ -D__aarch64__"
 
 freebsd_examples:
 	$(MAKE) examples OS=FreeBSD

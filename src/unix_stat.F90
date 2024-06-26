@@ -38,7 +38,31 @@ module unix_stat
     integer(kind=c_int), parameter, public :: S_ISGID  = int(o'0002000')
     integer(kind=c_int), parameter, public :: S_ISVTX  = int(o'0001000')
 
-    ! struct stat
+#if defined(__aarch64__)
+
+    ! struct stat (aarch64)
+    type, bind(c), public :: c_stat_type
+        integer(kind=c_dev_t)          :: st_dev      = 0 ! ID of device containing file
+        integer(kind=c_ino_t)          :: st_ino      = 0 ! inode number
+        integer(kind=c_mode_t)         :: st_mode     = 0 ! protection
+        integer(kind=c_nlink_t)        :: st_nlink    = 0 ! number of hard links
+        integer(kind=c_uid_t)          :: st_uid      = 0 ! user ID of owner
+        integer(kind=c_gid_t)          :: st_gid      = 0 ! group ID of owner
+        integer(kind=c_dev_t)          :: st_rdev     = 0 ! device ID (if special file)
+        integer(kind=c_dev_t), private :: pad0        = 0
+        integer(kind=c_off_t)          :: st_size     = 0 ! total size, in bytes
+        integer(kind=c_blksize_t)      :: st_blksize  = 0 ! blocksize for file system I/O
+        integer(kind=c_int),   private :: pad1        = 0
+        integer(kind=c_blkcnt_t)       :: st_blocks   = 0 ! number of 512B blocks allocated
+        type(c_timespec)               :: st_atim         ! time of last access
+        type(c_timespec)               :: st_mtim         ! time of last modification
+        type(c_timespec)               :: st_ctim         ! time of last status change
+        integer(kind=c_long),  private :: reserved(2) = 0
+    end type c_stat_type
+
+#else
+
+    ! struct stat (x86-64)
     type, bind(c), public :: c_stat_type
         integer(kind=c_dev_t)         :: st_dev      = 0 ! ID of device containing file
         integer(kind=c_ino_t)         :: st_ino      = 0 ! inode number
@@ -57,6 +81,7 @@ module unix_stat
         integer(kind=c_long), private :: reserved(3) = 0
     end type c_stat_type
 
+#endif
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: S_IRWXU = int(o'0000700')
