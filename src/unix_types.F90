@@ -7,14 +7,29 @@ module unix_types
     implicit none
     private
 
+#if defined (__flang__)
+
+    public :: c_unsigned
+    public :: c_unsigned_char
+    public :: c_unsigned_short
+    public :: c_unsigned_long
+
+    public :: c_uint16_t
+    public :: c_uint32_t
+    public :: c_uint64_t
+
+#else
+
+    integer, parameter, public :: c_unsigned       = c_int
     integer, parameter, public :: c_unsigned_char  = c_signed_char
     integer, parameter, public :: c_unsigned_short = c_short
-    integer, parameter, public :: c_unsigned_int   = c_int
     integer, parameter, public :: c_unsigned_long  = c_long
 
     integer, parameter, public :: c_uint16_t = c_int16_t
     integer, parameter, public :: c_uint32_t = c_int32_t
     integer, parameter, public :: c_uint64_t = c_int64_t
+
+#endif
 
 #if defined (__linux__)
 
@@ -34,9 +49,9 @@ module unix_types
     integer, parameter, public :: c_pid_t       = c_int32_t
     integer, parameter, public :: c_regoff_t    = c_size_t
     integer, parameter, public :: c_socklen_t   = c_int64_t
-    integer, parameter, public :: c_speed_t     = c_unsigned_int
+    integer, parameter, public :: c_speed_t     = c_unsigned
     integer, parameter, public :: c_suseconds_t = c_int
-    integer, parameter, public :: c_tcflag_t    = c_unsigned_int
+    integer, parameter, public :: c_tcflag_t    = c_unsigned
     integer, parameter, public :: c_time_t      = c_long
     integer, parameter, public :: c_uid_t       = c_uint32_t
     integer, parameter, public :: c_useconds_t  = c_int32_t
@@ -60,12 +75,12 @@ module unix_types
     integer, parameter, public :: c_pid_t       = c_int32_t
     integer, parameter, public :: c_regoff_t    = c_int64_t
     integer, parameter, public :: c_socklen_t   = c_size_t
-    integer, parameter, public :: c_speed_t     = c_unsigned_int
+    integer, parameter, public :: c_speed_t     = c_unsigned
     integer, parameter, public :: c_suseconds_t = c_long
-    integer, parameter, public :: c_tcflag_t    = c_unsigned_int
+    integer, parameter, public :: c_tcflag_t    = c_unsigned
     integer, parameter, public :: c_time_t      = c_int64_t
     integer, parameter, public :: c_uid_t       = c_uint32_t
-    integer, parameter, public :: c_useconds_t  = c_unsigned_int
+    integer, parameter, public :: c_useconds_t  = c_unsigned
 
 #endif
 end module unix_types

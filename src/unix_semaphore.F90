@@ -64,22 +64,22 @@ module unix_semaphore
 
         ! int sem_init(sem_t *sem, int, unsigned int value)
         function c_sem_init(sem, value) bind(c, name='sem_init')
-            import :: c_int, c_sem_t, c_unsigned_int
+            import :: c_int, c_sem_t, c_unsigned
             implicit none
-            type(c_sem_t),                intent(in)        :: sem
-            integer(kind=c_unsigned_int), intent(in), value :: value
-            integer(kind=c_int)                             :: c_sem_init
+            type(c_sem_t),            intent(in)        :: sem
+            integer(kind=c_unsigned), intent(in), value :: value
+            integer(kind=c_int)                         :: c_sem_init
         end function c_sem_init
 
         ! sem_t *semsem_open(const char *name, int oflag, mode_t mode, unsigned int value)
         function c_sem_open(name, oflag, mode, value) bind(c, name='sem_open')
-            import :: c_char, c_int, c_mode_t, c_ptr, c_unsigned_int
+            import :: c_char, c_int, c_mode_t, c_ptr, c_unsigned
             implicit none
-            character(kind=c_char),       intent(in)        :: name
-            integer(kind=c_int),          intent(in), value :: oflag
-            integer(kind=c_mode_t),       intent(in), value :: mode
-            integer(kind=c_unsigned_int), intent(in), value :: value
-            type(c_ptr)                                     :: c_sem_open
+            character(kind=c_char),   intent(in)        :: name
+            integer(kind=c_int),      intent(in), value :: oflag
+            integer(kind=c_mode_t),   intent(in), value :: mode
+            integer(kind=c_unsigned), intent(in), value :: value
+            type(c_ptr)                                 :: c_sem_open
         end function c_sem_open
 
         ! int sem_post(sem_t *sem)

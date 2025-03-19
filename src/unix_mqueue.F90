@@ -58,24 +58,24 @@ module unix_mqueue
 
         ! ssize_t mq_receive(mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned int *msg_prio)
         function c_mq_receive(mqdes, msg_ptr, msg_len, msg_prio) bind(c, name='mq_receive')
-            import :: c_char, c_mqd_t, c_size_t, c_unsigned_int
+            import :: c_char, c_mqd_t, c_size_t, c_unsigned
             implicit none
-            integer(kind=c_mqd_t),        intent(in), value :: mqdes
-            character(kind=c_char),       intent(in)        :: msg_ptr
-            integer(kind=c_size_t),       intent(in), value :: msg_len
-            integer(kind=c_unsigned_int), intent(out)       :: msg_prio
-            integer(kind=c_size_t)                          :: c_mq_receive
+            integer(kind=c_mqd_t),    intent(in), value :: mqdes
+            character(kind=c_char),   intent(in)        :: msg_ptr
+            integer(kind=c_size_t),   intent(in), value :: msg_len
+            integer(kind=c_unsigned), intent(out)       :: msg_prio
+            integer(kind=c_size_t)                      :: c_mq_receive
         end function c_mq_receive
 
         ! int mq_send(mqd_t mqdes, const char *msg_ptr, size_t msg_len, unsigned int msg_prio)
         function c_mq_send(mqdes, msg_ptr, msg_len, msg_prio) bind(c, name='mq_send')
-            import :: c_char, c_int, c_mqd_t, c_size_t, c_unsigned_int
+            import :: c_char, c_int, c_mqd_t, c_size_t, c_unsigned
             implicit none
-            integer(kind=c_mqd_t),        intent(in), value :: mqdes
-            character(kind=c_char),       intent(in)        :: msg_ptr
-            integer(kind=c_size_t),       intent(in), value :: msg_len
-            integer(kind=c_unsigned_int), intent(in), value :: msg_prio
-            integer(kind=c_int)                             :: c_mq_send
+            integer(kind=c_mqd_t),    intent(in), value :: mqdes
+            character(kind=c_char),   intent(in)        :: msg_ptr
+            integer(kind=c_size_t),   intent(in), value :: msg_len
+            integer(kind=c_unsigned), intent(in), value :: msg_prio
+            integer(kind=c_int)                         :: c_mq_send
         end function c_mq_send
 
         ! int mq_setattr(mqd_t mqdes, const struct mq_attr *attr, struct mq_attr *oldattr)
@@ -90,14 +90,14 @@ module unix_mqueue
 
         ! ssize_t mq_timedreceive(mqd_t mqdes, char *msg_ptr, size_t msg_len, unsigned int *msg_prio, const struct timespec *abs_timeout)
         function c_mq_timedreceive(mqdes, msg_ptr, msg_len, msg_prio, abs_timeout) bind(c, name='mq_timedreceive')
-            import :: c_char, c_mqd_t, c_size_t, c_timespec, c_unsigned_int
+            import :: c_char, c_mqd_t, c_size_t, c_timespec, c_unsigned
             implicit none
-            integer(kind=c_mqd_t),        intent(in), value :: mqdes
-            character(kind=c_char),       intent(in)        :: msg_ptr
-            integer(kind=c_size_t),       intent(in), value :: msg_len
-            integer(kind=c_unsigned_int), intent(out)       :: msg_prio
-            type(c_timespec),             intent(in)        :: abs_timeout
-            integer(kind=c_size_t)                          :: c_mq_timedreceive
+            integer(kind=c_mqd_t),    intent(in), value :: mqdes
+            character(kind=c_char),   intent(in)        :: msg_ptr
+            integer(kind=c_size_t),   intent(in), value :: msg_len
+            integer(kind=c_unsigned), intent(out)       :: msg_prio
+            type(c_timespec),         intent(in)        :: abs_timeout
+            integer(kind=c_size_t)                      :: c_mq_timedreceive
         end function c_mq_timedreceive
 
         ! int mq_unlink(const char *name)

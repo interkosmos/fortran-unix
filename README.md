@@ -35,8 +35,8 @@ Similar libraries for modern Fortran:
 Currently, only Linux (glibc) and FreeBSD are supported. The library has been
 tested on:
 
-* FreeBSD 14 (GNU Fortran 13),
-* Debian 12 (GNU Fortran 12, Intel oneAPI 2024).
+* FreeBSD 14 (GCC 14, LLVM 20),
+* Debian 12 (GCC 12, Intel oneAPI 2024).
 
 Preprocessor macros are used to achieve platform-independent interoperability.
 Therefore, your Fortran compiler has to support at least GNU preprocessor
@@ -57,7 +57,13 @@ On FreeBSD, run:
 $ make freebsd
 ```
 
-On Linux (x86-64), run instead:
+To build with LLVM 20 instead:
+
+```
+$ make freebsd CC=clang20 FC=flang20
+```
+
+On Linux (x86-64), run:
 
 ```
 $ make linux
