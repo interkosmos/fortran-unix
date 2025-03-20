@@ -10,6 +10,12 @@ module unix_fcntl
 
 #if defined (__linux__)
 
+    integer(kind=c_int), parameter, public :: AT_EACCESS          = int(z'200')
+    integer(kind=c_int), parameter, public :: AT_SYMLINK_NOFOLLOW = int(z'100')
+    integer(kind=c_int), parameter, public :: AT_SYMLINK_FOLLOW   = int(z'400')
+    integer(kind=c_int), parameter, public :: AT_REMOVEDIR        = int(z'200')
+    integer(kind=c_int), parameter, public :: AT_EMPTY_PATH       = int(z'1000')
+
     integer(kind=c_int), parameter, public :: O_ACCMODE  = int(o'0003')
     integer(kind=c_int), parameter, public :: O_RDONLY   = int(o'00')
     integer(kind=c_int), parameter, public :: O_WRONLY   = int(o'01')
@@ -28,6 +34,12 @@ module unix_fcntl
     integer(kind=c_int), parameter, public :: O_CLOEXEC  = int(o'02000000')
 
 #elif defined (__FreeBSD__)
+
+    integer(kind=c_int), parameter, public :: AT_EACCESS          = int(z'0100') ! Check access using effective user and group ID.
+    integer(kind=c_int), parameter, public :: AT_SYMLINK_NOFOLLOW = int(z'0200') ! Do not follow symbolic links.
+    integer(kind=c_int), parameter, public :: AT_SYMLINK_FOLLOW   = int(z'0400') ! Follow symbolic link.
+    integer(kind=c_int), parameter, public :: AT_REMOVEDIR        = int(z'0800') ! Remove directory instead of file.
+    integer(kind=c_int), parameter, public :: AT_EMPTY_PATH       = int(z'4000') ! Operate on dirfd if path is empty.
 
     integer(kind=c_int), parameter, public :: O_RDONLY   = int(z'0000') ! Open for reading only.
     integer(kind=c_int), parameter, public :: O_WRONLY   = int(z'0001') ! Open for writing only.

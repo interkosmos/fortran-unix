@@ -40,7 +40,7 @@ tested on:
 
 Preprocessor macros are used to achieve platform-independent interoperability.
 Therefore, your Fortran compiler has to support at least GNU preprocessor
-conditionals (`#ifdef` …).
+conditionals.
 
 ## Build Instructions
 

@@ -9,25 +9,25 @@ module unix_types
 
 #if defined (__flang__)
 
+    public :: c_uint16_t
+    public :: c_uint32_t
+    public :: c_uint64_t
+
     public :: c_unsigned
     public :: c_unsigned_char
     public :: c_unsigned_short
     public :: c_unsigned_long
 
-    public :: c_uint16_t
-    public :: c_uint32_t
-    public :: c_uint64_t
-
 #else
+
+    integer, parameter, public :: c_uint16_t = c_int16_t
+    integer, parameter, public :: c_uint32_t = c_int32_t
+    integer, parameter, public :: c_uint64_t = c_int64_t
 
     integer, parameter, public :: c_unsigned       = c_int
     integer, parameter, public :: c_unsigned_char  = c_signed_char
     integer, parameter, public :: c_unsigned_short = c_short
     integer, parameter, public :: c_unsigned_long  = c_long
-
-    integer, parameter, public :: c_uint16_t = c_int16_t
-    integer, parameter, public :: c_uint32_t = c_int32_t
-    integer, parameter, public :: c_uint64_t = c_int64_t
 
 #endif
 

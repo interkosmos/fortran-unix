@@ -12,11 +12,18 @@ module unix_unistd
     integer(kind=c_int), parameter, public :: STDOUT_FILENO = 1
     integer(kind=c_int), parameter, public :: STDERR_FILENO = 2
 
+    integer(kind=c_int), parameter, public :: F_OK = 0          ! Test for existence of file.
+    integer(kind=c_int), parameter, public :: X_OK = int(z'01') ! Test for execute or search permission.
+    integer(kind=c_int), parameter, public :: W_OK = int(z'02') ! Test for write permission.
+    integer(kind=c_int), parameter, public :: R_OK = int(z'04') ! Test for read permission.
+
+    public :: c_access
     public :: c_chdir
     public :: c_close
     public :: c_dup
     public :: c_dup2
     public :: c_execl
+    public :: c_faccessat
     public :: c_fork
     public :: c_getpid
     public :: c_pipe
@@ -27,6 +34,15 @@ module unix_unistd
     public :: c_write
 
     interface
+        ! int access(const char *path, int mode)
+        function c_access(path, mode) bind(c, name='access')
+            import :: c_char, c_int
+            implicit none
+            character(kind=c_char), intent(in)        :: path
+            integer(kind=c_int),    intent(in), value :: mode
+            integer(kind=c_int)                       :: c_access
+        end function c_access
+
         ! int chdir(const char *path)
         function c_chdir(path) bind(c, name='chdir')
             import :: c_int, c_char
@@ -71,6 +87,17 @@ module unix_unistd
             type(c_ptr),            intent(in), value :: ptr
             integer(kind=c_int)                       :: c_execl
         end function c_execl
+
+        ! int faccessat(int dirfd, const char *path, int mode, int flags)
+        function c_faccessat(dirfd, path, mode, flags) bind(c, name='faccessat')
+            import :: c_char, c_int
+            implicit none
+            integer(kind=c_int),    intent(in), value :: dirfd
+            character(kind=c_char), intent(in)        :: path
+            integer(kind=c_int),    intent(in), value :: mode
+            integer(kind=c_int),    intent(in), value :: flags
+            integer(kind=c_int)                       :: c_faccessat
+        end function c_faccessat
 
         ! pid_t fork(void)
         function c_fork() bind(c, name='fork')
