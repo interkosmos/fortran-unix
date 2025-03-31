@@ -10,7 +10,6 @@ module unix_stdio
     integer(kind=c_int), parameter, public :: EOF = -1
 
     public :: c_getchar
-    public :: c_getline
     public :: c_fclose
     public :: c_fdopen
     public :: c_fflush
@@ -36,16 +35,6 @@ module unix_stdio
             implicit none
             integer(kind=c_int) :: c_getchar
         end function c_getchar
-
-        ! ssize_t getline(char **lineptr, size_t *n, FILE *stream)
-        function c_getline(lineptr, n, stream) bind(c, name='getline')
-            import :: c_char, c_ptr, c_size_t
-            implicit none
-            character(kind=c_char), intent(in)        :: lineptr(*)
-            integer(kind=c_size_t), intent(in)        :: n
-            type(c_ptr),            intent(in), value :: stream
-            integer(kind=c_size_t)                    :: c_getline
-        end function c_getline
 
         ! int fclose(FILE *stream)
         function c_fclose(stream) bind(c, name='fclose')

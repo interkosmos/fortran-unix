@@ -82,6 +82,7 @@ module unix_stat
     end type c_stat_type
 
 #endif
+
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: S_IRWXU = int(o'0000700')
@@ -132,6 +133,7 @@ module unix_stat
         integer(kind=c_uint64_t)          :: st_gen       = 0
         integer(kind=c_uint64_t), private :: st_spare(10) = 0
     end type c_stat_type
+
 #endif
 
     public :: c_fstat
