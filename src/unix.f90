@@ -95,7 +95,7 @@ contains
         integer(kind=c_uint16_t), intent(in) :: u !! Unsigned integer.
         integer(kind=c_int32_t)              :: s !! Signed integer.
 
-        if (u > 0) then
+        if (u >= 0) then
             s = int(u, kind=c_int32_t)
         else
             s = 65536_c_int32_t + int(u, kind=c_int32_t)
@@ -107,7 +107,7 @@ contains
         integer(kind=c_uint32_t), intent(in) :: u !! Unsigned integer.
         integer(kind=c_int64_t)              :: s !! Signed integer.
 
-        if (u > 0) then
+        if (u >= 0) then
             s = int(u, kind=c_int64_t)
         else
             s = 4294967296_c_int64_t + int(u, kind=c_int64_t)

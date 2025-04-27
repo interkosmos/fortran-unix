@@ -1,6 +1,8 @@
 # fortran-unix
 
-[![Build](https://github.com/interkosmos/fortran-unix/actions/workflows/build.yml/badge.svg)](https://github.com/interkosmos/fortran-unix/actions/workflows/build.yml)
+![Language](https://img.shields.io/badge/-Fortran-734f96?logo=fortran&logoColor=white)
+![License](https://img.shields.io/github/license/dabamos/dmpack?color=blue)
+![Build](https://github.com/interkosmos/fortran-unix/actions/workflows/build.yml/badge.svg)
 
 A work-in-progress collection of Fortran 2008 ISO C binding interfaces to
 selected POSIX and SysV types, functions, and routines on 64-bit Unix-like
