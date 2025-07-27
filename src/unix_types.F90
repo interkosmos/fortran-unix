@@ -7,7 +7,7 @@ module unix_types
     implicit none
     private
 
-#if defined (__flang__) || (defined (__GFORTRAN__) && __GNUC__ >= 15 && __GNUC_MINOR__ >= 1)
+#if defined (__flang__) || (defined (__GFORTRAN__) && __GNUC__ > 15) || (defined (__GFORTRAN__) && __GNUC__ == 15 && __GNUC_MINOR__ >= 2)
 
     public :: c_uint16_t
     public :: c_uint32_t
