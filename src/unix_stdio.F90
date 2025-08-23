@@ -9,6 +9,20 @@ module unix_stdio
 
     integer(kind=c_int), parameter, public :: EOF = -1
 
+#if defined (__linux__)
+
+    type(c_ptr), bind(c, name='stderr'), public :: c_stderr
+    type(c_ptr), bind(c, name='stdin'),  public :: c_stdin
+    type(c_ptr), bind(c, name='stdout'), public :: c_stdout
+
+#elif defined (__FreeBSD__)
+
+    type(c_ptr), bind(c, name='__stderrp'), public :: c_stderr
+    type(c_ptr), bind(c, name='__stdinp'),  public :: c_stdin
+    type(c_ptr), bind(c, name='__stdoutp'), public :: c_stdout
+
+#endif
+
     public :: c_getchar
     public :: c_fclose
     public :: c_fdopen
