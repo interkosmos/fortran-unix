@@ -14,7 +14,7 @@ extern "C" {
 int c_errno(void);
 int c_execl(const char *, const char *, const char *, const char *, void *);
 int c_fcntl(int, int, int);
-int c_fprintf(FILE *, const char *, const char *);
+int c_fprintf(void *, const char *, const char *);
 int c_ioctl(int, unsigned long, void *);
 int c_open(const char *, int, mode_t);
 int c_scanf(const char *, const char *);
@@ -48,9 +48,9 @@ int c_fcntl(int fd, int cmd, int arg)
 }
 
 /* int fprintf(FILE *stream, const char *format, ...) */
-int c_fprintf(FILE *stream, const char *format, const char *arg)
+int c_fprintf(void *stream, const char *format, const char *arg)
 {
-    return fprintf(stream, format, arg);
+    return fprintf((FILE *) stream, format, arg);
 }
 
 /* int ioctl(int fd, unsigned long request, ...) */

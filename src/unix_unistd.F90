@@ -26,6 +26,7 @@ module unix_unistd
     public :: c_faccessat
     public :: c_fork
     public :: c_getpid
+    public :: c_isatty
     public :: c_pipe
     public :: c_read
     public :: c_setsid
@@ -112,6 +113,14 @@ module unix_unistd
             implicit none
             integer(kind=c_pid_t) :: c_getpid
         end function c_getpid
+
+        ! int isatty(int fd)
+        function c_isatty(fd) bind(c, name='isatty')
+            import :: c_int
+            implicit none
+            integer(kind=c_int), intent(in), value :: fd
+            integer(kind=c_int)                    :: c_isatty
+        end function c_isatty
 
         ! int pipe(int fd[2])
         function c_pipe(fd) bind(c, name='pipe')

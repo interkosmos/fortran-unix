@@ -18,7 +18,7 @@
 #   LDLIBS  - Linker libraries.
 #   TARGET  - Output library name. #
 #
-OS      = FreeBSD
+OS      = linux
 PREFIX  = /usr/local
 FC      = gfortran
 CC      = gcc
