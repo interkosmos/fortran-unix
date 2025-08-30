@@ -8,9 +8,10 @@ program main
     implicit none
 
     character(len=*), parameter :: FILE_NAME = 'README.md'
+    character(len=*), parameter :: DIR_PATH  = '/bin'
 
     character(len=:), allocatable :: atime, mtime, ctime
-    integer                       :: file_type, stat
+    integer                       :: file_type, stat, total
     integer(kind=c_int64_t)       :: file_mode
     type(c_stat_type)             :: file_stat
 
@@ -54,4 +55,23 @@ program main
     print '("File access time.: ", a24)', atime
     print '("File modify time.: ", a24)', mtime
     print '("File changed time: ", a24)', ctime
+
+    total = 0
+    stat  = c_nftw(DIR_PATH // c_null_char, c_funloc(nftw_callback), 1, 0)
+
+    print '("Directory........: ", a)',          DIR_PATH
+    print '("Directory size...: ", i0, " KiB")', total / 1024
+contains
+    integer(kind=c_int) function nftw_callback(path, sb, flag, ftw) bind(c)
+        type(c_ptr),         intent(in), value :: path
+        type(c_ptr),         intent(in), value :: sb
+        integer(kind=c_int), intent(in), value :: flag
+        type(c_ptr),         intent(in), value :: ftw
+
+        type(c_stat_type), pointer :: stat
+
+        call c_f_pointer(sb, stat)
+        total = total + stat%st_size
+        nftw_callback = 0
+    end function nftw_callback
 end program main

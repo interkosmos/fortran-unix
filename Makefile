@@ -42,13 +42,14 @@ DOCDIR  = ./doc
 TARGET  = libfortran-unix.a
 
 SRC = src/unix.f90 src/unix_dirent.F90 src/unix_errno.F90 src/unix_fcntl.F90 \
-      src/unix_inet.F90 src/unix_ioctl.F90 src/unix_ipc.F90 src/unix_mqueue.F90 \
-      src/unix_msg.F90 src/unix_netdb.F90 src/unix_pthread.F90 \
-      src/unix_regex.F90 src/unix_semaphore.F90 src/unix_signal.F90 \
-      src/unix_socket.F90 src/unix_stat.F90 src/unix_stdio.F90 \
-      src/unix_stdlib.F90 src/unix_string.F90 src/unix_syslog.F90 \
-      src/unix_termios.F90 src/unix_time.F90 src/unix_types.F90 \
-      src/unix_unistd.F90 src/unix_utsname.F90 src/unix_wait.F90
+      src/unix_ftw.F90 src/unix_inet.F90 src/unix_ioctl.F90 src/unix_ipc.F90 \
+      src/unix_mqueue.F90 src/unix_msg.F90 src/unix_netdb.F90 \
+      src/unix_pthread.F90 src/unix_regex.F90 src/unix_semaphore.F90 \
+      src/unix_signal.F90 src/unix_socket.F90 src/unix_stat.F90 \
+      src/unix_stdio.F90 src/unix_stdlib.F90 src/unix_string.F90 \
+      src/unix_syslog.F90 src/unix_termios.F90 src/unix_time.F90 \
+      src/unix_types.F90 src/unix_unistd.F90 src/unix_utsname.F90 \
+      src/unix_wait.F90
 
 OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
       unix_inet.o unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
@@ -71,6 +72,7 @@ $(TARGET): $(SRC)
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_dirent.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_errno.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_fcntl.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ftw.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_inet.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ioctl.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_ipc.F90
