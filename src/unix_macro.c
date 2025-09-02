@@ -18,7 +18,7 @@ int c_fprintf(void *, const char *, const char *);
 int c_ioctl(int, unsigned long, void *);
 int c_open(const char *, int, mode_t);
 int c_scanf(const char *, const char *);
-int c_uname(struct utsname *);
+int c_uname(void *);
 void c_syslog(int, const char *, const char *);
 
 /*******************************************************************************
@@ -72,9 +72,9 @@ int c_scanf(const char *format, const char *arg)
 }
 
 /* int uname(struct utsname *name) */
-int c_uname(struct utsname *name)
+int c_uname(void *name)
 {
-    return uname(name);
+    return uname((struct utsname *) name);
 }
 
 /* void syslog(int priority, const char *format, ...) */
