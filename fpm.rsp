@@ -1,0 +1,35 @@
+@freebsd-build
+option build --profile release --flag "-D__FreeBSD__"
+
+@freebsd-install
+option install --profile release --flag "-D__FreeBSD__"
+
+@freebsd-run
+option run --profile release --flag "-D__FreeBSD__"
+
+@freebsd-test
+option test --profile release --flag "-D__FreeBSD__"
+
+@linux-aarch64-build
+option build --profile release --flag "-D__linux__ -D__aarch64__"
+
+@linux-aarch64-install
+option install --profile release --flag "-D__linux__ -D__aarch64__"
+
+@linux-aarch64-run
+option run --profile release --flag "-D__linux__ -D__aarch64__"
+
+@linux-aarch64-test
+option test --profile release --flag "-D__linux__ -D__aarch64__"
+
+@linux-amd64-build
+option build --profile release --flag "-D__linux__"
+
+@linux-amd64-install
+option install --profile release --flag "-D__linux__"
+
+@linux-amd64-run
+option run --profile release --flag "-D__linux__"
+
+@linux-amd64-test
+option test --profile release --flag "-D__linux__"

@@ -97,19 +97,22 @@ $ make install PREFIX=/opt
 Using FPM, a preprocessor flag has to be passed to GNU Fortran. On FreeBSD:
 
 ```
-$ fpm build --profile release --flag "-D__FreeBSD__"
+$ fpm @freebsd-build
+$ fpm @freebsd-install
 ```
 
 On Linux (x86-64):
 
 ```
-$ fpm build --profile release --flag "-D__linux__"
+$ fpm @linux-amd64-build
+$ fpm @linux-amd64-install
 ```
 
 On Linux (aarch64):
 
 ```
-$ fpm build --profile release --flag "-D__linux__ -D__aarch64__"
+$ fpm @linux-aarch64-build
+$ fpm @linux-aarch64-install
 ```
 
 ## Source Code Documentation

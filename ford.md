@@ -1,5 +1,5 @@
 project:        fortran-unix
-version:        0.2.0
+version:        0.3.0
 license:        isc
 doc_license:    by
 graph:          false
