@@ -6,7 +6,6 @@
 ! Author:  Philipp Engel
 ! Licence: ISC
 module unix
-    use, intrinsic :: iso_c_binding
     use :: unix_dirent
     use :: unix_errno
     use :: unix_fcntl

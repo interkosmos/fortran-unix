@@ -3,11 +3,43 @@
 ! Author:  Philipp Engel
 ! Licence: ISC
 module unix_types
-    use, intrinsic :: iso_c_binding
+    use, intrinsic :: iso_c_binding, only: c_associated, c_f_pointer, c_funloc, c_loc, c_sizeof, &
+                                           c_char, c_int, c_int8_t, c_int16_t, c_int32_t, c_int64_t, &
+                                           c_long, c_long_long, c_short, c_signed_char, c_size_t, &
+                                           c_funptr, c_ptr, c_null_char, c_null_funptr, c_null_ptr
+#if HAS_UNSIGNED
+
+    use, intrinsic :: iso_c_binding, only: c_uint16_t, c_uint32_t, c_uint64_t, c_unsigned, &
+                                           c_unsigned_char, c_unsigned_short, c_unsigned_long
+
+#endif
     implicit none
     private
 
-#if defined (__flang__) || (defined (__GFORTRAN__) && __GNUC__ > 15) || (defined (__GFORTRAN__) && __GNUC__ == 15 && __GNUC_MINOR__ >= 2)
+    public :: c_associated
+    public :: c_f_pointer
+    public :: c_funloc
+    public :: c_loc
+    public :: c_sizeof
+
+    public ::  c_char
+    public ::  c_int
+    public ::  c_int8_t
+    public ::  c_int16_t
+    public ::  c_int32_t
+    public ::  c_int64_t
+    public ::  c_long
+    public ::  c_long_long
+    public ::  c_short
+    public ::  c_signed_char
+    public ::  c_size_t
+    public ::  c_funptr
+    public ::  c_ptr
+    public ::  c_null_char
+    public ::  c_null_funptr
+    public ::  c_null_ptr
+
+#if HAS_UNSIGNED
 
     public :: c_uint16_t
     public :: c_uint32_t

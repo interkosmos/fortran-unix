@@ -3,7 +3,7 @@
 ! Author:  Philipp Engel
 ! Licence: ISC
 module unix_string
-    use, intrinsic :: iso_c_binding
+    use :: unix_types
     implicit none
     private
 
