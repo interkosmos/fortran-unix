@@ -23,11 +23,12 @@ PREFIX  = /usr/local
 FC      = gfortran
 CC      = gcc
 AR      = ar
+RM      = /bin/rm
 MAKE    = make
 FORD    = ford
 
 DEBUG   = -g -O0 -Wall -fmax-errors=1
-RELEASE = -O2 -march=native
+RELEASE = -O2
 
 FFLAGS  = $(RELEASE)
 CFLAGS  = $(RELEASE)
@@ -200,28 +201,28 @@ install: $(TARGET)
 
 # Clean-up.
 clean:
-	if [ `ls -1 *.mod 2>/dev/null | wc -l` -gt 0 ]; then rm *.mod; fi
-	if [ `ls -1 *.o 2>/dev/null | wc -l` -gt 0 ]; then rm *.o; fi
-	if [ -e $(DOCDIR) ]; then rm -r $(DOCDIR); fi
-	if [ -e $(TARGET) ]; then rm $(TARGET); fi
-	if [ -e dirent ]; then rm dirent; fi
-	if [ -e fifo ]; then rm fifo; fi
-	if [ -e fork ]; then rm fork; fi
-	if [ -e irc ]; then rm irc; fi
-	if [ -e key ]; then rm key; fi
-	if [ -e mqueue ]; then rm mqueue; fi
-	if [ -e msg ]; then rm msg; fi
-	if [ -e mutex ]; then rm mutex; fi
-	if [ -e os ]; then rm os; fi
-	if [ -e pid ]; then rm pid; fi
-	if [ -e pipe ]; then rm pipe; fi
-	if [ -e pthread ]; then rm pthread; fi
-	if [ -e regex ]; then rm regex; fi
-	if [ -e semaphore ]; then rm semaphore; fi
-	if [ -e serial ]; then rm serial; fi
-	if [ -e signal ]; then rm signal; fi
-	if [ -e socket ]; then rm socket; fi
-	if [ -e stat ]; then rm stat; fi
-	if [ -e time ]; then rm time; fi
-	if [ -e uname ]; then rm uname; fi
-	if [ -e uptime ]; then rm uptime; fi
+	$(RM) -rf *.mod
+	$(RM) -rf *.o
+	$(RM) -rf $(DOCDIR)
+	$(RM) -rf $(TARGET)
+	$(RM) -rf dirent
+	$(RM) -rf fifo
+	$(RM) -rf fork
+	$(RM) -rf irc
+	$(RM) -rf key
+	$(RM) -rf mqueue
+	$(RM) -rf msg
+	$(RM) -rf mutex
+	$(RM) -rf os
+	$(RM) -rf pid
+	$(RM) -rf pipe
+	$(RM) -rf pthread
+	$(RM) -rf regex
+	$(RM) -rf semaphore
+	$(RM) -rf serial
+	$(RM) -rf signal
+	$(RM) -rf socket
+	$(RM) -rf stat
+	$(RM) -rf time
+	$(RM) -rf uname
+	$(RM) -rf uptime
