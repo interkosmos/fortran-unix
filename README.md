@@ -161,7 +161,7 @@ Examples are provided in directory `examples/`:
 * **serial** shows some basic serial port input reading (requires *socat(1)* and *minicom(1)*).
 * **signal** catches SIGINT (`CTRL` + `C`).
 * **socket** creates a TCP/IP connection to a local netcat server (requires *nc(1)*).
-* **spawn** spawn processes, similar to using fork.
+* **spawn** spawns processes, similar to using fork.
 * **stat** reads and outputs status of a file.
 * **time** prints out the results of time functions.
 * **uname** prints OS information from `uname()`.
