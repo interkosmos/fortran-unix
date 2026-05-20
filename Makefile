@@ -42,28 +42,71 @@ DOCDIR  = ./doc
 
 TARGET  = libfortran-unix.a
 
-SRC = src/unix.f90 src/unix_dirent.F90 src/unix_errno.F90 src/unix_fcntl.F90 \
-      src/unix_ftw.F90 src/unix_inet.F90 src/unix_ioctl.F90 src/unix_ipc.F90 \
-      src/unix_mqueue.F90 src/unix_msg.F90 src/unix_netdb.F90 \
-      src/unix_pthread.F90 src/unix_regex.F90 src/unix_semaphore.F90 \
-      src/unix_signal.F90 src/unix_socket.F90 src/unix_stat.F90 \
-      src/unix_stdio.F90 src/unix_stdlib.F90 src/unix_string.F90 \
-      src/unix_syslog.F90 src/unix_termios.F90 src/unix_time.F90 \
-      src/unix_types.F90 src/unix_unistd.F90 src/unix_utsname.F90 \
-      src/unix_wait.F90
+SRC = src/unix.f90 \
+      src/unix_dirent.F90 \
+      src/unix_errno.F90 \
+      src/unix_fcntl.F90 \
+      src/unix_ftw.F90 \
+      src/unix_inet.F90 \
+      src/unix_ioctl.F90 \
+      src/unix_ipc.F90 \
+      src/unix_mqueue.F90 \
+      src/unix_msg.F90 \
+      src/unix_netdb.F90 \
+      src/unix_pthread.F90 \
+      src/unix_regex.F90 \
+      src/unix_semaphore.F90 \
+      src/unix_signal.F90 \
+      src/unix_socket.F90 \
+      src/unix_spawn.F90 \
+      src/unix_stat.F90 \
+      src/unix_stdio.F90 \
+      src/unix_stdlib.F90 \
+      src/unix_string.F90 \
+      src/unix_syslog.F90 \
+      src/unix_termios.F90 \
+      src/unix_time.F90 \
+      src/unix_types.F90 \
+      src/unix_unistd.F90 \
+      src/unix_utsname.F90 \
+      src/unix_wait.F90 \
 
-OBJ = unix.o unix_dirent.o unix_errno.o unix_fcntl.o \
-      unix_inet.o unix_ioctl.o unix_ipc.o unix_mqueue.o unix_msg.o \
-      unix_netdb.o unix_pthread.o unix_regex.o unix_semaphore.o \
-      unix_signal.o unix_socket.o unix_stat.o unix_stdio.o \
-      unix_stdlib.o unix_string.o unix_syslog.o unix_termios.o \
-      unix_time.o unix_types.o unix_unistd.o unix_utsname.o \
-      unix_wait.o unix_macro.o
+OBJ = unix.o \
+      unix_dirent.o \
+      unix_errno.o \
+      unix_fcntl.o \
+      unix_inet.o \
+      unix_ioctl.o \
+      unix_ipc.o \
+      unix_mqueue.o \
+      unix_msg.o \
+      unix_netdb.o \
+      unix_pthread.o \
+      unix_regex.o \
+      unix_semaphore.o \
+      unix_signal.o \
+      unix_socket.o \
+      unix_spawn.o \
+      unix_stat.o \
+      unix_stdio.o \
+      unix_stdlib.o \
+      unix_string.o \
+      unix_syslog.o \
+      unix_termios.o \
+      unix_time.o \
+      unix_types.o \
+      unix_unistd.o \
+      unix_utsname.o \
+      unix_wait.o \
+      unix_macro.o 
 
 .PHONY: all clean doc examples install \
         freebsd freebsd_doc freebsd_examples \
         linux linux_aarch64 linux_doc linux_examples
 
+# ******************************************************************************
+# BUILD TARGETS
+# ******************************************************************************
 all: $(TARGET)
 
 # Library
@@ -86,6 +129,7 @@ $(TARGET): $(SRC)
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_semaphore.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_signal.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_socket.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_spawn.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stat.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdio.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_stdlib.F90
@@ -113,9 +157,11 @@ freebsd_examples:
 linux_examples:
 	$(MAKE) examples OS=linux
 
-# Examples
+# ******************************************************************************
+# EXAMPLES
+# ******************************************************************************
 examples: dirent fifo fork irc key mqueue mutex msg os pid pipe pthread regex \
-          semaphore serial signal socket stat time uname uptime
+          semaphore serial signal socket spawn stat time uname uptime
 
 dirent: $(TARGET) examples/dirent/dirent.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o dirent examples/dirent/dirent.f90 $(TARGET) $(LDLIBS)
@@ -168,6 +214,9 @@ signal: $(TARGET) examples/signal/signal.f90
 socket: $(TARGET) examples/socket/socket.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o socket examples/socket/socket.f90 $(TARGET) $(LDLIBS)
 
+spawn: $(TARGET) examples/spawn/spawn.f90
+	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o spawn examples/spawn/spawn.f90 $(TARGET) $(LDLIBS)
+
 stat: $(TARGET) examples/stat/stat.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o stat examples/stat/stat.f90 $(TARGET) $(LDLIBS)
 
@@ -180,7 +229,9 @@ uname: $(TARGET) examples/uname/uname.f90
 uptime: $(TARGET) examples/uptime/uptime.f90
 	$(FC) $(FFLAGS) $(PPFLAGS) $(LDFLAGS) -o uptime examples/uptime/uptime.f90 $(TARGET) $(LDLIBS)
 
-# Documentation
+# ******************************************************************************
+# DOCUMENTATION
+# ******************************************************************************
 doc: ford.md
 	$(FORD) -d ./src ford.md
 
@@ -190,7 +241,9 @@ freebsd_doc: ford.md
 linux_doc: ford.md
 	$(FORD) -m "__linux__" -d ./src ford.md
 
-# Installation.
+# ******************************************************************************
+# INSTALLATION
+# ******************************************************************************
 install: $(TARGET)
 	@echo "--- Installing $(TARGET) to $(LIBDIR)/ ..."
 	install -d $(LIBDIR)
@@ -199,7 +252,9 @@ install: $(TARGET)
 	install -d $(INCDIR)
 	install -m 644 unix*.mod $(INCDIR)/
 
-# Clean-up.
+# ******************************************************************************
+# CLEAN-UP
+# ******************************************************************************
 clean:
 	$(RM) -rf *.mod
 	$(RM) -rf *.o
@@ -222,6 +277,7 @@ clean:
 	$(RM) -rf serial
 	$(RM) -rf signal
 	$(RM) -rf socket
+	$(RM) -rf spawn
 	$(RM) -rf stat
 	$(RM) -rf time
 	$(RM) -rf uname

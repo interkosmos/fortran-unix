@@ -21,6 +21,7 @@ module unix
     use :: unix_semaphore
     use :: unix_signal
     use :: unix_socket
+    use :: unix_spawn
     use :: unix_stat
     use :: unix_stdio
     use :: unix_stdlib

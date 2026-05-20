@@ -125,8 +125,8 @@ module unix_unistd
         function c_pipe(fd) bind(c, name='pipe')
             import :: c_int
             implicit none
-            integer(kind=c_int), intent(in) :: fd(2)
-            integer(kind=c_int)             :: c_pipe
+            integer(kind=c_int), intent(out) :: fd(2)
+            integer(kind=c_int)              :: c_pipe
         end function c_pipe
 
         ! ssize_t read(int fd, void *buf, size_t nbyte)

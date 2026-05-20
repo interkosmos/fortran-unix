@@ -14,7 +14,7 @@ program main
     character,         target :: buf ! Byte buffer.
     character(len=32), target :: msg ! Message to transmit.
 
-    integer                :: pid     ! Process id.
+    integer(kind=c_pid_t)  :: pid     ! Process id.
     integer                :: pfds(2) ! File descriptors (reader/writer).
     integer                :: stat    ! Return code.
     integer(kind=c_size_t) :: nbytes

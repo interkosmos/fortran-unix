@@ -103,6 +103,11 @@ source-dir = "examples/socket"
 main = "socket.f90"
 
 [[example]]
+name = "spawn"
+source-dir = "examples/spawn"
+main = "spawn.f90"
+
+[[example]]
 name = "stat"
 source-dir = "examples/stat"
 main = "stat.f90"

@@ -113,7 +113,7 @@ module unix_stdio
             type(c_ptr)                        :: c_fopen
         end function c_fopen
 
-        ! int fprintf(FILE *stream, const char *format, ...)
+        ! int c_fprintf(void *stream, const char *format, const char *arg)
         function c_fprintf(stream, format, str) bind(c, name='c_fprintf')
             import :: c_char, c_int, c_ptr
             implicit none
@@ -186,7 +186,7 @@ module unix_stdio
             integer(kind=c_int)                    :: c_putchar
         end function c_putchar
 
-        ! int scanf(const char *format, ...)
+        ! int c_scanf(const char *format, const char *arg)
         function c_scanf(format, str) bind(c, name='c_scanf')
             import :: c_char, c_int
             implicit none

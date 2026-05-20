@@ -13,11 +13,11 @@ module unix_utsname
 
     ! struct utsname
     type, bind(c), public :: c_utsname
-        character(kind=c_char) :: sysname(0:SYS_NMLN - 1)    = c_null_char
-        character(kind=c_char) :: nodename(0:SYS_NMLN - 1)   = c_null_char
-        character(kind=c_char) :: release(0:SYS_NMLN - 1)    = c_null_char
-        character(kind=c_char) :: version(0:SYS_NMLN - 1)    = c_null_char
-        character(kind=c_char) :: machine(0:SYS_NMLN - 1)    = c_null_char
+        character(kind=c_char) :: sysname   (0:SYS_NMLN - 1) = c_null_char
+        character(kind=c_char) :: nodename  (0:SYS_NMLN - 1) = c_null_char
+        character(kind=c_char) :: release   (0:SYS_NMLN - 1) = c_null_char
+        character(kind=c_char) :: version   (0:SYS_NMLN - 1) = c_null_char
+        character(kind=c_char) :: machine   (0:SYS_NMLN - 1) = c_null_char
         character(kind=c_char) :: domainname(0:SYS_NMLN - 1) = c_null_char
     end type c_utsname
 
@@ -27,11 +27,11 @@ module unix_utsname
 
     ! struct utsname
     type, bind(c), public :: c_utsname
-        character(kind=c_char) :: sysname(0:SYS_NMLN - 1)  = c_null_char
+        character(kind=c_char) :: sysname (0:SYS_NMLN - 1) = c_null_char
         character(kind=c_char) :: nodename(0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: release(0:SYS_NMLN - 1)  = c_null_char
-        character(kind=c_char) :: version(0:SYS_NMLN - 1)  = c_null_char
-        character(kind=c_char) :: machine(0:SYS_NMLN - 1)  = c_null_char
+        character(kind=c_char) :: release (0:SYS_NMLN - 1) = c_null_char
+        character(kind=c_char) :: version (0:SYS_NMLN - 1) = c_null_char
+        character(kind=c_char) :: machine (0:SYS_NMLN - 1) = c_null_char
     end type c_utsname
 
 #endif

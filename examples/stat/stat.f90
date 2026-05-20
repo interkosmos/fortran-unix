@@ -11,8 +11,8 @@ program main
     character(len=*), parameter :: DIR_PATH  = '/bin'
 
     character(len=:), allocatable :: atime, mtime, ctime
-    integer                       :: file_type, stat, total
-    integer(kind=c_int64_t)       :: file_mode
+    integer                       :: file_type, stat
+    integer(kind=c_int64_t)       :: file_mode, total
     type(c_stat_type)             :: file_stat
 
     ! Get file status.
