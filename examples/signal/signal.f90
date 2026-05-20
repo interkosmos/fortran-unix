@@ -62,7 +62,7 @@ program main
 
         if (has_event) then
             ! Drain the self-pipe.
-            buffer = ' '
+            buffer = char(0)
             nbytes = c_read(self_pipe(1), c_loc(buffer), len(buffer, kind=c_size_t))
 
             if (nbytes == -1) then
@@ -74,6 +74,9 @@ program main
             ! Search for SIGINT.
             do i = 1, int(nbytes)
                 select case (ichar(buffer(i:i)))
+                    case (0)
+                        cycle
+
                     case (SIGINT)
                         print '("Received SIGINT.")'
                         is_done = .true.
