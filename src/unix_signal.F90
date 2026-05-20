@@ -48,7 +48,7 @@ module unix_signal
 
     ! struct sigset_t
     type, bind(c), public :: c_sigset_t
-        integer(kind=c_ulong) :: bits(SIGSET_WORDS) = 0_c_ulong
+        integer(kind=c_unsigned_long) :: bits(SIGSET_WORDS) = 0_c_ulong
     end type c_sigset_t
 
     ! struct sigaction
@@ -58,7 +58,7 @@ module unix_signal
         integer(kind=c_int)          :: sa_flags    = 0
         integer(kind=c_int), private :: padding     = 0 ! Explicit ABI padding on x86_64 glibc.
         type(c_funptr)               :: sa_restorer = c_null_funptr
-    end type sigaction_t
+    end type c_sigaction_t
 
 #elif defined (__FreeBSD__)
 
