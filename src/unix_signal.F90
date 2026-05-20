@@ -44,6 +44,22 @@ module unix_signal
     integer(kind=c_int), parameter, public :: SIGSYS    = 31
     integer(kind=c_int), parameter, public :: SIGUNUSED = 31
 
+    integer, parameter :: SIG_WORDS = 16
+
+    ! struct sigset_t
+    type, bind(c), public :: c_sigset_t
+        integer(kind=c_ulong) :: bits(SIGSET_WORDS) = 0_c_ulong
+    end type c_sigset_t
+
+    ! struct sigaction
+    type, bind(c), public :: c_sigaction_t
+        type(c_funptr)               :: sa_handler  = c_null_funptr
+        type(c_sigset_t)             :: sa_mask     = c_sigset_t()
+        integer(kind=c_int)          :: sa_flags    = 0
+        integer(kind=c_int), private :: padding     = 0 ! Explicit ABI padding on x86_64 glibc.
+        type(c_funptr)               :: sa_restorer = c_null_funptr
+    end type sigaction_t
+
 #elif defined (__FreeBSD__)
 
     integer(kind=c_int), parameter, public :: SIGHUP    = 1
@@ -79,9 +95,24 @@ module unix_signal
     integer(kind=c_int), parameter, public :: SIGUSR1   = 30
     integer(kind=c_int), parameter, public :: SIGUSR2   = 31
 
+    integer, parameter :: SIG_WORDS = 4
+
+    ! struct sigset_t
+    type, bind(c), public :: c_sigset_t
+        integer(kind=c_uint32_t) :: bits(SIG_WORDS) = 0_c_uint32_t
+    end type c_sigset_t
+
+    ! struct sigaction
+    type, bind(c), public :: c_sigaction_t
+        type(c_funptr)      :: sa_handler = c_null_funptr
+        integer(kind=c_int) :: sa_flags   = 0
+        type(c_sigset_t)    :: sa_mask    = c_sigset_t()
+    end type c_sigaction_t
+
 #endif
 
     public :: c_kill
+    public :: c_sigaction
     public :: c_signal
 
     interface
@@ -93,6 +124,16 @@ module unix_signal
             integer(kind=c_int),   intent(in), value :: sig
             integer(kind=c_int)                      :: c_kill
         end function c_kill
+
+        ! int sigaction(int signum, const struct sigaction *act, struct sigaction *oact)
+        function c_sigaction(signum, act, oact) bind(c, name='sigaction')
+            import :: c_int, c_sigaction_t
+            implicit none
+            integer(kind=c_int), intent(in),  value    :: signum
+            type(c_sigaction_t), intent(in),  optional :: act
+            type(c_sigaction_t), intent(out), optional :: oact
+            integer(kind=c_int)                        :: c_sigaction
+        end function c_sigaction
 
         ! sig_t signal(int sig, sig_t func)
         function c_signal(sig, func) bind(c, name='signal')

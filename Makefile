@@ -53,6 +53,7 @@ SRC = src/unix.f90 \
       src/unix_mqueue.F90 \
       src/unix_msg.F90 \
       src/unix_netdb.F90 \
+      src/unix_poll.F90 \
       src/unix_pthread.F90 \
       src/unix_regex.F90 \
       src/unix_semaphore.F90 \
@@ -81,6 +82,7 @@ OBJ = unix.o \
       unix_mqueue.o \
       unix_msg.o \
       unix_netdb.o \
+      unix_poll.o \
       unix_pthread.o \
       unix_regex.o \
       unix_semaphore.o \
@@ -124,6 +126,7 @@ $(TARGET): $(SRC)
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_mqueue.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_msg.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_netdb.F90
+	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_poll.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_pthread.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_regex.F90
 	$(FC) $(FFLAGS) $(PPFLAGS) -c src/unix_semaphore.F90

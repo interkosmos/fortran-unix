@@ -16,6 +16,7 @@ module unix
     use :: unix_mqueue
     use :: unix_msg
     use :: unix_netdb
+    use :: unix_poll
     use :: unix_pthread
     use :: unix_regex
     use :: unix_semaphore
@@ -156,29 +157,40 @@ contains
         end do
     end subroutine c_f_str_chars
 
-    subroutine c_f_str_ptr(c_str, f_str)
+    subroutine c_f_str_ptr(c, f)
         !! Copies a C string, passed as a C pointer, to a Fortran string.
-        type(c_ptr),                   intent(in)  :: c_str
-        character(len=:), allocatable, intent(out) :: f_str
+        type(c_ptr),               intent(in)  :: c !! C string pointer.
+        character(:), allocatable, intent(out) :: f !! Fortran string.
 
-        character(kind=c_char), pointer :: ptrs(:)
-        integer(kind=c_size_t)          :: i, sz
+        integer           :: stat
+        integer(c_size_t) :: n
+
+        interface
+            function c_strlen(str) bind(c, name='strlen')
+                import :: c_ptr, c_size_t
+                implicit none
+                type(c_ptr), intent(in), value :: str
+                integer(c_size_t)              :: c_strlen
+            end function c_strlen
+        end interface
 
         copy_block: block
-            if (.not. c_associated(c_str)) exit copy_block
-            sz = c_strlen(c_str)
-            if (sz < 0) exit copy_block
-            call c_f_pointer(c_str, ptrs, [ sz ])
-            allocate (character(len=sz) :: f_str)
+            if (.not. c_associated(c)) exit copy_block
+            n = int(c_strlen(c), c_size_t)
+            if (n < 0) exit copy_block
 
-            do i = 1, sz
-                f_str(i:i) = ptrs(i)
-            end do
+            block
+                character(n), pointer :: ptr
+                call c_f_pointer(c, ptr)
+                allocate (character(n) :: f, stat=stat)
+                if (stat /= 0) exit copy_block
+                f = ptr
+            end block
 
             return
         end block copy_block
 
-        if (.not. allocated(f_str)) f_str = ''
+        if (.not. allocated(f)) f = ''
     end subroutine c_f_str_ptr
 
     subroutine f_c_str_chars(f_str, c_str)
