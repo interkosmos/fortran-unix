@@ -62,7 +62,7 @@ program main
 
         if (has_event) then
             ! Drain the self-pipe.
-            buffer = char(0)
+            buffer = repeat(char(0), len(buffer))
             nbytes = c_read(self_pipe(1), c_loc(buffer), len(buffer, kind=c_size_t))
 
             if (nbytes == -1) then
