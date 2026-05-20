@@ -48,7 +48,7 @@ module unix_signal
 
     ! struct sigset_t
     type, bind(c), public :: c_sigset_t
-        integer(kind=c_unsigned_long) :: bits(SIGSET_WORDS) = 0_c_ulong
+        integer(kind=c_unsigned_long) :: bits(SIGSET_WORDS) = 0_c_unsigned_long
     end type c_sigset_t
 
     ! struct sigaction
