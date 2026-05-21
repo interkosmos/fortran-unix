@@ -10,7 +10,7 @@ program main
 
     character(32), target :: buffer
     integer               :: self_pipe(2)
-    integer               :: i, stat, timeout
+    integer               :: i, signum, stat, timeout
     integer(c_size_t)     :: nbytes
     logical               :: has_event, is_done
     type(c_pollfd)        :: pfds(1)
@@ -73,16 +73,18 @@ program main
 
             ! Search for SIGINT.
             do i = 1, int(nbytes)
-                select case (ichar(buffer(i:i)))
+                signum = ichar(buffer(i:i))
+
+                select case (signum)
                     case (0)
                         cycle
 
                     case (SIGINT)
-                        print '("Received SIGINT.")'
+                        print '("Received SIGINT. Terminating ...")'
                         is_done = .true.
 
                     case default
-                        print '("Received signal ", i0, ".")', ichar(buffer(i:i))
+                        print '("Received signal ", i0, ".")', signum
                 end select
             end do
         end if
@@ -114,8 +116,6 @@ contains
 
         character, target      :: sig
         integer(kind=c_size_t) :: nbytes
-
-        print '("Received signal (", i0, "). Terminating ...")', signum
 
         sig = char(signum)
 
