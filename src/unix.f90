@@ -1,6 +1,6 @@
 ! unix.f90
 !
-! A collection of Fortran 2008 ISO C binding interfaces to selected POSIX and
+! A collection of Fortran 2018 ISO C binding interfaces to selected POSIX and
 ! SysV routines on 64-bit Unix-like operating systems.
 !
 ! Author:  Philipp Engel
@@ -62,57 +62,57 @@ module unix
 contains
     pure elemental function c_int32_to_uint16(s) result(u)
         !! Converts signed `c_int32_t` integer to unsigned `c_uint16_t` integer.
-        integer(kind=c_int32_t), intent(in) :: s !! Signed integer.
-        integer(kind=c_uint16_t)            :: u !! Unsigned integer.
+        integer(c_int32_t), intent(in) :: s !! Signed integer.
+        integer(c_uint16_t)            :: u !! Unsigned integer.
 
-        integer(kind=c_int32_t) :: i
+        integer(c_int32_t) :: i
 
         i = modulo(s, 65536_c_int32_t)
 
         if (i < 32768_c_int32_t) then
-            u = int(i, kind=c_uint16_t)
+            u = int(i, c_uint16_t)
         else
-            u = int(i - 65536_c_int32_t, kind=c_uint16_t)
+            u = int(i - 65536_c_int32_t, c_uint16_t)
         end if
     end function c_int32_to_uint16
 
     pure elemental function c_int64_to_uint32(s) result(u)
         !! Converts signed `c_int64_t` integer to unsigned `c_uint32_t` integer.
-        integer(kind=c_int64_t), intent(in) :: s !! Signed integer.
-        integer(kind=c_uint32_t)            :: u !! Unsigned integer.
+        integer(c_int64_t), intent(in) :: s !! Signed integer.
+        integer(c_uint32_t)            :: u !! Unsigned integer.
 
-        integer(kind=c_int64_t) :: i
+        integer(c_int64_t) :: i
 
         i = modulo(s, 4294967296_c_int64_t)
 
         if (i < 2147483648_c_int64_t) then
-            u = int(i, kind=c_uint32_t)
+            u = int(i, c_uint32_t)
         else
-            u = int(i - 4294967296_c_int64_t, kind=c_uint32_t)
+            u = int(i - 4294967296_c_int64_t, c_uint32_t)
         end if
     end function c_int64_to_uint32
 
     pure elemental function c_uint16_to_int32(u) result(s)
         !! Converts unsigned `uint16_t` integer to signed `int32_t` integer.
-        integer(kind=c_uint16_t), intent(in) :: u !! Unsigned integer.
-        integer(kind=c_int32_t)              :: s !! Signed integer.
+        integer(c_uint16_t), intent(in) :: u !! Unsigned integer.
+        integer(c_int32_t)              :: s !! Signed integer.
 
         if (u >= 0) then
-            s = int(u, kind=c_int32_t)
+            s = int(u, c_int32_t)
         else
-            s = 65536_c_int32_t + int(u, kind=c_int32_t)
+            s = 65536_c_int32_t + int(u, c_int32_t)
         end if
     end function c_uint16_to_int32
 
     pure elemental function c_uint32_to_int64(u) result(s)
         !! Converts unsigned `uint32_t` integer to signed `int64_t` integer.
-        integer(kind=c_uint32_t), intent(in) :: u !! Unsigned integer.
-        integer(kind=c_int64_t)              :: s !! Signed integer.
+        integer(c_uint32_t), intent(in) :: u !! Unsigned integer.
+        integer(c_int64_t)              :: s !! Signed integer.
 
         if (u >= 0) then
-            s = int(u, kind=c_int64_t)
+            s = int(u, c_int64_t)
         else
-            s = 4294967296_c_int64_t + int(u, kind=c_int64_t)
+            s = 4294967296_c_int64_t + int(u, c_int64_t)
         end if
     end function c_uint32_to_int64
 
@@ -133,8 +133,8 @@ contains
     function f_strerror(errnum) result(str)
         !! Wrapper function for `c_strerr()` that converts the returned C char
         !! array pointer to Fortran string.
-        integer, intent(in)           :: errnum
-        character(len=:), allocatable :: str
+        integer, intent(in)       :: errnum
+        character(:), allocatable :: str
 
         type(c_ptr) :: ptr
 
@@ -144,8 +144,8 @@ contains
 
     subroutine c_f_str_chars(c_str, f_str)
         !! Copies a C string, passed as a C char array, to a Fortran string.
-        character(kind=c_char),     intent(inout) :: c_str(:)
-        character(len=size(c_str)), intent(out)   :: f_str
+        character(c_char),      intent(inout) :: c_str(:)
+        character(size(c_str)), intent(out)   :: f_str
 
         integer :: i
 
@@ -164,15 +164,6 @@ contains
 
         integer           :: stat
         integer(c_size_t) :: n
-
-        interface
-            function c_strlen(str) bind(c, name='strlen')
-                import :: c_ptr, c_size_t
-                implicit none
-                type(c_ptr), intent(in), value :: str
-                integer(c_size_t)              :: c_strlen
-            end function c_strlen
-        end interface
 
         copy_block: block
             if (.not. c_associated(c)) exit copy_block
@@ -195,8 +186,8 @@ contains
 
     subroutine f_c_str_chars(f_str, c_str)
         !! Copies a Fortran string to a C char array.
-        character(len=*),       intent(in)  :: f_str
-        character(kind=c_char), intent(out) :: c_str(len(f_str))
+        character(*),      intent(in)  :: f_str
+        character(c_char), intent(out) :: c_str(len(f_str))
 
         integer :: i
 

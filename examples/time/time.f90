@@ -17,9 +17,9 @@ contains
         !! Prints date and time string (of 2020-10-01 12:00:00).
         !! The C function `asctime()` returns a null-terminated string
         !! that is of the form `Thu Oct  1 12:00:00 2020\n`.
-        character(len=:), allocatable :: str
-        type(c_tm)                    :: tm
-        type(c_ptr)                   :: ptr
+        character(:), allocatable :: str
+        type(c_tm)                :: tm
+        type(c_ptr)               :: ptr
 
         tm = c_tm(tm_sec   = 0, &
                   tm_min   = 0, &
@@ -37,10 +37,10 @@ contains
     end subroutine asctime
 
     subroutine iso8601()
-        character(len=*), parameter :: FMT_ISO = &
+        character(*), parameter :: FMT_ISO = &
             '(i0.4, 2("-", i0.2), "T", 2(i0.2, ":"), i0.2, ".", i0.6, sp, i0.2, ss, ":", i0.2)'
 
-        character(len=32) :: iso
+        character(32) :: iso
 
         integer :: stat
         integer :: year, month, day
@@ -73,9 +73,9 @@ contains
 
     subroutine mktime()
         !! Prints UNIX timestamp.
-        integer(kind=c_time_t) :: mk, ts
-        type(c_ptr)            :: ptr
-        type(c_tm)             :: tm
+        integer(c_time_t) :: mk, ts
+        type(c_ptr)       :: ptr
+        type(c_tm)        :: tm
 
         ts  = c_time(0_c_time_t)
         ptr = c_localtime_r(ts, tm)
@@ -85,22 +85,22 @@ contains
 
     subroutine strftime()
         !! Outputs date and time in ISO 8601.
-        character(len=32)      :: iso
-        integer(kind=c_size_t) :: sz
-        integer(kind=c_time_t) :: ts
-        type(c_ptr)            :: ptr
-        type(c_tm)             :: tm
+        character(32)     :: iso
+        integer(c_size_t) :: sz
+        integer(c_time_t) :: ts
+        type(c_ptr)       :: ptr
+        type(c_tm)        :: tm
 
         iso = ' '
         ts  = c_time(0_c_time_t)
         ptr = c_localtime_r(ts, tm)
-        sz  = c_strftime(iso, len(iso, kind=c_size_t), '%FT%T' // c_null_char, tm)
+        sz  = c_strftime(iso, len(iso, c_size_t), '%FT%T' // c_null_char, tm)
         print '("ISO 8601......: ", a)', iso
     end subroutine strftime
 
     subroutine timestamp()
         !! Prints UNIX timestamp.
-        integer(kind=c_time_t) :: ts
+        integer(c_time_t) :: ts
 
         ts = c_time(0_c_time_t)
         print '("UNIX Timestamp: ", i0)', ts

@@ -18,11 +18,11 @@ contains
         !!
         !! The source code has been adapted from the example listed at
         !! [https://man.openbsd.org/getaddrinfo.3](https://man.openbsd.org/getaddrinfo.3).
-        character(len=*), intent(in) :: hostname
-        integer,          intent(in) :: port
+        character(*), intent(in) :: hostname
+        integer,      intent(in) :: port
 
-        character(len=64), target :: host_str
-        character(len=8),  target :: port_str
+        character(64), target :: host_str
+        character(8),  target :: port_str
 
         integer     :: stat
         integer     :: sock_fd
@@ -32,7 +32,7 @@ contains
         type(c_addrinfo), target  :: res
         type(c_addrinfo), pointer :: next
 
-        character(len=:), allocatable :: err_str
+        character(:), allocatable :: err_str
 
         fd = -1
 
@@ -94,27 +94,27 @@ contains
         fd = sock_fd
     end function irc_connect
 
-    integer(kind=i8) function irc_send(socket, bytes) result(nbytes)
+    integer(i8) function irc_send(socket, bytes) result(nbytes)
         !! Sends string to socket (raw).
-        character(len=*), parameter :: CR_LF = char(13) // char(10)
+        character(*), parameter :: CR_LF = char(13) // char(10)
 
-        integer,          intent(in) :: socket
-        character(len=*), intent(in) :: bytes
+        integer,      intent(in) :: socket
+        character(*), intent(in) :: bytes
 
-        character(len=:), allocatable, target :: buffer
+        character(:), allocatable, target :: buffer
 
         buffer = trim(bytes) // CR_LF
-        nbytes = c_write(socket, c_loc(buffer), len(buffer, kind=c_size_t))
+        nbytes = c_write(socket, c_loc(buffer), len(buffer, c_size_t))
         write (*, '("*** ", a, " (", i0, " Bytes)")') trim(bytes), nbytes
     end function irc_send
 
-    integer(kind=i8) function irc_send_message(socket, channel, message) result(nbytes)
+    integer(i8) function irc_send_message(socket, channel, message) result(nbytes)
         !! Sends string as IRC message (PRIVMSG) to channel.
-        integer,          intent(in) :: socket
-        character(len=*), intent(in) :: channel
-        character(len=*), intent(in) :: message
+        integer,      intent(in) :: socket
+        character(*), intent(in) :: channel
+        character(*), intent(in) :: message
 
-        character(len=:), allocatable :: buffer
+        character(:), allocatable :: buffer
 
         buffer = 'PRIVMSG ' // trim(channel) // ' :' // trim(message)
         nbytes = irc_send(socket, buffer)
@@ -136,16 +136,16 @@ program main
     use :: unix
     implicit none
 
-    character(len=*), parameter :: IRC_MSG      = 'FORTRAN: The Greatest of the Programming Languages!'
-    character(len=*), parameter :: IRC_USERNAME = 'forbot'
-    character(len=*), parameter :: IRC_HOSTNAME = 'irc.libera.chat'
-    character(len=*), parameter :: IRC_CHANNEL  = '#bot-test'
-    integer,          parameter :: IRC_PORT     = 6667
+    character(*), parameter :: IRC_MSG      = 'FORTRAN: The Greatest of the Programming Languages!'
+    character(*), parameter :: IRC_USERNAME = 'forbot'
+    character(*), parameter :: IRC_HOSTNAME = 'irc.libera.chat'
+    character(*), parameter :: IRC_CHANNEL  = '#bot-test'
+    integer,      parameter :: IRC_PORT     = 6667
 
-    character(len=512), target :: buffer       ! Received message.
-    integer                    :: sock_fd      ! Socket file descriptor.
-    integer(kind=i8)           :: nbytes       ! Bytes read/written.
-    logical                    :: is_logged_in ! Send credentials.
+    character(512), target :: buffer       ! Received message.
+    integer                :: sock_fd      ! Socket file descriptor.
+    integer(i8)            :: nbytes       ! Bytes read/written.
+    logical                :: is_logged_in ! Send credentials.
 
     print '("<<< FORTRAN IRC BOT >>>")'
     print '("User:     ", a)',    trim(IRC_USERNAME)
@@ -168,7 +168,7 @@ program main
 
     do
         ! Read from socket.
-        nbytes = c_read(sock_fd, c_loc(buffer), len(buffer, kind=c_size_t))
+        nbytes = c_read(sock_fd, c_loc(buffer), len(buffer, c_size_t))
         if (nbytes <= 0) exit
 
         ! Write buffer to standard output.
@@ -211,8 +211,8 @@ program main
 contains
     pure elemental function string_lower(str) result(lower)
         !! Returns given string in lower case.
-        character(len=*), intent(in) :: str   !! String to convert.
-        character(len=len(str))      :: lower !! Result.
+        character(*), intent(in) :: str   !! String to convert.
+        character(len(str))      :: lower !! Result.
 
         character :: a
         integer   :: i

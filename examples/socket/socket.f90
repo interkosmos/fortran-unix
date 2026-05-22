@@ -27,13 +27,13 @@ program main
     use :: unix
     implicit none
 
-    character(len=*), parameter :: HOST = '127.0.0.1' ! IP address or FQDN.
-    integer,          parameter :: PORT = 8888        ! Port number.
+    character(*), parameter :: HOST = '127.0.0.1' ! IP address or FQDN.
+    integer,      parameter :: PORT = 8888        ! Port number.
 
-    character(len=512), target :: buffer  ! Input buffer.
-    integer                    :: sock_fd ! Socket file descriptor.
-    integer                    :: stat
-    integer(kind=i8)           :: nbytes
+    character(512), target :: buffer  ! Input buffer.
+    integer                :: sock_fd ! Socket file descriptor.
+    integer                :: stat
+    integer(i8)            :: nbytes
 
     ! Connect to TCP server.
     write (stdout, '("Connecting to ", a, ":", i0, " ...")') HOST, PORT
@@ -51,7 +51,7 @@ program main
     do
         ! Read from socket.
         buffer = ' '
-        nbytes = c_read(sock_fd, c_loc(buffer), len(buffer, kind=i8))
+        nbytes = c_read(sock_fd, c_loc(buffer), len(buffer, i8))
 
         ! Exit on error.
         if (nbytes <= 0) exit
@@ -75,20 +75,20 @@ contains
         !!
         !! The source code has been adapted from the example listed at
         !! [https://man.openbsd.org/getaddrinfo.3](https://man.openbsd.org/getaddrinfo.3).
-        character(len=*), intent(in)  :: host
-        integer,          intent(in)  :: port
+        character(*), intent(in)  :: host
+        integer,      intent(in)  :: port
 
-        character(len=64), target :: host_str
-        character(len=8),  target :: port_str
+        character(64), target :: host_str
+        character(8),  target :: port_str
 
         type(c_addrinfo), pointer :: next
         type(c_addrinfo), target  :: hints
         type(c_addrinfo), target  :: res
 
-        character(len=:), allocatable :: err_str
-        integer                       :: stat
-        integer                       :: sock_fd
-        type(c_ptr)                   :: ptr
+        character(:), allocatable :: err_str
+        integer                   :: stat
+        integer                   :: sock_fd
+        type(c_ptr)               :: ptr
 
         fd = -1
 
@@ -146,17 +146,17 @@ contains
         fd = sock_fd
     end function socket_connect
 
-    integer(kind=i8) function socket_send(socket, str) result(nbytes)
+    integer(i8) function socket_send(socket, str) result(nbytes)
         !! Writes given string to socket.
-        character(len=*), parameter :: CR_LF = char(13) // char(10)
+        character(*), parameter :: CR_LF = char(13) // char(10)
 
-        integer,          intent(in) :: socket
-        character(len=*), intent(in) :: str
+        integer,      intent(in) :: socket
+        character(*), intent(in) :: str
 
-        character(len=:), allocatable, target :: buffer
+        character(:), allocatable, target :: buffer
 
         buffer = trim(str) // CR_LF
-        nbytes = c_write(socket, c_loc(buffer), len(buffer, kind=c_size_t))
+        nbytes = c_write(socket, c_loc(buffer), len(buffer, c_size_t))
         write (stdout, '(">>> ", a, " (", i0, " Byte)")') trim(str), nbytes
     end function socket_send
 end program main

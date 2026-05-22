@@ -63,7 +63,7 @@ program main
         if (has_event) then
             ! Drain the self-pipe.
             buffer = repeat(char(0), len(buffer))
-            nbytes = c_read(self_pipe(1), c_loc(buffer), len(buffer, kind=c_size_t))
+            nbytes = c_read(self_pipe(1), c_loc(buffer), len(buffer, c_size_t))
 
             if (nbytes == -1) then
                 if (c_errno() == EINTR) cycle
@@ -112,16 +112,16 @@ contains
 
     subroutine signal_handler(signum) bind(c)
         !! Signal handler for SIGINT.
-        integer(kind=c_int), intent(in), value :: signum
+        integer(c_int), intent(in), value :: signum
 
         character, target      :: sig
-        integer(kind=c_size_t) :: nbytes
+        integer(c_size_t) :: nbytes
 
         sig = char(signum)
 
         ! Ignore errors intentionally. The call to write() is async-signal-safe.
         ! The loop only needs notification that something happened.
-        nbytes = c_write(self_pipe(2), c_loc(sig), len(sig, kind=c_size_t))
+        nbytes = c_write(self_pipe(2), c_loc(sig), len(sig, c_size_t))
     end subroutine signal_handler
 
     subroutine task()

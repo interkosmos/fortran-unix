@@ -7,9 +7,9 @@ program main
     use :: unix
     implicit none
 
-    character(len=6)  :: message
-    character(len=32) :: buffer
-    type(c_ptr)       :: stdin, stdout
+    character(6)  :: message
+    character(32) :: buffer
+    type(c_ptr)   :: stdin, stdout
 
     call pipe_open2('cat -n', stdin, stdout)
 
@@ -29,9 +29,9 @@ program main
     print '("Child: ", a)', trim(buffer)
 contains
     subroutine pipe_open2(command, stdin, stdout)
-        character(len=*), intent(in)  :: command
-        type(c_ptr),      intent(out) :: stdin
-        type(c_ptr),      intent(out) :: stdout
+        character(*), intent(in)  :: command
+        type(c_ptr),  intent(out) :: stdin
+        type(c_ptr),  intent(out) :: stdout
 
         integer :: p1(2), p2(2)
         integer :: pid, stat
@@ -69,25 +69,25 @@ contains
     end subroutine pipe_open2
 
     subroutine pipe_read(pipe, str)
-        type(c_ptr),              intent(in)    :: pipe
-        character(len=*), target, intent(inout) :: str
+        type(c_ptr),          intent(in)    :: pipe
+        character(*), target, intent(inout) :: str
 
-        integer                :: stat
-        integer(kind=c_size_t) :: sz
+        integer           :: stat
+        integer(c_size_t) :: sz
 
         str  = ' '
-        sz   = c_fread(c_loc(str), 1_c_size_t, len(str, kind=c_size_t), pipe)
+        sz   = c_fread(c_loc(str), 1_c_size_t, len(str, c_size_t), pipe)
         stat = c_fclose(pipe)
     end subroutine pipe_read
 
     subroutine pipe_write(pipe, str)
-        type(c_ptr),              intent(in)    :: pipe
-        character(len=*), target, intent(inout) :: str
+        type(c_ptr),          intent(in)    :: pipe
+        character(*), target, intent(inout) :: str
 
-        integer                :: stat
-        integer(kind=c_size_t) :: sz
+        integer           :: stat
+        integer(c_size_t) :: sz
 
-        sz   = c_fwrite(c_loc(str), 1_c_size_t, len(str, kind=c_size_t), pipe)
+        sz   = c_fwrite(c_loc(str), 1_c_size_t, len(str, c_size_t), pipe)
         stat = c_fclose(pipe)
     end subroutine pipe_write
 end program main

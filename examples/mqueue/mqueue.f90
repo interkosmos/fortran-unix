@@ -58,16 +58,16 @@ program main
     !! size with `mq_setattr()` beforehand.
     use :: unix
     implicit none
-    character(len=*), parameter :: MQ_NAME = '/fortran'   ! New MQ in, e.g., `/mnt/mqueue/<name>`.
-    integer,          parameter :: MQ_PERM = int(o'0644') ! MQ permissions (octal).
+    character(*), parameter :: MQ_NAME = '/fortran'   ! New MQ in, e.g., `/mnt/mqueue/<name>`.
+    integer,      parameter :: MQ_PERM = int(o'0644') ! MQ permissions (octal).
 
-    character(len=16384)   :: buf  ! Input buffer (must be greater than the MQ max. message size).
-    character(len=32)      :: msg  ! Sample message.
-    integer                :: prio ! Priority.
-    integer                :: stat ! Return code.
-    integer(kind=c_mqd_t)  :: mqds ! MQ file descriptor.
-    integer(kind=c_size_t) :: sz   ! Bytes received.
-    type(c_mq_attr)        :: attr ! MQ attributes.
+    character(16384)   :: buf  ! Input buffer (must be greater than the MQ max. message size).
+    character(32)      :: msg  ! Sample message.
+    integer            :: prio ! Priority.
+    integer            :: stat ! Return code.
+    integer(c_mqd_t)   :: mqds ! MQ file descriptor.
+    integer(c_size_t)  :: sz   ! Bytes received.
+    type(c_mq_attr)    :: attr ! MQ attributes.
 
     ! Unlink, if MQ already exists.
     stat = c_mq_unlink(MQ_NAME // c_null_char)
@@ -77,7 +77,7 @@ program main
 
     mqds = c_mq_open(name  = MQ_NAME // c_null_char, &
                      oflag = ior(O_CREAT, O_RDWR), &
-                     mode  = int(MQ_PERM, kind=c_mode_t), &
+                     mode  = int(MQ_PERM, c_mode_t), &
                      attr  = c_null_ptr)
 
     if (mqds < 0) then
@@ -100,7 +100,7 @@ program main
     print '(">>> Sending message ...")'
 
     msg  = 'Hello, World!'
-    stat = c_mq_send(mqds, msg, len_trim(msg, kind=c_size_t), 1)
+    stat = c_mq_send(mqds, msg, len_trim(msg, c_size_t), 1)
 
     if (stat < 0) call c_perror('mq_send()' // c_null_char)
 
@@ -108,7 +108,7 @@ program main
     print '(">>> Waiting for message ...")'
 
     buf = ' ' ! Make sure to clear buffer!
-    sz  = c_mq_receive(mqds, buf, len(buf, kind=c_size_t), prio)
+    sz  = c_mq_receive(mqds, buf, len(buf, c_size_t), prio)
 
     if (sz < 0) then
         call c_perror('mq_receive()' // c_null_char)

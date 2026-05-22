@@ -7,13 +7,13 @@ program main
     use :: unix
     implicit none
 
-    character(len=*), parameter :: STRING  = 'fortran'
-    character(len=*), parameter :: PATTERN = '^[:lower:]*'
+    character(*), parameter :: STRING  = 'fortran'
+    character(*), parameter :: PATTERN = '^[:lower:]*'
 
-    character(len=32), target :: err_str
-    integer                   :: stat
-    integer(kind=c_size_t)    :: sz
-    type(c_regex_t)           :: regex
+    character(32), target :: err_str
+    integer               :: stat
+    integer(c_size_t)     :: sz
+    type(c_regex_t)       :: regex
 
     ! Compile regular expression.
     stat = c_regcomp(regex, PATTERN // c_null_char, 0)
@@ -23,7 +23,7 @@ program main
         sz = c_regerror(errcode     = stat, &
                         preg        = regex, &
                         errbuf      = c_loc(err_str), &
-                        errbuf_size = len(err_str, kind=c_size_t))
+                        errbuf_size = len(err_str, c_size_t))
 
         if (sz > 0) then
             print '("regcomp(): ", a)', trim(err_str)

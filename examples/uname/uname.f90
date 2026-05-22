@@ -7,11 +7,11 @@ program main
     use :: unix
     implicit none
 
-    character(len=SYS_NMLN) :: sys_name
-    character(len=SYS_NMLN) :: node_name
-    character(len=SYS_NMLN) :: release
-    character(len=SYS_NMLN) :: version
-    character(len=SYS_NMLN) :: machine
+    character(SYS_NMLN) :: sys_name
+    character(SYS_NMLN) :: node_name
+    character(SYS_NMLN) :: release
+    character(SYS_NMLN) :: version
+    character(SYS_NMLN) :: machine
 
     integer         :: stat
     type(c_utsname) :: utsname

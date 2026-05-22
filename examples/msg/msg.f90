@@ -11,22 +11,22 @@ module ipc
     public :: ipc_receive
     public :: ipc_send
 
-    integer(kind=c_size_t), parameter, public :: MESSAGE_LEN  = 512 !! Message length.
-    integer(kind=c_long),   parameter, public :: MESSAGE_TYPE = 1   !! Message type id.
+    integer(c_size_t), parameter, public :: MESSAGE_LEN  = 512 !! Message length.
+    integer(c_long),   parameter, public :: MESSAGE_TYPE = 1   !! Message type id.
 
     type, bind(c), public :: c_message_type
         !! Our message type implementation.
-        integer(kind=c_long)   :: type
-        character(kind=c_char) :: text(MESSAGE_LEN)
+        integer(c_long)   :: type
+        character(c_char) :: text(MESSAGE_LEN)
     end type c_message_type
 contains
-    integer(kind=c_size_t) function ipc_receive(msqid, type, text, flag) result(nbytes)
+    integer(c_size_t) function ipc_receive(msqid, type, text, flag) result(nbytes)
         !! Waits for message of given type and returns message text. Calling the
         !! function is blocking, unless `flag` is set to `IPC_NOWAIT`.
-        integer,              intent(in)  :: msqid
-        integer(kind=c_long), intent(in)  :: type
-        character(len=*),     intent(out) :: text
-        integer,              intent(in)  :: flag
+        integer,         intent(in)  :: msqid
+        integer(c_long), intent(in)  :: type
+        character(*),    intent(out) :: text
+        integer,         intent(in)  :: flag
 
         type(c_message_type), target :: message
 
@@ -41,10 +41,10 @@ contains
     integer function ipc_send(msqid, type, text, flag) result(stat)
         !! Converts Fortran string to C char array, and then sends message of
         !! given type by calling `c_msgsnd()`.
-        integer,              intent(in) :: msqid
-        integer(kind=c_long), intent(in) :: type
-        character(len=*),     intent(in) :: text
-        integer,              intent(in) :: flag
+        integer,         intent(in) :: msqid
+        integer(c_long), intent(in) :: type
+        character(*),    intent(in) :: text
+        integer,         intent(in) :: flag
 
         type(c_message_type), target :: message
 
@@ -62,13 +62,13 @@ program main
     use :: ipc
     implicit none
 
-    character(len=*), parameter :: MSG  = 'Hello, World!' ! Sample message.
-    integer,          parameter :: PERM = int(o'0666')    ! Permissions (octal).
+    character(*), parameter :: MSG  = 'Hello, World!' ! Sample message.
+    integer,      parameter :: PERM = int(o'0666')    ! Permissions (octal).
 
-    character(len=MESSAGE_LEN) :: buf   ! Message text buffer.
-    integer                    :: msqid ! Message queue id.
-    integer                    :: stat  ! Return code.
-    integer(kind=c_size_t)     :: nbytes
+    character(MESSAGE_LEN) :: buf   ! Message text buffer.
+    integer                :: msqid ! Message queue id.
+    integer                :: stat  ! Return code.
+    integer(c_size_t)      :: nbytes
 
     ! Create new message queue.
     msqid = c_msgget(IPC_PRIVATE, ior(IPC_CREAT, PERM))

@@ -9,29 +9,29 @@ module unix_utsname
 
 #if defined (__linux__)
 
-    integer(kind=c_int), parameter, public :: SYS_NMLN = 65
+    integer(c_int), parameter, public :: SYS_NMLN = 65
 
     ! struct utsname
     type, bind(c), public :: c_utsname
-        character(kind=c_char) :: sysname   (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: nodename  (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: release   (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: version   (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: machine   (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: domainname(0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: sysname   (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: nodename  (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: release   (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: version   (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: machine   (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: domainname(0:SYS_NMLN - 1) = c_null_char
     end type c_utsname
 
 #elif defined (__FreeBSD__)
 
-    integer(kind=c_int), parameter, public :: SYS_NMLN = 256
+    integer(c_int), parameter, public :: SYS_NMLN = 256
 
     ! struct utsname
     type, bind(c), public :: c_utsname
-        character(kind=c_char) :: sysname (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: nodename(0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: release (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: version (0:SYS_NMLN - 1) = c_null_char
-        character(kind=c_char) :: machine (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: sysname (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: nodename(0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: release (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: version (0:SYS_NMLN - 1) = c_null_char
+        character(c_char) :: machine (0:SYS_NMLN - 1) = c_null_char
     end type c_utsname
 
 #endif
@@ -46,7 +46,7 @@ module unix_utsname
             import :: c_int, c_utsname
             implicit none
             type(c_utsname), intent(inout) :: name
-            integer(kind=c_int)            :: c_uname
+            integer(c_int)                 :: c_uname
         end function c_uname
     end interface
 end module unix_utsname

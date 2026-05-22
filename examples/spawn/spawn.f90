@@ -7,18 +7,18 @@ program main
     use :: unix
     implicit none
 
-    character(len=80), target :: argv1(2), argv2(2)
-    integer(kind=c_pid_t)     :: pid1, pid2
-    integer                   :: child_state, stat
+    character(80), target :: argv1(2), argv2(2)
+    integer(c_pid_t)      :: pid1, pid2
+    integer               :: child_state, stat
 
     ! First process.
-    argv1 = [ character(len=80) ::            &
+    argv1 = [ character(80) ::            &
         'echo'                // c_null_char, &
         'Hello from Fortran!' // c_null_char  &
     ]
 
     ! Second process.
-    argv2 = [ character(len=80) :: &
+    argv2 = [ character(80) :: &
         'ls' // c_null_char,       &
         '-l' // c_null_char        &
     ]
@@ -45,16 +45,16 @@ program main
     end if
 contains
     subroutine spawn(pid, path, argv, output)
-        integer(kind=c_pid_t),    intent(out)   :: pid
-        character(len=*),         intent(in)    :: path
-        character(len=*), target, intent(inout) :: argv(:)
-        character(len=*),         intent(in)    :: output
+        integer(c_pid_t),     intent(out)   :: pid
+        character(*),         intent(in)    :: path
+        character(*), target, intent(inout) :: argv(:)
+        character(*),         intent(in)    :: output
 
-        integer                :: i, oflag
-        integer(kind=c_mode_t) :: mode
-        type(c_ptr)            :: actions
-        type(c_ptr)            :: argv_ptr(size(argv) + 1)
-        type(c_ptr)            :: env_ptr(1)
+        integer           :: i, oflag
+        integer(c_mode_t) :: mode
+        type(c_ptr)       :: actions
+        type(c_ptr)       :: argv_ptr(size(argv) + 1)
+        type(c_ptr)       :: env_ptr(1)
 
         ! Allocate memory.
         stat = c_posix_spawn_file_actions_init(actions)
@@ -66,7 +66,7 @@ contains
 
         ! Flags and permissions.
         oflag = ior(ior(O_CREAT, O_TRUNC), O_WRONLY)
-        mode  = int(o'0644', kind=c_mode_t)
+        mode  = int(o'0644', c_mode_t)
 
         ! Open output file as stdout (fd 1) on the child.
         stat = c_posix_spawn_file_actions_addopen(actions, STDOUT_FILENO, trim(output) // c_null_char, oflag, mode)

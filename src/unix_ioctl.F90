@@ -14,10 +14,10 @@ module unix_ioctl
         function c_ioctl(fd, request, arg) bind(c, name='c_ioctl')
             import :: c_int, c_ptr, c_unsigned_long
             implicit none
-            integer(kind=c_int),           intent(in), value :: fd
-            integer(kind=c_unsigned_long), intent(in), value :: request
-            type(c_ptr),                   intent(in), value :: arg
-            integer(kind=c_int)                              :: c_ioctl
+            integer(c_int),           intent(in), value :: fd
+            integer(c_unsigned_long), intent(in), value :: request
+            type(c_ptr),              intent(in), value :: arg
+            integer(c_int)                              :: c_ioctl
         end function c_ioctl
     end interface
 end module unix_ioctl

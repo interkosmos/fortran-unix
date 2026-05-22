@@ -21,7 +21,7 @@ module unix_semaphore
     ! struct sem_t
     type, bind(c), public :: c_sem_t
         private
-        character(kind=c_char) :: hidden(SEM_SIZE)
+        character(c_char) :: hidden(SEM_SIZE)
     end type c_sem_t
 
     public :: c_sem_close     ! named
@@ -41,7 +41,7 @@ module unix_semaphore
             import :: c_int, c_ptr
             implicit none
             type(c_ptr), intent(in), value :: sem
-            integer(kind=c_int)            :: c_sem_close
+            integer(c_int)                 :: c_sem_close
         end function c_sem_close
 
         ! int sem_destroy(sem_t *sem)
@@ -49,36 +49,36 @@ module unix_semaphore
             import :: c_int, c_sem_t
             implicit none
             type(c_sem_t), intent(in) :: sem
-            integer(kind=c_int)       :: c_sem_destroy
+            integer(c_int)            :: c_sem_destroy
         end function c_sem_destroy
 
         ! int sem_getvalue(sem_t *sem, int *value)
         function c_sem_getvalue(sem, value) bind(c, name='sem_getvalue')
             import :: c_int, c_ptr
             implicit none
-            type(c_ptr),         intent(in), value :: sem
-            integer(kind=c_int), intent(out)       :: value
-            integer(kind=c_int)                    :: c_sem_getvalue
+            type(c_ptr),    intent(in), value :: sem
+            integer(c_int), intent(out)       :: value
+            integer(c_int)                    :: c_sem_getvalue
         end function c_sem_getvalue
 
         ! int sem_init(sem_t *sem, int, unsigned int value)
         function c_sem_init(sem, value) bind(c, name='sem_init')
             import :: c_int, c_sem_t, c_unsigned
             implicit none
-            type(c_sem_t),            intent(in)        :: sem
-            integer(kind=c_unsigned), intent(in), value :: value
-            integer(kind=c_int)                         :: c_sem_init
+            type(c_sem_t),       intent(in)        :: sem
+            integer(c_unsigned), intent(in), value :: value
+            integer(c_int)                         :: c_sem_init
         end function c_sem_init
 
         ! sem_t *semsem_open(const char *name, int oflag, mode_t mode, unsigned int value)
         function c_sem_open(name, oflag, mode, value) bind(c, name='sem_open')
             import :: c_char, c_int, c_mode_t, c_ptr, c_unsigned
             implicit none
-            character(kind=c_char),   intent(in)        :: name
-            integer(kind=c_int),      intent(in), value :: oflag
-            integer(kind=c_mode_t),   intent(in), value :: mode
-            integer(kind=c_unsigned), intent(in), value :: value
-            type(c_ptr)                                 :: c_sem_open
+            character(c_char),   intent(in)        :: name
+            integer(c_int),      intent(in), value :: oflag
+            integer(c_mode_t),   intent(in), value :: mode
+            integer(c_unsigned), intent(in), value :: value
+            type(c_ptr)                            :: c_sem_open
         end function c_sem_open
 
         ! int sem_post(sem_t *sem)
@@ -86,7 +86,7 @@ module unix_semaphore
             import :: c_int, c_ptr
             implicit none
             type(c_ptr), intent(in), value :: sem
-            integer(kind=c_int)            :: c_sem_post
+            integer(c_int)                 :: c_sem_post
         end function c_sem_post
 
         ! int sem_timedwait(sem_t *sem, const struct timespec *abs_timeout)
@@ -95,7 +95,7 @@ module unix_semaphore
             implicit none
             type(c_ptr),      intent(in), value :: sem
             type(c_timespec), intent(in)        :: abs_timeout
-            integer(kind=c_int)                 :: c_sem_timedwait
+            integer(c_int)                      :: c_sem_timedwait
         end function c_sem_timedwait
 
         ! int sem_trywait(sem_t *sem)
@@ -103,15 +103,15 @@ module unix_semaphore
             import :: c_int, c_ptr
             implicit none
             type(c_ptr), intent(in), value :: sem
-            integer(kind=c_int)            :: c_sem_trywait
+            integer(c_int)                 :: c_sem_trywait
         end function c_sem_trywait
 
         ! int sem_unlink(const char *name)
         function c_sem_unlink(name) bind(c, name='sem_unlink')
             import :: c_char, c_int
             implicit none
-            character(kind=c_char), intent(in) :: name
-            integer(kind=c_int)                :: c_sem_unlink
+            character(c_char), intent(in) :: name
+            integer(c_int)                :: c_sem_unlink
         end function c_sem_unlink
 
         ! int sem_wait(sem_t *sem)
@@ -119,7 +119,7 @@ module unix_semaphore
             import :: c_int, c_ptr
             implicit none
             type(c_ptr), intent(in), value :: sem
-            integer(kind=c_int)            :: c_sem_wait
+            integer(c_int)                 :: c_sem_wait
         end function c_sem_wait
     end interface
 end module unix_semaphore

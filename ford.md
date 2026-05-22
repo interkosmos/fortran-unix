@@ -9,7 +9,7 @@ sort:           alpha
 fpp_extensions: F90
 macro:          __linux__
 preprocess:     true
-summary:        **fortran-unix** – A collection of Fortran 2008 ISO C binding
+summary:        **fortran-unix** – A collection of Fortran 2018 ISO C binding
                 interfaces to selected POSIX and SysV types, functions, and
                 routines on 64-bit Linux and FreeBSD.
 author:         Philipp Engel

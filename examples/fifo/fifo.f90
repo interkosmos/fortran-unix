@@ -12,8 +12,8 @@ program main
     use :: unix
     implicit none
 
-    character(len=*), parameter :: PATH = '/tmp/fifo'  ! Path to the named pipe.
-    integer,          parameter :: PERM = int(o'0666') ! Permissions (octal).
+    character(*), parameter :: PATH = '/tmp/fifo'  ! Path to the named pipe.
+    integer,      parameter :: PERM = int(o'0666') ! Permissions (octal).
 
     integer        :: c      ! Single character.
     integer        :: fd     ! File descriptor.
@@ -22,7 +22,7 @@ program main
     type(c_ptr)    :: stream ! Input stream.
 
     ! Create named pipe.
-    stat = c_mkfifo(PATH // c_null_char, int(PERM, kind=c_mode_t))
+    stat = c_mkfifo(PATH // c_null_char, int(PERM, c_mode_t))
 
     if (stat < 0) then
         call c_perror('Error' // c_null_char)
@@ -36,7 +36,7 @@ program main
         print '(3a)', 'Waiting for input in "', path, '" ...'
 
         ! Open file descriptor (read-only) and stream (read-only).
-        fd     = c_open(PATH // c_null_char, O_RDONLY, int(S_IRUSR, kind=c_mode_t))
+        fd     = c_open(PATH // c_null_char, O_RDONLY, int(S_IRUSR, c_mode_t))
         stream = c_fdopen(fd, 'r' // c_null_char)
 
         do
@@ -55,7 +55,7 @@ program main
 contains
     subroutine sigint_handler(signum) bind(c)
         !! Signal handler for SIGINT. Unlinks the named pipe on CTRL + C event.
-        integer(kind=c_int), intent(in), value :: signum
+        integer(c_int), intent(in), value :: signum
 
         integer :: stat
 

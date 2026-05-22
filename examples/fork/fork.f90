@@ -11,13 +11,13 @@ program main
     integer, parameter :: READ_END  = 1 ! Reader pipe.
     integer, parameter :: WRITE_END = 2 ! Writer pipe.
 
-    character,         target :: buf ! Byte buffer.
-    character(len=32), target :: msg ! Message to transmit.
+    character,     target :: buf ! Byte buffer.
+    character(32), target :: msg ! Message to transmit.
 
-    integer(kind=c_pid_t)  :: pid     ! Process id.
-    integer                :: pfds(2) ! File descriptors (reader/writer).
-    integer                :: stat    ! Return code.
-    integer(kind=c_size_t) :: nbytes
+    integer(c_pid_t)  :: pid     ! Process id.
+    integer           :: pfds(2) ! File descriptors (reader/writer).
+    integer           :: stat    ! Return code.
+    integer(c_size_t) :: nbytes
 
     ! Open anonymous pipe (read, write).
     stat = c_pipe(pfds)
@@ -63,7 +63,7 @@ program main
         print '("<<< parent process is sending message ...")'
 
         msg    = 'Hi, there!'
-        nbytes = c_write(pfds(WRITE_END), c_loc(msg), len(msg, kind=c_size_t))
+        nbytes = c_write(pfds(WRITE_END), c_loc(msg), len(msg, c_size_t))
 
         if (nbytes < 0) print '("<<< writing to pipe failed")'
 

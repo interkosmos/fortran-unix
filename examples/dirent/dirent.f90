@@ -8,9 +8,9 @@ program main
     use :: unix
     implicit none
 
-    character(len=*), parameter :: PATH = '/'
+    character(*), parameter :: PATH = '/'
 
-    character(len=256)      :: entry_name
+    character(256)          :: entry_name
     integer                 :: stat
     type(c_dirent), pointer :: dirent_ptr
     type(c_ptr)             :: dir_ptr

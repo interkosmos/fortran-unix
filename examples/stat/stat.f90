@@ -7,13 +7,13 @@ program main
     use :: unix
     implicit none
 
-    character(len=*), parameter :: FILE_NAME = 'README.md'
-    character(len=*), parameter :: DIR_PATH  = '/bin'
+    character(*), parameter :: FILE_NAME = 'README.md'
+    character(*), parameter :: DIR_PATH  = '/bin'
 
-    character(len=:), allocatable :: atime, mtime, ctime
-    integer                       :: file_type, stat
-    integer(kind=c_int64_t)       :: file_mode, total
-    type(c_stat_type)             :: file_stat
+    character(:), allocatable :: atime, mtime, ctime
+    integer                   :: file_type, stat
+    integer(c_int64_t)        :: file_mode, total
+    type(c_stat_type)         :: file_stat
 
     ! Get file status.
     stat = c_stat(FILE_NAME // c_null_char, file_stat)
@@ -24,7 +24,7 @@ program main
 
     ! Get file type.
     file_mode = c_uint_to_int(file_stat%st_mode)
-    file_type = int(iand(file_mode, int(S_IFMT, kind=c_int64_t)))
+    file_type = int(iand(file_mode, int(S_IFMT, c_int64_t)))
 
     write (*, '("File type........: ")', advance='no')
 
@@ -62,11 +62,11 @@ program main
     print '("Directory........: ", a)',          DIR_PATH
     print '("Directory size...: ", i0, " KiB")', total / 1024
 contains
-    integer(kind=c_int) function nftw_callback(path, sb, flag, ftw) bind(c)
-        type(c_ptr),         intent(in), value :: path
-        type(c_ptr),         intent(in), value :: sb
-        integer(kind=c_int), intent(in), value :: flag
-        type(c_ptr),         intent(in), value :: ftw
+    integer(c_int) function nftw_callback(path, sb, flag, ftw) bind(c)
+        type(c_ptr),    intent(in), value :: path
+        type(c_ptr),    intent(in), value :: sb
+        integer(c_int), intent(in), value :: flag
+        type(c_ptr),    intent(in), value :: ftw
 
         type(c_stat_type), pointer :: stat
 

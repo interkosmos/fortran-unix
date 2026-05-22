@@ -28,10 +28,10 @@ contains
     subroutine set_mode(mode)
         integer, intent(in) :: mode
 
-        integer                 :: stat
-        integer(kind=c_int64_t) :: c_lflag
-        type(c_termios)         :: term_attr
-        type(c_termios), save   :: save_attr
+        integer               :: stat
+        integer(c_int64_t)    :: c_lflag
+        type(c_termios)       :: term_attr
+        type(c_termios), save :: save_attr
 
         if (mode == 0) then
             stat = c_tcsetattr(STDIN_FILENO, TCSADRAIN, save_attr)
@@ -41,7 +41,7 @@ contains
             save_attr = term_attr
 
             c_lflag = c_uint_to_int(term_attr%c_lflag)
-            c_lflag = iand(c_lflag, not(int(ior(ICANON, ECHO), kind=c_int64_t)))
+            c_lflag = iand(c_lflag, not(int(ior(ICANON, ECHO), c_int64_t)))
 
             term_attr%c_lflag     = c_int_to_uint(c_lflag)
             term_attr%c_cc(VMIN)  = 1_c_cc_t

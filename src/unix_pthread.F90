@@ -9,50 +9,50 @@ module unix_pthread
 
 #if defined (__linux__)
 
-    integer(kind=c_int), parameter :: PTHREAD_CREATE_DETACHED = 1
+    integer(c_int), parameter :: PTHREAD_CREATE_DETACHED = 1
 
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_ENABLE       = 0
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_DISABLE      = 1
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_DEFERRED     = 0
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_ASYNCHRONOUS = 1
-    integer(kind=c_int), parameter :: PTHREAD_CANCELED            = -1
+    integer(c_int), parameter :: PTHREAD_CANCEL_ENABLE       = 0
+    integer(c_int), parameter :: PTHREAD_CANCEL_DISABLE      = 1
+    integer(c_int), parameter :: PTHREAD_CANCEL_DEFERRED     = 0
+    integer(c_int), parameter :: PTHREAD_CANCEL_ASYNCHRONOUS = 1
+    integer(c_int), parameter :: PTHREAD_CANCELED            = -1
 
-    integer(kind=c_int), parameter :: PTHREAD_EXPLICIT_SCHED  = 1
-    integer(kind=c_int), parameter :: PTHREAD_PROCESS_PRIVATE = 0
+    integer(c_int), parameter :: PTHREAD_EXPLICIT_SCHED  = 1
+    integer(c_int), parameter :: PTHREAD_PROCESS_PRIVATE = 0
 
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_NORMAL     = 0
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_ERRORCHECK = 2
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_RECURSIVE  = 1
+    integer(c_int), parameter :: PTHREAD_MUTEX_NORMAL     = 0
+    integer(c_int), parameter :: PTHREAD_MUTEX_ERRORCHECK = 2
+    integer(c_int), parameter :: PTHREAD_MUTEX_RECURSIVE  = 1
 
     integer, parameter :: PTHREAD_SIZE       = 8  ! 8 Bytes.
     integer, parameter :: PTHREAD_MUTEX_SIZE = 40 ! 40 Bytes.
 
 #elif defined (__FreeBSD__)
 
-    integer(kind=c_int), parameter :: PTHREAD_DETACHED      = int(z'1')
-    integer(kind=c_int), parameter :: PTHREAD_SCOPE_SYSTEM  = int(z'2')
-    integer(kind=c_int), parameter :: PTHREAD_INHERIT_SCHED = int(z'4')
-    integer(kind=c_int), parameter :: PTHREAD_NOFLOAT       = int(z'8')
+    integer(c_int), parameter :: PTHREAD_DETACHED      = int(z'1')
+    integer(c_int), parameter :: PTHREAD_SCOPE_SYSTEM  = int(z'2')
+    integer(c_int), parameter :: PTHREAD_INHERIT_SCHED = int(z'4')
+    integer(c_int), parameter :: PTHREAD_NOFLOAT       = int(z'8')
 
-    integer(kind=c_int), parameter :: PTHREAD_CREATE_DETACHED = PTHREAD_DETACHED
-    integer(kind=c_int), parameter :: PTHREAD_CREATE_JOINABLE = 0
-    integer(kind=c_int), parameter :: PTHREAD_SCOPE_PROCESS   = 0
-    integer(kind=c_int), parameter :: PTHREAD_EXPLICIT_SCHED  = 0
+    integer(c_int), parameter :: PTHREAD_CREATE_DETACHED = PTHREAD_DETACHED
+    integer(c_int), parameter :: PTHREAD_CREATE_JOINABLE = 0
+    integer(c_int), parameter :: PTHREAD_SCOPE_PROCESS   = 0
+    integer(c_int), parameter :: PTHREAD_EXPLICIT_SCHED  = 0
 
-    integer(kind=c_int), parameter :: PTHREAD_PROCESS_PRIVATE = 0
-    integer(kind=c_int), parameter :: PTHREAD_PROCESS_SHARED  = 1
+    integer(c_int), parameter :: PTHREAD_PROCESS_PRIVATE = 0
+    integer(c_int), parameter :: PTHREAD_PROCESS_SHARED  = 1
 
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_ENABLE       = 0
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_DISABLE      = 1
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_DEFERRED     = 0
-    integer(kind=c_int), parameter :: PTHREAD_CANCEL_ASYNCHRONOUS = 2
-    integer(kind=c_int), parameter :: PTHREAD_CANCELED            = 1
+    integer(c_int), parameter :: PTHREAD_CANCEL_ENABLE       = 0
+    integer(c_int), parameter :: PTHREAD_CANCEL_DISABLE      = 1
+    integer(c_int), parameter :: PTHREAD_CANCEL_DEFERRED     = 0
+    integer(c_int), parameter :: PTHREAD_CANCEL_ASYNCHRONOUS = 2
+    integer(c_int), parameter :: PTHREAD_CANCELED            = 1
 
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_ERRORCHECK  = 1 ! Default POSIX mutex.
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_RECURSIVE   = 2 ! Recursive mutex.
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_NORMAL      = 3 ! No error checking.
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_ADAPTIVE_NP = 4 ! Adaptive mutex, spins briefly before blocking on lock.
-    integer(kind=c_int), parameter :: PTHREAD_MUTEX_DEFAULT     = PTHREAD_MUTEX_ERRORCHECK
+    integer(c_int), parameter :: PTHREAD_MUTEX_ERRORCHECK  = 1 ! Default POSIX mutex.
+    integer(c_int), parameter :: PTHREAD_MUTEX_RECURSIVE   = 2 ! Recursive mutex.
+    integer(c_int), parameter :: PTHREAD_MUTEX_NORMAL      = 3 ! No error checking.
+    integer(c_int), parameter :: PTHREAD_MUTEX_ADAPTIVE_NP = 4 ! Adaptive mutex, spins briefly before blocking on lock.
+    integer(c_int), parameter :: PTHREAD_MUTEX_DEFAULT     = PTHREAD_MUTEX_ERRORCHECK
 
     integer, parameter :: PTHREAD_SIZE       = 8 ! 8 Bytes.
     integer, parameter :: PTHREAD_MUTEX_SIZE = 8 ! 8 Bytes.
@@ -62,13 +62,13 @@ module unix_pthread
     ! struct pthread_t
     type, bind(c), public :: c_pthread_t
         private
-        character(kind=c_char) :: hidden(PTHREAD_SIZE)
+        character(c_char) :: hidden(PTHREAD_SIZE)
     end type c_pthread_t
 
     ! struct pthread_mutex_t
     type, bind(c), public :: c_pthread_mutex_t
         private
-        character(kind=c_char) :: hidden(PTHREAD_MUTEX_SIZE)
+        character(c_char) :: hidden(PTHREAD_MUTEX_SIZE)
     end type c_pthread_mutex_t
 
     public :: c_pthread_cancel
@@ -90,7 +90,7 @@ module unix_pthread
             import :: c_int, c_ptr, c_pthread_t
             implicit none
             type(c_pthread_t), intent(in), value :: thread
-            integer(kind=c_int)                  :: c_pthread_cancel
+            integer(c_int)                       :: c_pthread_cancel
         end function c_pthread_cancel
 
         ! int pthread_create(pthread_t *thread, const pthread_attr_t *attr, void *(*start_routine) (void *), void *arg)
@@ -101,7 +101,7 @@ module unix_pthread
             type(c_ptr),       intent(in), value :: attr
             type(c_funptr),    intent(in), value :: start_routine
             type(c_ptr),       intent(in), value :: arg
-            integer(kind=c_int)                  :: c_pthread_create
+            integer(c_int)                       :: c_pthread_create
         end function c_pthread_create
 
         ! int pthread_detach(pthread_t thread)
@@ -109,7 +109,7 @@ module unix_pthread
             import :: c_int, c_ptr, c_pthread_t
             implicit none
             type(c_pthread_t), intent(in), value :: thread
-            integer(kind=c_int)                  :: c_pthread_detach
+            integer(c_int)                       :: c_pthread_detach
         end function c_pthread_detach
 
         ! void pthread_exit(void *retval)
@@ -125,7 +125,7 @@ module unix_pthread
             implicit none
             type(c_pthread_t), intent(in), value :: thread
             type(c_ptr),       intent(out)       :: value_ptr
-            integer(kind=c_int)                  :: c_pthread_join
+            integer(c_int)                       :: c_pthread_join
         end function c_pthread_join
 
         ! int pthread_mutex_destroy(pthread_mutex_t *mutex)
@@ -133,7 +133,7 @@ module unix_pthread
             import :: c_int, c_pthread_mutex_t
             implicit none
             type(c_pthread_mutex_t), intent(in) :: mutex
-            integer(kind=c_int)                 :: c_pthread_mutex_destroy
+            integer(c_int)                      :: c_pthread_mutex_destroy
         end function c_pthread_mutex_destroy
 
         ! int pthread_mutex_init(pthread_mutex_t *mutex, const pthread_mutexattr_t *attr)
@@ -142,7 +142,7 @@ module unix_pthread
             implicit none
             type(c_pthread_mutex_t), intent(in)        :: mutex
             type(c_ptr),             intent(in), value :: attr
-            integer(kind=c_int)                        :: c_pthread_mutex_init
+            integer(c_int)                             :: c_pthread_mutex_init
         end function c_pthread_mutex_init
 
         ! int pthread_mutex_lock(pthread_mutex_t *mutex)
@@ -150,7 +150,7 @@ module unix_pthread
             import :: c_int, c_pthread_mutex_t
             implicit none
             type(c_pthread_mutex_t), intent(in) :: mutex
-            integer(kind=c_int)                 :: c_pthread_mutex_lock
+            integer(c_int)                      :: c_pthread_mutex_lock
         end function c_pthread_mutex_lock
 
         ! int pthread_mutex_trylock(pthread_mutex_t *mutex)
@@ -158,7 +158,7 @@ module unix_pthread
             import :: c_int, c_pthread_mutex_t
             implicit none
             type(c_pthread_mutex_t), intent(in) :: mutex
-            integer(kind=c_int)                 :: c_pthread_mutex_trylock
+            integer(c_int)                      :: c_pthread_mutex_trylock
         end function c_pthread_mutex_trylock
 
         ! int pthread_mutex_unlock(pthread_mutex_t *mutex)
@@ -166,25 +166,25 @@ module unix_pthread
             import :: c_int, c_pthread_mutex_t
             implicit none
             type(c_pthread_mutex_t), intent(in) :: mutex
-            integer(kind=c_int)                 :: c_pthread_mutex_unlock
+            integer(c_int)                      :: c_pthread_mutex_unlock
         end function c_pthread_mutex_unlock
 
         ! int pthread_setcancelstate(int state, int *oldstate)
         function c_pthread_setcancelstate(state, oldstate) bind(c, name='pthread_setcancelstate')
             import :: c_int
             implicit none
-            integer(kind=c_int), intent(in), value :: state
-            integer(kind=c_int), intent(out)       :: oldstate
-            integer(kind=c_int)                    :: c_pthread_setcancelstate
+            integer(c_int), intent(in), value :: state
+            integer(c_int), intent(out)       :: oldstate
+            integer(c_int)                    :: c_pthread_setcancelstate
         end function c_pthread_setcancelstate
 
         ! int pthread_setcanceltype(int type, int *oldtype)
         function c_pthread_setcanceltype(type, oldtype) bind(c, name='pthread_setcanceltype')
             import :: c_int
             implicit none
-            integer(kind=c_int), intent(in), value :: type
-            integer(kind=c_int), intent(out)       :: oldtype
-            integer(kind=c_int)                    :: c_pthread_setcanceltype
+            integer(c_int), intent(in), value :: type
+            integer(c_int), intent(out)       :: oldtype
+            integer(c_int)                    :: c_pthread_setcanceltype
         end function c_pthread_setcanceltype
     end interface
 end module unix_pthread

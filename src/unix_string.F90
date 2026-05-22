@@ -17,28 +17,28 @@ module unix_string
         function c_memcpy(dst, src, len) bind(c, name='memcpy')
             import :: c_ptr, c_size_t
             implicit none
-            type(c_ptr),            intent(in), value :: dst
-            type(c_ptr),            intent(in), value :: src
-            integer(kind=c_size_t), intent(in), value :: len
-            type(c_ptr)                               :: c_memcpy
+            type(c_ptr),       intent(in), value :: dst
+            type(c_ptr),       intent(in), value :: src
+            integer(c_size_t), intent(in), value :: len
+            type(c_ptr)                          :: c_memcpy
         end function c_memcpy
 
         ! void *memset(void *dest, int c, size_t len)
         function c_memset(dest, c, len) bind(c, name='memset')
             import :: c_int, c_ptr, c_size_t
             implicit none
-            type(c_ptr),            intent(in), value :: dest
-            integer(kind=c_int),    intent(in), value :: c
-            integer(kind=c_size_t), intent(in), value :: len
-            type(c_ptr)                               :: c_memset
+            type(c_ptr),       intent(in), value :: dest
+            integer(c_int),    intent(in), value :: c
+            integer(c_size_t), intent(in), value :: len
+            type(c_ptr)                          :: c_memset
         end function c_memset
 
         ! char *strerror(int errnum)
         function c_strerror(errnum) bind(c, name='strerror')
             import :: c_int, c_ptr
             implicit none
-            integer(kind=c_int), intent(in), value :: errnum
-            type(c_ptr)                            :: c_strerror
+            integer(c_int), intent(in), value :: errnum
+            type(c_ptr)                       :: c_strerror
         end function c_strerror
 
         ! size_t strlen(const char *str)
@@ -46,7 +46,7 @@ module unix_string
             import :: c_ptr, c_size_t
             implicit none
             type(c_ptr), intent(in), value :: str
-            integer(kind=c_size_t)         :: c_strlen
+            integer(c_size_t)              :: c_strlen
         end function c_strlen
     end interface
 end module unix_string

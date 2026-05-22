@@ -7,8 +7,8 @@ module unix_stdlib
     implicit none
     private
 
-    integer(kind=c_int), parameter, public :: EXIT_SUCCESS = 0
-    integer(kind=c_int), parameter, public :: EXIT_FAILURE = 1
+    integer(c_int), parameter, public :: EXIT_SUCCESS = 0
+    integer(c_int), parameter, public :: EXIT_FAILURE = 1
 
     public :: c_exit
     public :: c_free
@@ -18,7 +18,7 @@ module unix_stdlib
         subroutine c_exit(status) bind(c, name='exit')
             import :: c_int
             implicit none
-            integer(kind=c_int), intent(in), value :: status
+            integer(c_int), intent(in), value :: status
         end subroutine c_exit
 
         ! void free(void *ptr)
