@@ -1,7 +1,7 @@
 # fortran-unix
 
 ![Language](https://img.shields.io/badge/-Fortran-734f96?logo=fortran&logoColor=white)
-![License](https://img.shields.io/github/license/dabamos/dmpack?color=blue)
+![License](https://img.shields.io/github/license/interkosmos/fortran-unix)
 ![Build](https://github.com/interkosmos/fortran-unix/actions/workflows/build.yml/badge.svg)
 
 A work-in-progress collection of Fortran 2018 ISO C binding interfaces to

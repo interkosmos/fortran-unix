@@ -51,7 +51,7 @@ module unix_fcntl
     integer(c_int), parameter, public :: O_NONBLOCK = int(z'0004') ! No delay.
     integer(c_int), parameter, public :: O_NDELAY   = O_NONBLOCK
     integer(c_int), parameter, public :: O_APPEND   = int(z'0008') ! Set append mode.
-    integer(c_int), parameter, public :: O_NOCTTY   = int(z'8000') ! Don't assign controlling terminal.
+    integer(c_int), parameter, public :: O_NOCTTY   = int(z'8000') ! Don’t assign controlling terminal.
 
     integer(c_int), parameter, public :: O_CLOEXEC  = int(z'00100000')
 

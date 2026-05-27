@@ -114,7 +114,7 @@ contains
         !! Signal handler for SIGINT.
         integer(c_int), intent(in), value :: signum
 
-        character, target      :: sig
+        character, target :: sig
         integer(c_size_t) :: nbytes
 
         sig = char(signum)

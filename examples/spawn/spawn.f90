@@ -12,15 +12,15 @@ program main
     integer               :: child_state, stat
 
     ! First process.
-    argv1 = [ character(80) ::            &
+    argv1 = [ character(80) ::                &
         'echo'                // c_null_char, &
         'Hello from Fortran!' // c_null_char  &
     ]
 
     ! Second process.
     argv2 = [ character(80) :: &
-        'ls' // c_null_char,       &
-        '-l' // c_null_char        &
+        'ls' // c_null_char,   &
+        '-l' // c_null_char    &
     ]
 
     print '("Spawning process with output to process1.txt ...")'
