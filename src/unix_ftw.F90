@@ -33,7 +33,7 @@ module unix_ftw
     integer(c_int), parameter, public :: FTW_SL  = 5 ! Symbolic link.
     integer(c_int), parameter, public :: FTW_SLN = 6 ! Sym link that names a nonexistent file.
 
-    integer(c_int), parameter, public :: FTW_PHYS  = int(z'01') ! Physical walk, don't follow sym links.
+    integer(c_int), parameter, public :: FTW_PHYS  = int(z'01') ! Physical walk, don’t follow sym links.
     integer(c_int), parameter, public :: FTW_MOUNT = int(z'02') ! The walk does not cross a mount point.
     integer(c_int), parameter, public :: FTW_DEPTH = int(z'04') ! Subdirs visited before the dir itself.
     integer(c_int), parameter, public :: FTW_CHDIR = int(z'08') ! Change to a directory before reading it.
@@ -41,10 +41,10 @@ module unix_ftw
 #endif
 
     ! struct FTW
-    type, bind(c), public :: c_ftw_type
+    type, bind(c), public :: c_ftw_t
         integer(c_int) :: base  = 0
         integer(c_int) :: level = 0
-    end type c_ftw_type
+    end type c_ftw_t
 
     public :: c_nftw
 

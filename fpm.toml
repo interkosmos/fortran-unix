@@ -1,11 +1,21 @@
-name = "fortran-unix"
-version = "0.4.0"
-license = "ISC"
-author = "Philipp Engel"
-maintainer = "@interkosmos"
-copyright = "Copyright (c) 2022, Philipp Engel"
+name        = "fortran-unix"
+version     = "0.4.0"
+license     = "ISC"
+author      = "Philipp Engel"
+maintainer  = "@interkosmos"
+copyright   = "Copyright (c) 2022, Philipp Engel"
 description = "Fortran 2018 ISO C binding interfaces to SysV/POSIX"
-keywords = [ "posix", "sysv", "system", "unix", "linux", "freebsd" ]
+keywords    = [ "posix", "sysv", "system", "unix", "linux", "freebsd" ]
+
+[features]
+debug.gfortran.linux.flags     = "-D__linux__"
+debug.gfortran.freebsd.flags   = "-D__FreeBSD__"
+release.gfortran.linux.flags   = "-D__linux__"
+release.gfortran.freebsd.flags = "-D__FreeBSD__"
+
+[profiles]
+debug   = ["debug"]
+release = ["release"]
 
 [library]
 source-dir = "src"
@@ -14,115 +24,115 @@ source-dir = "src"
 library = true
 
 [[example]]
-name = "dirent"
+name       = "dirent"
 source-dir = "examples/dirent"
-main = "dirent.f90"
+main       = "dirent.f90"
 
 [[example]]
-name = "fifo"
+name       = "fifo"
 source-dir = "examples/fifo"
-main = "fifo.f90"
+main       = "fifo.f90"
 
 [[example]]
-name = "fork"
+name       = "fork"
 source-dir = "examples/fork"
-main = "fork.f90"
+main       = "fork.f90"
 
 [[example]]
-name = "irc"
+name       = "irc"
 source-dir = "examples/irc"
-main = "irc.f90"
+main       = "irc.f90"
 
 [[example]]
-name = "key"
+name       = "key"
 source-dir = "examples/key"
-main = "key.f90"
+main       = "key.f90"
 
 [[example]]
-name = "mqueue"
+name       = "mqueue"
 source-dir = "examples/mqueue"
-main = "mqueue.f90"
-link = "rt"
+main       = "mqueue.f90"
+link       = "rt"
 
 [[example]]
-name = "msg"
+name       = "msg"
 source-dir = "examples/msg"
-main = "msg.f90"
+main       = "msg.f90"
 
 [[example]]
-name = "mutex"
+name       = "mutex"
 source-dir = "examples/mutex"
-main = "mutex.f90"
-link = "pthread"
+main       = "mutex.f90"
+link       = "pthread"
 
 [[example]]
-name = "os"
+name       = "os"
 source-dir = "examples/os"
-main = "os.F90"
+main       = "os.F90"
 
 [[example]]
-name = "pid"
+name       = "pid"
 source-dir = "examples/pid"
-main = "pid.f90"
+main       = "pid.f90"
 
 [[example]]
-name = "pipe"
+name       = "pipe"
 source-dir = "examples/pipe"
-main = "pipe.f90"
+main       = "pipe.f90"
 
 [[example]]
-name = "pthread"
+name       = "pthread"
 source-dir = "examples/pthread"
-main = "pthread.f90"
-link = "pthread"
+main       = "pthread.f90"
+link       = "pthread"
 
 [[example]]
-name = "regex"
+name       = "regex"
 source-dir = "examples/regex"
-main = "regex.f90"
+main       = "regex.f90"
 
 [[example]]
-name = "semaphore"
+name       = "semaphore"
 source-dir = "examples/semaphore"
-main = "semaphore.f90"
-link = "pthread"
+main       = "semaphore.f90"
+link       = "pthread"
 
 [[example]]
-name = "serial"
+name       = "serial"
 source-dir = "examples/serial"
-main = "serial.f90"
+main       = "serial.f90"
 
 [[example]]
-name = "signal"
+name       = "signal"
 source-dir = "examples/signal"
-main = "signal.f90"
+main       = "signal.f90"
 
 [[example]]
-name = "socket"
+name       = "socket"
 source-dir = "examples/socket"
-main = "socket.f90"
+main       = "socket.f90"
 
 [[example]]
-name = "spawn"
+name       = "spawn"
 source-dir = "examples/spawn"
-main = "spawn.f90"
+main       = "spawn.f90"
 
 [[example]]
-name = "stat"
+name       = "stat"
 source-dir = "examples/stat"
-main = "stat.f90"
+main       = "stat.f90"
 
 [[example]]
-name = "time"
+name       = "time"
 source-dir = "examples/time"
-main = "time.f90"
+main       = "time.f90"
 
 [[example]]
-name = "uname"
+name       = "uname"
 source-dir = "examples/uname"
-main = "uname.f90"
+main       = "uname.f90"
 
 [[example]]
-name = "uptime"
+name       = "uptime"
 source-dir = "examples/uptime"
-main = "uptime.f90"
+main       = "uptime.f90"

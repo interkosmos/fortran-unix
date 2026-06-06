@@ -13,7 +13,7 @@ program main
     character(:), allocatable :: atime, mtime, ctime
     integer                   :: file_type, stat
     integer(c_int64_t)        :: file_mode, total
-    type(c_stat_type)         :: file_stat
+    type(c_stat_t)            :: file_stat
 
     ! Get file status.
     stat = c_stat(FILE_NAME // c_null_char, file_stat)
@@ -68,7 +68,7 @@ contains
         integer(c_int), intent(in), value :: flag
         type(c_ptr),    intent(in), value :: ftw
 
-        type(c_stat_type), pointer :: stat
+        type(c_stat_t), pointer :: stat
 
         call c_f_pointer(sb, stat)
         total = total + stat%st_size

@@ -3,6 +3,7 @@
 env/
 build/
 dist/
+dump/
 var/
 
 # Other stuff

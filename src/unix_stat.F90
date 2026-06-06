@@ -40,7 +40,7 @@ module unix_stat
 #if defined(__aarch64__)
 
     ! struct stat (aarch64)
-    type, bind(c), public :: c_stat_type
+    type, bind(c), public :: c_stat_t
         integer(c_dev_t)          :: st_dev      = 0             ! ID of device containing file.
         integer(c_ino_t)          :: st_ino      = 0             ! Inode number.
         integer(c_mode_t)         :: st_mode     = 0             ! Protection.
@@ -57,12 +57,12 @@ module unix_stat
         type(c_timespec)          :: st_mtim     = c_timespec()  ! Time of last modification.
         type(c_timespec)          :: st_ctim     = c_timespec()  ! Time of last status change.
         integer(c_long),  private :: reserved(2) = 0
-    end type c_stat_type
+    end type c_stat_t
 
 #else
 
     ! struct stat (x86-64)
-    type, bind(c), public :: c_stat_type
+    type, bind(c), public :: c_stat_t
         integer(c_dev_t)         :: st_dev      = 0            ! ID of device containing file.
         integer(c_ino_t)         :: st_ino      = 0            ! Inode number.
         integer(c_nlink_t)       :: st_nlink    = 0            ! Number of hard links.
@@ -78,7 +78,7 @@ module unix_stat
         type(c_timespec)         :: st_mtim     = c_timespec() ! Time of last modification.
         type(c_timespec)         :: st_ctim     = c_timespec() ! Time of last status change.
         integer(c_long), private :: reserved(3) = 0
-    end type c_stat_type
+    end type c_stat_t
 
 #endif
 
@@ -111,7 +111,7 @@ module unix_stat
     integer(c_int), parameter, public :: S_IFWHT  = int(o'0160000') ! Whiteout.
 
     ! struct stat
-    type, bind(c), public :: c_stat_type
+    type, bind(c), public :: c_stat_t
         integer(c_dev_t)             :: st_dev       = 0            ! ID of device containing file.
         integer(c_ino_t)             :: st_ino       = 0            ! Inode number.
         integer(c_nlink_t)           :: st_nlink     = 0            ! Number of hard links.
@@ -131,7 +131,7 @@ module unix_stat
         integer(c_fflags_t)          :: st_flags     = 0
         integer(c_uint64_t)          :: st_gen       = 0
         integer(c_uint64_t), private :: st_spare(10) = 0
-    end type c_stat_type
+    end type c_stat_t
 
 #endif
 
@@ -145,19 +145,19 @@ module unix_stat
     interface
         ! int fstat(int fd, struct stat *buf)
         function c_fstat(fd, buf) bind(c, name='fstat')
-            import :: c_int, c_stat_type
+            import :: c_int, c_stat_t
             implicit none
-            integer(c_int),    intent(in), value :: fd
-            type(c_stat_type), intent(inout)     :: buf
-            integer(c_int)                       :: c_fstat
+            integer(c_int), intent(in), value :: fd
+            type(c_stat_t), intent(inout)     :: buf
+            integer(c_int)                    :: c_fstat
         end function c_fstat
 
         ! int lstat(const char *path, struct stat *buf)
         function c_lstat(path, buf) bind(c, name='lstat')
-            import :: c_char, c_int, c_stat_type
+            import :: c_char, c_int, c_stat_t
             implicit none
             character(c_char), intent(in)    :: path
-            type(c_stat_type), intent(inout) :: buf
+            type(c_stat_t),    intent(inout) :: buf
             integer(c_int)                   :: c_lstat
         end function c_lstat
 
@@ -181,10 +181,10 @@ module unix_stat
 
         ! int stat(const char *path, struct stat *buf)
         function c_stat(path, buf) bind(c, name='stat')
-            import :: c_char, c_int, c_stat_type
+            import :: c_char, c_int, c_stat_t
             implicit none
             character(c_char), intent(in)    :: path
-            type(c_stat_type), intent(inout) :: buf
+            type(c_stat_t),    intent(inout) :: buf
             integer(c_int)                   :: c_stat
         end function c_stat
 
