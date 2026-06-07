@@ -7,6 +7,27 @@ module unix_wait
     implicit none
     private
 
+#if defined (__linux__)
+
+    integer(c_int), parameter, public :: WNOHANG    = int(z'00000001')
+    integer(c_int), parameter, public :: WUNTRACED  = int(z'00000002')
+    integer(c_int), parameter, public :: WSTOPPED   = WUNTRACED
+    integer(c_int), parameter, public :: WEXITED    = int(z'00000004')
+    integer(c_int), parameter, public :: WCONTINUED = int(z'00000008')
+    integer(c_int), parameter, public :: WNOWAIT    = int(z'01000000')
+
+#elif defined (__FreeBSD__)
+
+    integer(c_int), parameter, public :: WNOHANG    = 1         ! Don’t hang in wait.
+    integer(c_int), parameter, public :: WUNTRACED  = 2         ! Tell about stopped, untraced children.
+    integer(c_int), parameter, public :: WSTOPPED   = WUNTRACED ! SUS compatibility
+    integer(c_int), parameter, public :: WCONTINUED = 4         ! Report a job control continued process.
+    integer(c_int), parameter, public :: WNOWAIT    = 8         ! Poll only. Don’t delete the proc entry.
+    integer(c_int), parameter, public :: WEXITED    = 16        ! Wait for exited processes.
+    integer(c_int), parameter, public :: WTRAPPED   = 32        ! Wait for a process to hit a trap or a breakpoint.
+
+#endif
+
     public :: c_wait
     public :: c_waitpid
 
