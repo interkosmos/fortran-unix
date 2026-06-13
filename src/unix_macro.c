@@ -89,9 +89,10 @@ int c_posix_spawn_file_actions_destroy(void *file_actions)
 /* int posix_spawn_file_actions_init(posix_spawn_file_actions_t *file_actions) */
 int c_posix_spawn_file_actions_init(void **file_actions)
 {
-    *file_actions = NULL;
-
+    int rc;
     posix_spawn_file_actions_t *actions;
+
+    *file_actions = NULL;
     actions = malloc(sizeof(posix_spawn_file_actions_t));
 
     if (!actions)
@@ -99,7 +100,7 @@ int c_posix_spawn_file_actions_init(void **file_actions)
         return -1;
     }
 
-    int rc = posix_spawn_file_actions_init(actions);
+    rc = posix_spawn_file_actions_init(actions);
 
     if (rc != 0)
     {
