@@ -162,7 +162,6 @@ contains
         type(c_ptr),               intent(in)  :: c !! C string pointer.
         character(:), allocatable, intent(out) :: f !! Fortran string.
 
-        integer           :: stat
         integer(c_size_t) :: n
 
         copy_block: block
@@ -173,8 +172,6 @@ contains
             block
                 character(n), pointer :: ptr
                 call c_f_pointer(c, ptr)
-                allocate (character(n) :: f, stat=stat)
-                if (stat /= 0) exit copy_block
                 f = ptr
             end block
 
