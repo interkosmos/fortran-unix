@@ -39,7 +39,7 @@ module unix_regex
     ! struct regex_t
     type, bind(c), public :: c_regex_t
         private
-        character(c_char) :: hidden(64)
+        character(c_char) :: hidden(64) = c_null_char
     end type c_regex_t
 
 #elif defined (__FreeBSD__)
